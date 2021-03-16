@@ -1,0 +1,12 @@
+{
+  "name": "matchji",
+  "displayName": "matchji",
+  "expo": {
+    "name": "matchji",
+    "slug": "matchji",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
