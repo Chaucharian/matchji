@@ -1,25 +1,18 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  useWindowDimensions,
-} from "react-native";
-import { useTimer } from "../hooks/useTimer";
-import { useGameContext, useGameProvider } from "../context";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { useGameContext } from "../context";
 import { Game } from "../core/Game";
+import { GameHeader } from "../components";
 
 export const GameScreen = () => {
   const {
     settings: { backgroundColor },
     setTimeOver,
   } = useGameContext();
-  const time = useTimer({ intialTime: 5, onStop: () => setTimeOver(true) });
 
   return (
     <View style={{ ...styles.container, backgroundColor }}>
-      <Text style={styles.text}>{time}</Text>
+      <GameHeader />
       <Game />
     </View>
   );
@@ -30,13 +23,8 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-  },
-  emoji: {
-    fontSize: 50,
-    position: "absolute",
-    left: "50%",
+    height: "100%",
+    // alignItems: "center",
+    // justifyContent: "center",
   },
 });

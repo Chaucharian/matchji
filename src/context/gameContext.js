@@ -19,8 +19,17 @@ export const GameProvider = ({ children, ...options }) => {
     [settings]
   );
 
+  const increaseScore = useCallback(
+    (value) => {
+      setSettings({ ...settings, score: settings.score + 1 });
+    },
+    [settings]
+  );
+
   return (
-    <GameContext.Provider value={{ settings, setSettings, setTimeOver }}>
+    <GameContext.Provider
+      value={{ settings, setSettings, setTimeOver, increaseScore }}
+    >
       {children}
     </GameContext.Provider>
   );

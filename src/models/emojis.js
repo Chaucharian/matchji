@@ -1,4 +1,4 @@
-export const emojis = [
+export default [
   "🌍",
   "🌎",
   "🌏",

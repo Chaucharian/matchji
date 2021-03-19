@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo, useRef } from "react";
 import { StyleSheet, Text } from "react-native";
 
 export const Emoji = ({
@@ -6,18 +6,28 @@ export const Emoji = ({
   left = 0,
   top = 0,
   size = 50,
+  rotation,
   onPress,
   ...props
-}) => (
-  <Text
-    onPress={onPress}
-    style={styles.emoji}
-    style={{ left, top, fontSize: size }}
-    {...props}
-  >
-    {emoji}
-  </Text>
-);
+}) =>
+  useMemo(
+    () => (
+      <Text
+        onPress={() => onPress(emoji)}
+        style={styles.emoji}
+        style={{
+          left,
+          top,
+          fontSize: size,
+          // transform: [{ rotate: `${rotation}deg` }],
+        }}
+        {...props}
+      >
+        {emoji.emoji}
+      </Text>
+    ),
+    [emoji]
+  );
 
 const styles = StyleSheet.create({
   emoji: {
