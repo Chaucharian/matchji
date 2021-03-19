@@ -70,11 +70,9 @@ export const Game = () => {
     width,
     height,
   ]);
-  const [firstEmoji, setFirstEmoji] = useState(null);
-  const [secondEmoji, setSecondEmoji] = useState(null);
-  const [match, setMatch] = useState(false);
-  const { current: emojis } = useRef(
-    sortEmojis(Emojis).map(({ emoji, id }) => {
+
+  const generateEmojis = (emojis) => {
+    return sortEmojis(emojis).map(({ emoji, id }) => {
       const size = random(20, 70);
       const rotation = random(0, 180);
       const { x: left, y: top } = getPosition({
@@ -90,8 +88,12 @@ export const Game = () => {
         size,
         rotation,
       };
-    })
-  );
+    });
+  };
+  const [firstEmoji, setFirstEmoji] = useState(null);
+  const [secondEmoji, setSecondEmoji] = useState(null);
+  const [emojis, setEmojis] = useState(generateEmojis(Emojis));
+  const [match, setMatch] = useState(false);
 
   const resetSelection = () => {
     setFirstEmoji(null);
@@ -100,25 +102,14 @@ export const Game = () => {
 
   const onSelectEmoji = ({ id }) => {
     if (firstEmoji === null) {
-      // console.log("select 1");
       setFirstEmoji(id);
     } else if (secondEmoji === null) {
-      // console.log("select 2");
       setSecondEmoji(id);
     }
-    // if (firstEmoji === null) {
-    //   setFirstEmoji(emoji);
-    // } else {
-    //   console.log("EA");
-    //   setSecondEmoji(emoji);
-    // }
-
-    // if (firstEmoji === null) {
-    //   setFirstEmoji(emoji);
-    // } else if (secondEmoji === null) {
-    //   setSecondEmoji(emoji);
-    // }
   };
+
+  const removeEmojis = (emojis, id) =>
+    emojis.filter((emoji) => emoji.id !== id);
 
   useEffect(() => {
     console.log(" 1 ", firstEmoji);
@@ -126,15 +117,12 @@ export const Game = () => {
     if (firstEmoji !== null && secondEmoji !== null) {
       if (firstEmoji === secondEmoji) {
         console.log(" MATCH");
+        setEmojis(removeEmojis(emojis, firstEmoji));
         increaseScore();
       }
       resetSelection();
     }
   }, [firstEmoji, secondEmoji]);
-
-  useEffect(() => {
-    console.log(" emojis ");
-  }, [emojis]);
 
   return (
     <View styles={styles.container}>
