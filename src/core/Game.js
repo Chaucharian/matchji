@@ -102,6 +102,7 @@ export const Game = () => {
   const [secondEmoji, setSecondEmoji] = useState(null);
   const initialEmojis = useMemo(() => generateEmojis(Emojis), []);
   const [emojis, setEmojis] = useState(initialEmojis);
+  const [match, setMatch] = useState(false);
 
   const resetSelection = () => {
     setFirstEmoji(null);
@@ -123,6 +124,7 @@ export const Game = () => {
     if (firstEmoji !== null && secondEmoji !== null) {
       if (firstEmoji.id === secondEmoji.id) {
         console.log(" MATCH");
+        setMatch(true);
         setEmojis(generateEmojis(Emojis));
         addTime(5);
       }
@@ -132,17 +134,21 @@ export const Game = () => {
 
   return (
     <View styles={styles.container}>
-      {emojis.map(({ emoji, id, left, top, size, rotation }, index) => (
-        <Emoji
-          onPress={(emoji) => onSelectEmoji({ emoji, index })}
-          emoji={{ emoji, id }}
-          left={left}
-          height={top}
-          size={size}
-          rotation={rotation}
-          key={index}
-        />
-      ))}
+      {emojis.map(({ emoji, id, left, top, size, rotation }, index) => {
+        const newKey = useMemo(() => random(0, 10000000), [emojis]);
+        return (
+          <Emoji
+            onPress={(emoji) => onSelectEmoji({ emoji, index })}
+            emoji={{ emoji, id }}
+            left={left}
+            height={top}
+            size={size}
+            rotation={rotation}
+            match={match}
+            key={newKey}
+          />
+        );
+      })}
     </View>
   );
 };
