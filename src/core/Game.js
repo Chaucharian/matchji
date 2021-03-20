@@ -36,6 +36,7 @@ export const Game = () => {
   const {
     settings: { backgroundColor },
     increaseScore,
+    addTime,
   } = useGameContext();
   const width = useWindowDimensions().width;
   const height = useWindowDimensions().height;
@@ -112,13 +113,11 @@ export const Game = () => {
     emojis.filter((emoji) => emoji.id !== id);
 
   useEffect(() => {
-    console.log(" 1 ", firstEmoji);
-    console.log(" 2 ", secondEmoji);
     if (firstEmoji !== null && secondEmoji !== null) {
       if (firstEmoji === secondEmoji) {
         console.log(" MATCH");
         setEmojis(removeEmojis(emojis, firstEmoji));
-        increaseScore();
+        addTime(5);
       }
       resetSelection();
     }
@@ -143,6 +142,6 @@ export const Game = () => {
 
 const styles = StyleSheet.create({
   container: {
-    // position: "absolute",
+    position: "absolute",
   },
 });

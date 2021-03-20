@@ -1,14 +1,20 @@
-import React from "react";
-import { StyleSheet, View } from "react-native";
+import React, { useEffect } from "react";
+import { StyleSheet, View, Alert } from "react-native";
 import { useGameContext } from "../context";
 import { Game } from "../core/Game";
 import { GameHeader } from "../components";
 
 export const GameScreen = () => {
   const {
-    settings: { backgroundColor },
+    settings: { backgroundColor, timeOver },
     setTimeOver,
   } = useGameContext();
+
+  useEffect(() => {
+    if (timeOver) {
+      Alert.alert("PERDISTE", "", [{ text: "OK", onPress: () => {} }]);
+    }
+  }, [timeOver]);
 
   return (
     <View style={{ ...styles.container, backgroundColor }}>

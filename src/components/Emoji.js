@@ -19,7 +19,11 @@ export const Emoji = ({
           left,
           top,
           fontSize: size,
-          // transform: [{ rotate: `${rotation}deg` }],
+          // transform: [
+          //   { translateY: top },
+          //   { translateX: left },
+          //   { rotate: `${rotation}deg` },
+          // ],
         }}
         {...props}
       >

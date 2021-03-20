@@ -1,4 +1,5 @@
 import React, { useContext, createContext, useState, useCallback } from "react";
+import { useTimer } from "../hooks";
 
 const GameContext = createContext();
 
@@ -7,6 +8,8 @@ export const GameProvider = ({ children, ...options }) => {
     timeOver: false,
     match: false,
     isPlaying: false,
+    initialTime: 10,
+    currentTime: 10,
     score: 0,
     backgroundColor: "#2c2823",
     ...options,
@@ -26,9 +29,36 @@ export const GameProvider = ({ children, ...options }) => {
     [settings]
   );
 
+  const addTime = useCallback(
+    (value) => {
+      setSettings({ ...settings, currentTime: settings.currentTime + value });
+    },
+    [settings]
+  );
+
+  const setCurrentTime = useCallback(
+    (value) => {
+      setSettings({ ...settings, currentTime: value });
+    },
+    [settings]
+  );
+
+  useTimer({
+    currentTime: settings.currentTime,
+    onSetTime: (value) => setCurrentTime(value),
+    onStop: () => setTimeOver(true),
+  });
+
   return (
     <GameContext.Provider
-      value={{ settings, setSettings, setTimeOver, increaseScore }}
+      value={{
+        settings,
+        setSettings,
+        setTimeOver,
+        increaseScore,
+        addTime,
+        setCurrentTime,
+      }}
     >
       {children}
     </GameContext.Provider>

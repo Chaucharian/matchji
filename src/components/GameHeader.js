@@ -5,15 +5,12 @@ import { useGameContext } from "../context";
 
 export const GameHeader = ({}) => {
   const {
-    settings: { score },
-    setTimeOver,
+    settings: { currentTime },
   } = useGameContext();
-  const time = useTimer({ intialTime: 10, onStop: () => setTimeOver(true) });
-
   return (
     <View style={styles.container}>
-      <Text style={styles.score}>SCORE: {score}</Text>
-      <Text style={styles.time}>{time}</Text>
+      {/* <Text style={styles.score}>SCORE: {score}</Text> */}
+      <Text style={styles.time}>{currentTime}</Text>
     </View>
   );
 };
@@ -23,12 +20,9 @@ const styles = StyleSheet.create({
     paddingTop: 30,
     paddingLeft: 8,
     paddingRight: 8,
-    display: "flex",
-    flexDirection: "row",
     // alignItems: "flex-end",
-    alignContent: "center",
-    justifyContent: "space-between",
-    backgroundColor: "grey",
+    alignItems: "center",
+    // justifyContent: "center",
     height: 100,
   },
   score: {
@@ -36,7 +30,9 @@ const styles = StyleSheet.create({
     color: "gold",
   },
   time: {
-    fontSize: 30,
+    fontFamily: "sans-serif-light",
+    fontWeight: "normal",
+    fontSize: 50,
     color: "white",
   },
 });
