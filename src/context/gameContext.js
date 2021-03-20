@@ -1,5 +1,6 @@
 import React, { useContext, createContext, useState, useCallback } from "react";
 import { useTimer } from "../hooks";
+import Emojis from "../models/emojis";
 
 const GameContext = createContext();
 
@@ -9,6 +10,7 @@ const initialState = {
   isPlaying: false,
   initialTime: 10,
   currentTime: 10,
+  initialEmojis: Emojis,
   score: 0,
   backgroundColor: "#2c2823",
 };
@@ -46,7 +48,7 @@ export const GameProvider = ({ children, ...options }) => {
 
   const reset = useCallback(
     (value) => {
-      setSettings(initialState);
+      setSettings({ ...initialState, initialEmojis: [...Emojis] });
     },
     [settings]
   );

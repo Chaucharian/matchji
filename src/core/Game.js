@@ -1,17 +1,5 @@
-import React, {
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-  useMemo,
-} from "react";
-import {
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  useWindowDimensions,
-} from "react-native";
+import React, { useEffect, useState, useMemo } from "react";
+import { StyleSheet, View, useWindowDimensions } from "react-native";
 import { Emoji } from "../components";
 import { useGameContext, useGameProvider } from "../context/gameContext";
 import Emojis from "../models/emojis";
@@ -20,7 +8,7 @@ const random = (min, max) => Math.floor(Math.random() * (max - min) + min);
 
 export const Game = () => {
   const {
-    settings: { backgroundColor },
+    settings: { initialEmojis: contextEmojis },
     increaseScore,
     addTime,
   } = useGameContext();
@@ -33,13 +21,14 @@ export const Game = () => {
     for (let i = 0; i < amount; i++) {
       randomEmojis.push(emojis[random(0, emojis.length - 1)]);
     }
-    console.log(randomEmojis);
     // select an amount of emojis and duplicated one
     const sortedEmojis = randomEmojis
       .map((emoji, index) => index < amount && { emoji, id: index })
       .filter((emoji) => emoji !== false);
     const randomEmoji = sortedEmojis[random(0, sortedEmojis.length - 1)];
     sortedEmojis.push(randomEmoji);
+    console.log(sortedEmojis);
+
     return sortedEmojis;
   };
   const getEmojiPosition = (width, height) => ({ x, y, size }) => {
@@ -63,7 +52,6 @@ export const Game = () => {
     width,
     height,
   ]);
-
   const generateEmojis = (emojis) => {
     return sortEmojis(emojis).map(({ emoji, id }) => {
       const size = random(20, 70);
@@ -86,7 +74,7 @@ export const Game = () => {
 
   const [firstEmoji, setFirstEmoji] = useState({ id: null, index: null });
   const [secondEmoji, setSecondEmoji] = useState({ id: null, index: null });
-  const initialEmojis = useMemo(() => generateEmojis(Emojis), []);
+  const initialEmojis = useMemo(() => generateEmojis(Emojis), [contextEmojis]);
   const [emojis, setEmojis] = useState(initialEmojis);
   const [match, setMatch] = useState(false);
 
@@ -104,8 +92,6 @@ export const Game = () => {
   };
 
   useEffect(() => {
-    console.log(firstEmoji);
-    console.log(secondEmoji);
     if (firstEmoji.id !== null && secondEmoji.id !== null) {
       if (firstEmoji.id === secondEmoji.id) {
         console.log(" MATCH");
@@ -116,6 +102,10 @@ export const Game = () => {
       resetSelection();
     }
   }, [firstEmoji, secondEmoji]);
+
+  useEffect(() => {
+    setEmojis(generateEmojis(Emojis));
+  }, [contextEmojis]);
 
   return (
     <View styles={styles.container}>
