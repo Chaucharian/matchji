@@ -18,20 +18,6 @@ import Emojis from "../models/emojis";
 
 const random = (min, max) => Math.floor(Math.random() * (max - min) + min);
 
-const useMatchEmoji = () => {
-  const [firstEmoji, setFirstEmoji] = useState(0);
-  const [secondEmoji, setSecondEmoji] = useState(1);
-  const [match, setMatch] = useState(false);
-
-  useEffect(() => {
-    if (firstEmoji === secondEmoji) {
-      setMatch(true);
-    }
-  }, [firstEmoji, secondEmoji]);
-
-  return { match, setEmoji };
-};
-
 export const Game = () => {
   const {
     settings: { backgroundColor },
@@ -98,30 +84,29 @@ export const Game = () => {
     });
   };
 
-  const [firstEmoji, setFirstEmoji] = useState(null);
-  const [secondEmoji, setSecondEmoji] = useState(null);
+  const [firstEmoji, setFirstEmoji] = useState({ id: null, index: null });
+  const [secondEmoji, setSecondEmoji] = useState({ id: null, index: null });
   const initialEmojis = useMemo(() => generateEmojis(Emojis), []);
   const [emojis, setEmojis] = useState(initialEmojis);
   const [match, setMatch] = useState(false);
 
   const resetSelection = () => {
-    setFirstEmoji(null);
-    setSecondEmoji(null);
+    setFirstEmoji({ id: null, index: null });
+    setSecondEmoji({ id: null, index: null });
   };
 
   const onSelectEmoji = ({ id, index }) => {
-    if (firstEmoji === null) {
+    if (firstEmoji.id === null) {
       setFirstEmoji({ id, index });
-    } else if (secondEmoji === null && firstEmoji.index !== index) {
-      setSecondEmoji({ id });
+    } else if (secondEmoji.id === null && firstEmoji.index !== index) {
+      setSecondEmoji({ id, index });
     }
   };
 
-  const removeEmojis = (emojis, id) =>
-    emojis.filter((emoji) => emoji.id !== id);
-
   useEffect(() => {
-    if (firstEmoji !== null && secondEmoji !== null) {
+    console.log(firstEmoji);
+    console.log(secondEmoji);
+    if (firstEmoji.id !== null && secondEmoji.id !== null) {
       if (firstEmoji.id === secondEmoji.id) {
         console.log(" MATCH");
         setMatch(true);
@@ -138,7 +123,7 @@ export const Game = () => {
         const newKey = useMemo(() => random(0, 10000000), [emojis]);
         return (
           <Emoji
-            onPress={(emoji) => onSelectEmoji({ emoji, index })}
+            onPress={(emoji) => onSelectEmoji({ id, index })}
             emoji={{ emoji, id }}
             left={left}
             height={top}
