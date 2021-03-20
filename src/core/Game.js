@@ -40,11 +40,17 @@ export const Game = () => {
   } = useGameContext();
   const width = useWindowDimensions().width;
   const height = useWindowDimensions().height;
-  const sortEmojis = (emojis) => {
-    const emojiAmount = 10;
+  const sortEmojis = (emojis, amount = 10) => {
+    const randomEmojis = [];
+
+    // get random emojis
+    for (let i = 0; i < amount; i++) {
+      randomEmojis.push(emojis[random(0, emojis.length - 1)]);
+    }
+    console.log(randomEmojis);
     // select an amount of emojis and duplicated one
-    const sortedEmojis = emojis
-      .map((emoji, index) => index < emojiAmount && { emoji, id: index })
+    const sortedEmojis = randomEmojis
+      .map((emoji, index) => index < amount && { emoji, id: index })
       .filter((emoji) => emoji !== false);
     const randomEmoji = sortedEmojis[random(0, sortedEmojis.length - 1)];
     sortedEmojis.push(randomEmoji);
@@ -91,21 +97,22 @@ export const Game = () => {
       };
     });
   };
+
   const [firstEmoji, setFirstEmoji] = useState(null);
   const [secondEmoji, setSecondEmoji] = useState(null);
-  const [emojis, setEmojis] = useState(generateEmojis(Emojis));
-  const [match, setMatch] = useState(false);
+  const initialEmojis = useMemo(() => generateEmojis(Emojis), []);
+  const [emojis, setEmojis] = useState(initialEmojis);
 
   const resetSelection = () => {
     setFirstEmoji(null);
     setSecondEmoji(null);
   };
 
-  const onSelectEmoji = ({ id }) => {
+  const onSelectEmoji = ({ id, index }) => {
     if (firstEmoji === null) {
-      setFirstEmoji(id);
-    } else if (secondEmoji === null) {
-      setSecondEmoji(id);
+      setFirstEmoji({ id, index });
+    } else if (secondEmoji === null && firstEmoji.index !== index) {
+      setSecondEmoji({ id });
     }
   };
 
@@ -114,9 +121,9 @@ export const Game = () => {
 
   useEffect(() => {
     if (firstEmoji !== null && secondEmoji !== null) {
-      if (firstEmoji === secondEmoji) {
+      if (firstEmoji.id === secondEmoji.id) {
         console.log(" MATCH");
-        setEmojis(removeEmojis(emojis, firstEmoji));
+        setEmojis(generateEmojis(Emojis));
         addTime(5);
       }
       resetSelection();
@@ -127,7 +134,7 @@ export const Game = () => {
     <View styles={styles.container}>
       {emojis.map(({ emoji, id, left, top, size, rotation }, index) => (
         <Emoji
-          onPress={onSelectEmoji}
+          onPress={(emoji) => onSelectEmoji({ emoji, index })}
           emoji={{ emoji, id }}
           left={left}
           height={top}

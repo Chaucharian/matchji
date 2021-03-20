@@ -8,11 +8,14 @@ export const GameScreen = () => {
   const {
     settings: { backgroundColor, timeOver },
     setTimeOver,
+    reset,
   } = useGameContext();
 
   useEffect(() => {
     if (timeOver) {
-      Alert.alert("PERDISTE", "", [{ text: "OK", onPress: () => {} }]);
+      Alert.alert("PERDISTE", "", [
+        { text: "REINTENTAR", onPress: () => reset() },
+      ]);
     }
   }, [timeOver]);
 

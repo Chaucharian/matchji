@@ -3,17 +3,18 @@ import { useTimer } from "../hooks";
 
 const GameContext = createContext();
 
+const initialState = {
+  timeOver: false,
+  match: false,
+  isPlaying: false,
+  initialTime: 10,
+  currentTime: 10,
+  score: 0,
+  backgroundColor: "#2c2823",
+};
+
 export const GameProvider = ({ children, ...options }) => {
-  const [settings, setSettings] = useState({
-    timeOver: false,
-    match: false,
-    isPlaying: false,
-    initialTime: 10,
-    currentTime: 10,
-    score: 0,
-    backgroundColor: "#2c2823",
-    ...options,
-  });
+  const [settings, setSettings] = useState({ ...initialState, ...options });
 
   const setTimeOver = useCallback(
     (value) => {
@@ -43,6 +44,13 @@ export const GameProvider = ({ children, ...options }) => {
     [settings]
   );
 
+  const reset = useCallback(
+    (value) => {
+      setSettings(initialState);
+    },
+    [settings]
+  );
+
   useTimer({
     currentTime: settings.currentTime,
     onSetTime: (value) => setCurrentTime(value),
@@ -58,6 +66,7 @@ export const GameProvider = ({ children, ...options }) => {
         increaseScore,
         addTime,
         setCurrentTime,
+        reset,
       }}
     >
       {children}
