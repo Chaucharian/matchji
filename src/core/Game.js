@@ -160,7 +160,7 @@ export const Game = () => {
             onPress={() => onSelectEmoji({ id, index })}
             emoji={emoji}
             left={left}
-            height={top}
+            top={top}
             size={size}
             rotation={rotation}
             key={key}
