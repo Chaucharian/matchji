@@ -10,6 +10,7 @@ const initialState = {
   isPlaying: false,
   initialTime: 10,
   currentTime: 10,
+  emojiAmount: 5,
   initialEmojis: Emojis,
   score: 0,
   backgroundColor: "#2c2823",
@@ -53,6 +54,13 @@ export const GameProvider = ({ children, ...options }) => {
     [settings]
   );
 
+  const setEmojiAmount = useCallback(
+    (value) => {
+      setSettings({ ...initialState, emojiAmount: value });
+    },
+    [settings]
+  );
+
   useTimer({
     currentTime: settings.currentTime,
     onSetTime: (value) => setCurrentTime(value),
@@ -63,6 +71,7 @@ export const GameProvider = ({ children, ...options }) => {
     <GameContext.Provider
       value={{
         settings,
+        setEmojiAmount,
         setSettings,
         setTimeOver,
         increaseScore,

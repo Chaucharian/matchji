@@ -8,7 +8,6 @@ export const Emoji = ({
   top = 0,
   size = 50,
   rotation,
-  match,
   onPress,
   ...props
 }) => {
@@ -21,11 +20,13 @@ export const Emoji = ({
   return (
     <Animatable.Text
       animation={mounted.current ? "bounceIn" : "bounceOut"}
+      duration={2000}
       // iterationCount={5}
       // direction="alternate"
-      onPress={() => onPress(emoji)}
+      onPress={onPress}
       style={styles.emoji}
       style={{
+        ...styles.emoji,
         left,
         top,
         fontSize: size,
@@ -37,7 +38,7 @@ export const Emoji = ({
       }}
       {...props}
     >
-      {emoji.emoji}
+      {emoji}
     </Animatable.Text>
   );
 };
