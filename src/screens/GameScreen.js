@@ -13,9 +13,9 @@ export const GameScreen = () => {
 
   useEffect(() => {
     if (timeOver) {
-      Alert.alert("PERDISTE", "", [
-        { text: "REINTENTAR", onPress: () => reset() },
-      ]);
+      // Alert.alert("PERDISTE", "", [
+      //   { text: "REINTENTAR", onPress: () => reset() },
+      // ]);
     }
   }, [timeOver]);
 

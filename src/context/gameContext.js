@@ -10,7 +10,7 @@ const initialState = {
   isPlaying: false,
   initialTime: 10,
   currentTime: 10,
-  emojiAmount: 5,
+  emojiAmount: 1,
   initialEmojis: Emojis,
   score: 0,
   backgroundColor: "#2c2823",
