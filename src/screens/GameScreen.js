@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, Alert } from "react-native";
 import { useGameContext } from "../context";
-import { Game } from "../core/Game";
-import { GameHeader } from "../components";
+import { Game } from "../core/GameMemo";
+import { GameHeader, Layout, Tile } from "../components";
 
 export const GameScreen = () => {
   const {
@@ -33,7 +33,5 @@ const styles = StyleSheet.create({
   },
   container: {
     height: "100%",
-    // alignItems: "center",
-    // justifyContent: "center",
   },
 });

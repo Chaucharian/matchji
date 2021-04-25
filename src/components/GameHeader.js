@@ -10,7 +10,9 @@ export const GameHeader = ({}) => {
   return (
     <View style={styles.container}>
       {/* <Text style={styles.score}>SCORE: {score}</Text> */}
-      <Text style={styles.time}>{currentTime}</Text>
+      <Text style={styles.time} onPress={() => console.log(" TIME ")}>
+        {currentTime}
+      </Text>
     </View>
   );
 };
