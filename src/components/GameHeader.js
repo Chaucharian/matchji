@@ -1,6 +1,5 @@
 import React, { useMemo, useRef } from "react";
 import { StyleSheet, Text, View } from "react-native";
-import { useTimer } from "../hooks";
 import { useGameContext } from "../context";
 
 export const GameHeader = ({}) => {
@@ -34,7 +33,7 @@ const styles = StyleSheet.create({
   time: {
     fontFamily: "sans-serif-light",
     fontWeight: "normal",
-    fontSize: 50,
+    fontSize: 60,
     color: "white",
   },
 });

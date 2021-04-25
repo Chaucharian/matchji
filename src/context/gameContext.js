@@ -1,5 +1,5 @@
 import React, { useContext, createContext, useState, useCallback } from "react";
-import { useTimer } from "../hooks";
+import { useTimer } from "../hooks/useTimer";
 import Emojis from "../models/emojis";
 
 const GameContext = createContext();

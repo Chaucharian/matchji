@@ -1,20 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { StyleSheet, View, Alert } from "react-native";
-import { Layout, Tile } from "../components";
-import Emojis from "../models/emojis";
-import { sortEmojis } from "../utils";
-
-const emojis = sortEmojis(Emojis, 20);
+import { Layout } from "../components/Layout";
+import { useTiles } from "../hooks/useTiles";
 
 export const Game = () => {
-  const tiles = emojis.map((tile, index, array) => ({
-    tile: Tile,
-    show: true,
-    onPress: () => onPress({ tile, array }),
-    styles: { width: 100, height: 100 },
-    content: tile,
-  }));
+  const [currentTile, setCurrentTile] = useState(null);
+  const [lastTile, setLastTile] = useState(null);
+  const [isMatch, setIsMatch] = useState({
+    tile: null,
+    match: false,
+  });
 
+  const onValidateMatch = (tile) => {
+    if (!currentTile) {
+      setCurrentTile(tile);
+    } else if (!lastTile) {
+      setCurrentTile(tile);
+    }
+  };
+
+  const tiles = useTiles(20, { onValidateMatch, isMatch });
+
+  useEffect(() => {
+    if (currentTile === lastTile) {
+      setIsMatch({ tile: currentTile, match: true });
+    }
+  }, [currentTile, lastTile]);
+  console.log(tiles);
   return (
     <View>
       <Layout tiles={tiles} />

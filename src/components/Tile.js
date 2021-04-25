@@ -9,7 +9,9 @@ import {
 import * as Animatable from "react-native-animatable";
 
 const _styles = StyleSheet.create({
-  container: {
+  container: {},
+  tile: {
+    zIndex: 1,
     width: 100,
     height: 100,
     backgroundColor: "powderblue",
@@ -19,21 +21,96 @@ const _styles = StyleSheet.create({
     borderWidth: 1,
     borderColor: "skyblue",
   },
+  emptyTile: {
+    zIndex: 1,
+    width: 100,
+    height: 100,
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 5,
+    borderWidth: 1,
+    borderColor: "skyblue",
+  },
   content: {
-    zIndex: -10,
+    fontSize: 45, // calculate size base on tile size
   },
 });
 
-export const Tile = ({ content, show, onPress, styles }) => {
+export const Tile = ({ content, show, unmount: _unmount, onPress, styles }) => {
+  const [tileAnimation, setTileAnimation] = useState("bounceIn");
+  const [contentAnimation, setContentAnimation] = useState("bounceIn");
+  const [showContent, setShowContent] = useState(false);
+  const [unmount, setUnmount] = useState(_unmount);
+
+  useEffect(() => {
+    if (!show) {
+      setTileAnimation("bounceOut");
+    } else {
+      setShowContent(false);
+      setTileAnimation("bounceIn");
+    }
+  }, [show]);
+
+  useEffect(() => {
+    if (unmount) {
+      setContentAnimation("bounceOut");
+    }
+  }, [unmount]);
+
   return (
-    <TouchableHighlight onPress={onPress}>
-      <Animatable.View
-        style={[_styles.container, styles]}
-        animation={show ? "bounceIn" : "bounceOut"}
-        duration={1000}
-      >
-        <Text styles={[_styles.content]}>{content}</Text>
-      </Animatable.View>
-    </TouchableHighlight>
+    <>
+      {
+        !showContent ? (
+          <TouchableHighlight
+            style={[_styles.container, styles.container]}
+            onPress={onPress}
+          >
+            <Animatable.View
+              style={[_styles.tile, styles.tile]}
+              animation={tileAnimation}
+              duration={500}
+              onAnimationEnd={() =>
+                tileAnimation === "bounceOut" && setShowContent(true)
+              }
+            ></Animatable.View>
+          </TouchableHighlight>
+        ) : (
+          <TouchableHighlight onPress={onPress}>
+            <Animatable.View
+              style={[_styles.emptyTile, styles.tile]}
+              animation={contentAnimation}
+              duration={500}
+              onAnimationEnd={() =>
+                contentAnimation === "bounceOut" && setUnmount(true)
+              }
+            >
+              <Text style={[_styles.content]}>{content}</Text>
+            </Animatable.View>
+          </TouchableHighlight>
+        )
+
+        //   : !unmount ? (
+        //     <TouchableHighlight onPress={onPress}>
+        //       <Animatable.View
+        //         style={[_styles.emptyTile, styles.tile]}
+        //         animation={contentAnimation}
+        //         duration={500}
+        //         onAnimationEnd={() =>
+        //           contentAnimation === "bounceOut" && setUnmount(true)
+        //         }
+        //       >
+        //         <Text style={[_styles.content]}>{content}</Text>
+        //       </Animatable.View>
+        //     </TouchableHighlight>
+        //   ) : (
+        //     <TouchableHighlight onPress={onPress}>
+        //       <Animatable.View
+        //         style={[_styles.emptyTile, styles.tile]}
+        //         // animation={contentAnimation}
+        //         duration={500}
+        //       ></Animatable.View>
+        //     </TouchableHighlight>
+      }
+    </>
   );
 };

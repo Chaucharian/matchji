@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { StyleSheet, View, Alert } from "react-native";
 import { useGameContext } from "../context";
 import { Game } from "../core/GameMemo";
-import { GameHeader, Layout, Tile } from "../components";
+import { GameHeader } from "../components";
 
 export const GameScreen = () => {
   const {
