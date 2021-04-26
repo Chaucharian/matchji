@@ -1,29 +1,31 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, Alert } from "react-native";
-import { useGameContext } from "../context";
+import { GamePlayingProvider } from "../context";
 import { Game } from "../core/GameMemo";
 import { GameHeader } from "../components";
 
 export const GameScreen = () => {
-  const {
-    settings: { backgroundColor, timeOver },
-    setTimeOver,
-    reset,
-  } = useGameContext();
+  // const {
+  //   settings: { backgroundColor, timeOver },
+  //   setTimeOver,
+  //   reset,
+  // } = useGameContext();
 
-  useEffect(() => {
-    if (timeOver) {
-      // Alert.alert("PERDISTE", "", [
-      //   { text: "REINTENTAR", onPress: () => reset() },
-      // ]);
-    }
-  }, [timeOver]);
+  // useEffect(() => {
+  //   if (timeOver) {
+  //     // Alert.alert("PERDISTE", "", [
+  //     //   { text: "REINTENTAR", onPress: () => reset() },
+  //     // ]);
+  //   }
+  // }, [timeOver]);
 
   return (
-    <View style={{ ...styles.container, backgroundColor }}>
-      <GameHeader />
-      <Game />
-    </View>
+    <GamePlayingProvider>
+      <View style={{ ...styles.container }}>
+        <GameHeader />
+        <Game />
+      </View>
+    </GamePlayingProvider>
   );
 };
 
@@ -32,6 +34,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   container: {
+    backgroundColor: "#2c2823",
     height: "100%",
   },
 });

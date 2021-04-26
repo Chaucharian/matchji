@@ -77,7 +77,6 @@ export const GameProvider = ({ children, ...options }) => {
         increaseScore,
         addTime,
         setCurrentTime,
-        reset,
       }}
     >
       {children}

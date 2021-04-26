@@ -36,11 +36,13 @@ const _styles = StyleSheet.create({
   },
 });
 
-export const Tile = ({ content, show, unmount: _unmount, onPress, styles }) => {
+export const Tile = ({ content, show, unmount, onPress, styles }) => {
   const [tileAnimation, setTileAnimation] = useState("bounceIn");
   const [contentAnimation, setContentAnimation] = useState("bounceIn");
   const [showContent, setShowContent] = useState(false);
-  const [unmount, setUnmount] = useState(_unmount);
+  //   const [unmount, setUnmount] = useState(_unmount);
+
+  console.log(unmount, content);
 
   useEffect(() => {
     if (!show) {
@@ -53,64 +55,63 @@ export const Tile = ({ content, show, unmount: _unmount, onPress, styles }) => {
 
   useEffect(() => {
     if (unmount) {
-      setContentAnimation("bounceOut");
+      setShowContent(false);
     }
   }, [unmount]);
 
   return (
     <>
-      {
-        !showContent ? (
-          <TouchableHighlight
-            style={[_styles.container, styles.container]}
-            onPress={onPress}
+      {!showContent ? (
+        <TouchableHighlight
+          style={[_styles.container, styles.container]}
+          onPress={onPress}
+        >
+          <Animatable.View
+            style={[_styles.tile, styles.tile]}
+            animation={tileAnimation}
+            duration={500}
+            onAnimationEnd={() =>
+              tileAnimation === "bounceOut" && setShowContent(true)
+            }
+          ></Animatable.View>
+        </TouchableHighlight>
+      ) : (
+        <TouchableHighlight onPress={onPress}>
+          <Animatable.View
+            style={[_styles.emptyTile, styles.tile]}
+            animation={contentAnimation}
+            duration={500}
+            onAnimationEnd={
+              () => {}
+              //   contentAnimation === "bounceOut" && setUnmount(true)
+            }
           >
-            <Animatable.View
-              style={[_styles.tile, styles.tile]}
-              animation={tileAnimation}
-              duration={500}
-              onAnimationEnd={() =>
-                tileAnimation === "bounceOut" && setShowContent(true)
-              }
-            ></Animatable.View>
-          </TouchableHighlight>
-        ) : (
-          <TouchableHighlight onPress={onPress}>
-            <Animatable.View
-              style={[_styles.emptyTile, styles.tile]}
-              animation={contentAnimation}
-              duration={500}
-              onAnimationEnd={() =>
-                contentAnimation === "bounceOut" && setUnmount(true)
-              }
-            >
-              <Text style={[_styles.content]}>{content}</Text>
-            </Animatable.View>
-          </TouchableHighlight>
-        )
-
-        //   : !unmount ? (
-        //     <TouchableHighlight onPress={onPress}>
-        //       <Animatable.View
-        //         style={[_styles.emptyTile, styles.tile]}
-        //         animation={contentAnimation}
-        //         duration={500}
-        //         onAnimationEnd={() =>
-        //           contentAnimation === "bounceOut" && setUnmount(true)
-        //         }
-        //       >
-        //         <Text style={[_styles.content]}>{content}</Text>
-        //       </Animatable.View>
-        //     </TouchableHighlight>
-        //   ) : (
-        //     <TouchableHighlight onPress={onPress}>
-        //       <Animatable.View
-        //         style={[_styles.emptyTile, styles.tile]}
-        //         // animation={contentAnimation}
-        //         duration={500}
-        //       ></Animatable.View>
-        //     </TouchableHighlight>
-      }
+            <Text style={[_styles.content]}>{content}</Text>
+          </Animatable.View>
+        </TouchableHighlight>
+      )}
+      {/* {unmount ? (
+        <TouchableHighlight onPress={onPress}>
+          <Animatable.View
+            style={[_styles.emptyTile, styles.tile]}
+            animation={contentAnimation}
+            duration={500}
+            onAnimationEnd={() =>
+              contentAnimation === "bounceOut" && setUnmount(true)
+            }
+          >
+            <Text style={[_styles.content]}>{content}</Text>
+          </Animatable.View>
+        </TouchableHighlight>
+      ) : (
+        <TouchableHighlight onPress={onPress}>
+          <Animatable.View
+            style={[_styles.emptyTile, styles.tile]}
+            // animation={contentAnimation}
+            duration={500}
+          ></Animatable.View>
+        </TouchableHighlight>
+      )} */}
     </>
   );
 };

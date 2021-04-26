@@ -2,31 +2,20 @@ import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { StyleSheet, View, Alert } from "react-native";
 import { Layout } from "../components/Layout";
 import { useTiles } from "../hooks/useTiles";
+import { usePlayingContext, init } from "../context";
 
 export const Game = () => {
-  const [currentTile, setCurrentTile] = useState(null);
-  const [lastTile, setLastTile] = useState(null);
-  const [isMatch, setIsMatch] = useState({
-    tile: null,
-    match: false,
-  });
-
-  const onValidateMatch = (tile) => {
-    if (!currentTile) {
-      setCurrentTile(tile);
-    } else if (!lastTile) {
-      setCurrentTile(tile);
-    }
-  };
-
-  const tiles = useTiles(20, { onValidateMatch, isMatch });
+  const {
+    state: { emojis },
+    dispatch,
+  } = usePlayingContext();
+  const tiles = useTiles(4, emojis);
 
   useEffect(() => {
-    if (currentTile === lastTile) {
-      setIsMatch({ tile: currentTile, match: true });
-    }
-  }, [currentTile, lastTile]);
-  console.log(tiles);
+    dispatch(init({ amount: 4 }));
+  }, [dispatch]);
+
+  console.log(" TIME ");
   return (
     <View>
       <Layout tiles={tiles} />
