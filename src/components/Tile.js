@@ -40,13 +40,17 @@ export const Tile = ({ content, show, unmount, onPress, styles }) => {
   const [tileAnimation, setTileAnimation] = useState("bounceIn");
   const [contentAnimation, setContentAnimation] = useState("bounceIn");
   const [showContent, setShowContent] = useState(false);
-  //   const [unmount, setUnmount] = useState(_unmount);
-
-  console.log(unmount, content);
+  const [showUnmount, setShowUnmount] = useState(false);
 
   useEffect(() => {
     if (!show) {
-      setTileAnimation("bounceOut");
+      console.log(" SHOW FALSE");
+      if (showContent) {
+        setContentAnimation("bounceOut");
+        setShowContent(false);
+      } else {
+        setTileAnimation("bounceOut");
+      }
     } else {
       setShowContent(false);
       setTileAnimation("bounceIn");
@@ -54,9 +58,14 @@ export const Tile = ({ content, show, unmount, onPress, styles }) => {
   }, [show]);
 
   useEffect(() => {
+    let timeoutId;
     if (unmount) {
-      setShowContent(false);
+      timeoutId = setTimeout(() => {
+        setShowContent(false);
+        setShowUnmount(true);
+      }, 800);
     }
+    return () => clearTimeout(timeoutId);
   }, [unmount]);
 
   return (
@@ -71,7 +80,9 @@ export const Tile = ({ content, show, unmount, onPress, styles }) => {
             animation={tileAnimation}
             duration={500}
             onAnimationEnd={() =>
-              tileAnimation === "bounceOut" && setShowContent(true)
+              tileAnimation === "bounceOut" &&
+              !showUnmount &&
+              setShowContent(true)
             }
           ></Animatable.View>
         </TouchableHighlight>
@@ -81,9 +92,8 @@ export const Tile = ({ content, show, unmount, onPress, styles }) => {
             style={[_styles.emptyTile, styles.tile]}
             animation={contentAnimation}
             duration={500}
-            onAnimationEnd={
-              () => {}
-              //   contentAnimation === "bounceOut" && setUnmount(true)
+            onAnimationEnd={() =>
+              contentAnimation === "bounceOut" && setShowContent(false)
             }
           >
             <Text style={[_styles.content]}>{content}</Text>

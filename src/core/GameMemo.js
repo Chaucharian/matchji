@@ -15,7 +15,6 @@ export const Game = () => {
     dispatch(init({ amount: 4 }));
   }, [dispatch]);
 
-  console.log(" TIME ");
   return (
     <View>
       <Layout tiles={tiles} />

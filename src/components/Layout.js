@@ -16,8 +16,8 @@ const _styles = StyleSheet.create({
 export const Layout = ({ tiles, styles }) => {
   return (
     <View style={[_styles.container, { styles }]}>
-      {tiles.map(({ tile: Tile, ...props }, i) => (
-        <Tile key={i} {...props} />
+      {tiles.map(({ tile: Tile, key, ...props }, i) => (
+        <Tile key={key} {...props} />
       ))}
     </View>
   );

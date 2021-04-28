@@ -6,7 +6,7 @@ import React, {
   useReducer,
 } from "react";
 import Emojis from "../models/emojis";
-import { sortEmojis } from "../utils";
+import { sortEmojis, guidGenerator } from "../utils";
 import { actionTypes } from "./actions";
 
 const GameContext = createContext();
@@ -19,11 +19,17 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case actionTypes.INIT: {
-      const emojis = sortEmojis(Emojis, action.payload);
+      const emojis = sortEmojis(Emojis, action.payload).map((emoji) => {
+        const key = guidGenerator();
+        return { emoji, key };
+      });
       return { ...state, emojis };
     }
     case actionTypes.RESET: {
-      const emojis = sortEmojis(Emojis, action.payload);
+      const emojis = sortEmojis(Emojis, action.payload).map((emoji) => {
+        const key = guidGenerator();
+        return { emoji, key };
+      });
       return { ...state, emojis };
     }
   }
