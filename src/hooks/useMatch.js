@@ -1,30 +1,30 @@
 import { useCallback, useEffect, useState, useMemo } from "react";
 
 export const useMatch = () => {
-  const [firstTile, setFirsTile] = useState({ content: null, index: null });
-  const [secondTile, setSecondTile] = useState({ content: null, index: null });
+  const [firstTile, setFirsTile] = useState({ content: null, id: null });
+  const [secondTile, setSecondTile] = useState({ content: null, id: null });
   const [isMatch, setIsMatch] = useState({
-    content: null,
+    tiles: [],
     match: false,
   });
 
   const resetMatch = () =>
     setIsMatch({
-      content: null,
-      match: null,
+      tiles: [],
+      match: false,
     });
 
   const resetSelection = () => {
-    setFirsTile({ content: null, index: null });
-    setSecondTile({ content: null, index: null });
+    setFirsTile({ content: null, id: null });
+    setSecondTile({ content: null, id: null });
   };
 
   const onValidateMatch = useCallback(
-    ({ content, index }) => {
+    ({ content, id }) => {
       if (firstTile.content === null) {
-        setFirsTile({ content, index });
-      } else if (secondTile.content === null && firstTile.index !== index) {
-        setSecondTile({ content, index });
+        setFirsTile({ content, id });
+      } else if (secondTile.content === null && firstTile.id !== id) {
+        setSecondTile({ content, id });
       }
     },
     [firstTile, secondTile, setFirsTile, setSecondTile]
@@ -33,10 +33,10 @@ export const useMatch = () => {
   useEffect(() => {
     if (firstTile.content !== null && secondTile.content !== null) {
       if (firstTile.content === secondTile.content) {
-        setIsMatch({ content: firstTile.content, match: true });
+        setIsMatch({ tiles: [firstTile.id, secondTile.id], match: true });
       } else {
         setIsMatch({
-          content: [firstTile.content, secondTile.content],
+          tiles: [firstTile.id, secondTile.id],
           match: false,
         });
       }

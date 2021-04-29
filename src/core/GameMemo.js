@@ -2,24 +2,24 @@ import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { StyleSheet, View, Alert } from "react-native";
 import { Layout } from "../components/Layout";
 import { useTiles } from "../hooks/useTiles";
-import { usePlayingContext, init, resetBoard } from "../context";
+import { usePlayingContext, init, remove, hide, resetBoard } from "../context";
 
 export const Game = () => {
   const {
-    state: { emojis },
+    state: { tiles: contextTiles },
     dispatch,
   } = usePlayingContext();
-  const { tiles, hideTiles } = useTiles(emojis);
+  const { tiles, hideTiles, changes } = useTiles(contextTiles);
 
   useEffect(() => {
-    dispatch(init({ amount: 20 }));
+    dispatch(init({ amount: 4 }));
   }, [dispatch]);
 
   useEffect(() => {
-    if (hideTiles.tiles?.length) {
-      dispatch(resetBoard({ tiles: hideTiles.tiles }));
+    if (changes.type === "hide") {
+      dispatch(hide({ tiles: changes.tiles }));
     }
-  }, [hideTiles]);
+  }, [changes]);
 
   return (
     <View>

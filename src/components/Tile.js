@@ -7,6 +7,7 @@ import {
   TouchableHighlight,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
+import { TILE_MOUNT_ANIMATION_DURATION } from "../context/gameContext";
 
 const _styles = StyleSheet.create({
   container: {},
@@ -35,8 +36,6 @@ const _styles = StyleSheet.create({
     fontSize: 45, // calculate size base on tile size
   },
 });
-
-const ANIMATION_DURATION = 500;
 
 export const Tile = ({
   content,
@@ -81,8 +80,8 @@ export const Tile = ({
 
   // once mounted go back to original animation duration
   useEffect(() => {
-    if (animationDuration !== ANIMATION_DURATION) {
-      setAnimationDuration(ANIMATION_DURATION);
+    if (animationDuration !== TILE_MOUNT_ANIMATION_DURATION) {
+      setAnimationDuration(TILE_MOUNT_ANIMATION_DURATION);
     }
   }, [animationDuration]);
 
