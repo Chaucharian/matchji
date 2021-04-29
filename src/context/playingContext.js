@@ -32,6 +32,27 @@ const reducer = (state, action) => {
       });
       return { ...state, emojis };
     }
+    case actionTypes.RESET_BOARD: {
+      const emojis = state.emojis.map(({ emoji, key }, i) => {
+        const match = action.payload.find(
+          (emojiToRemove) => emojiToRemove === emoji
+        );
+
+        // const key = guidGenerator();
+
+        if (match) {
+          console.log(match, i);
+          return { emoji, key };
+        } else {
+          return { emoji, key };
+        }
+      });
+      // console.log(
+      //   " NEW ",
+      //   emojis.map((a) => a.key)
+      // );
+      return { ...state, emojis };
+    }
   }
 };
 

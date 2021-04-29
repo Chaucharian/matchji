@@ -35,7 +35,10 @@ export const useMatch = () => {
       if (firstTile.content === secondTile.content) {
         setIsMatch({ content: firstTile.content, match: true });
       } else {
-        setIsMatch({ content: null, match: false });
+        setIsMatch({
+          content: [firstTile.content, secondTile.content],
+          match: false,
+        });
       }
       resetSelection();
     }

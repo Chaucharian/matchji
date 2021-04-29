@@ -7,9 +7,11 @@ import { useMatch } from "../hooks/useMatch";
 const sleep = (time = 1000) =>
   new Promise((resolve) => setTimeout(resolve, time));
 
-export const useTiles = (amount = 4, emojis) => {
+export const useTiles = (emojis) => {
   const { onValidateMatch, isMatch, resetMatch } = useMatch();
   const [tiles, setTiles] = useState([]);
+  const [tilesSelected, setTilesSelected] = useState(0);
+  const [hideTiles, setHideTiles] = useState({ hide: false, tiles: [] });
 
   const onPress = useCallback(
     ({ tile: _tile, index: _index }) => {
@@ -21,8 +23,9 @@ export const useTiles = (amount = 4, emojis) => {
       });
       setTiles(newTiles);
       onValidateMatch({ content: _tile.content, index: _index });
+      setTilesSelected(tilesSelected + 1);
     },
-    [tiles, onValidateMatch]
+    [tiles, onValidateMatch, tilesSelected]
   );
 
   const newTiles = useMemo(
@@ -36,48 +39,68 @@ export const useTiles = (amount = 4, emojis) => {
 
   const validateMatch = async () => {
     const { match, content } = isMatch;
-
     if (match) {
-      console.log("MATCH");
       const newTiles = tiles.map((tile) => {
         if (tile.content === content) {
           const key = guidGenerator();
+          // this is for remount tiles and watch animation
           return { ...tile, key, unmount: true };
         }
         return tile;
       });
       resetMatch();
-
+      setTilesSelected(0);
       setTiles(newTiles);
+    } else if (!match && tilesSelected === 2) {
+      await sleep();
+      setTilesSelected(0);
+      setHideTiles({ hide: true, tiles: content });
     }
-    // else if (match === false) {
+    // else if (!match && tilesSelected === 2) {
     //   const newTiles = tiles.map((tile) => {
     //     if (tile.content === content) {
-    //       return { ...tile, show: true };
+    //       const key = guidGenerator();
+    //       // this is for remount tiles and watch animation
+    //       return { ...tile, key, show: true };
     //     }
     //     return tile;
     //   });
+    //   console.log(" NEW ", newTiles);
     //   resetMatch();
+    //   setTilesSelected(0);
     //   setTiles(newTiles);
     // }
   };
 
   useEffect(() => {
     validateMatch();
-  }, [isMatch, tiles, resetMatch]);
+  }, [isMatch, tiles, resetMatch, tilesSelected]);
 
   useEffect(() => {
+    let animationDuration = 500;
     setTiles(
-      emojis.map(({ emoji, key }) => ({
-        tile: Tile,
-        show: true,
-        unmount: false,
-        key,
-        styles: { width: 100, height: 100 },
-        content: emoji,
-      }))
+      emojis.map(({ emoji, key }) => {
+        // animation effect on mount
+        animationDuration += 200;
+        return {
+          tile: Tile,
+          show: true,
+          unmount: false,
+          key,
+          styles: { width: 100, height: 100 },
+          content: emoji,
+          animationDuration,
+        };
+      })
     );
   }, [emojis]);
 
-  return newTiles;
+  // useEffect(() => {
+  //   if (!isMatch.match && tilesSelected === 2) {
+  //     setTilesSelected(0);
+  //     setHideTiles(true);
+  //   }
+  // }, [tilesSelected, isMatch]);
+
+  return { tiles: newTiles, hideTiles };
 };

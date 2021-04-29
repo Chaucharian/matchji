@@ -36,15 +36,26 @@ const _styles = StyleSheet.create({
   },
 });
 
-export const Tile = ({ content, show, unmount, onPress, styles }) => {
+const ANIMATION_DURATION = 500;
+
+export const Tile = ({
+  content,
+  show,
+  unmount,
+  animationDuration: _animationDuration = 500,
+  onPress,
+  styles,
+}) => {
   const [tileAnimation, setTileAnimation] = useState("bounceIn");
   const [contentAnimation, setContentAnimation] = useState("bounceIn");
   const [showContent, setShowContent] = useState(false);
   const [showUnmount, setShowUnmount] = useState(false);
+  const [animationDuration, setAnimationDuration] = useState(
+    _animationDuration
+  );
 
   useEffect(() => {
     if (!show) {
-      console.log(" SHOW FALSE");
       if (showContent) {
         setContentAnimation("bounceOut");
         setShowContent(false);
@@ -68,6 +79,13 @@ export const Tile = ({ content, show, unmount, onPress, styles }) => {
     return () => clearTimeout(timeoutId);
   }, [unmount]);
 
+  // once mounted go back to original animation duration
+  useEffect(() => {
+    if (animationDuration !== ANIMATION_DURATION) {
+      setAnimationDuration(ANIMATION_DURATION);
+    }
+  }, [animationDuration]);
+
   return (
     <>
       {!showContent ? (
@@ -78,7 +96,7 @@ export const Tile = ({ content, show, unmount, onPress, styles }) => {
           <Animatable.View
             style={[_styles.tile, styles.tile]}
             animation={tileAnimation}
-            duration={500}
+            duration={animationDuration}
             onAnimationEnd={() =>
               tileAnimation === "bounceOut" &&
               !showUnmount &&
@@ -91,7 +109,7 @@ export const Tile = ({ content, show, unmount, onPress, styles }) => {
           <Animatable.View
             style={[_styles.emptyTile, styles.tile]}
             animation={contentAnimation}
-            duration={500}
+            duration={animationDuration}
             onAnimationEnd={() =>
               contentAnimation === "bounceOut" && setShowContent(false)
             }
@@ -100,28 +118,6 @@ export const Tile = ({ content, show, unmount, onPress, styles }) => {
           </Animatable.View>
         </TouchableHighlight>
       )}
-      {/* {unmount ? (
-        <TouchableHighlight onPress={onPress}>
-          <Animatable.View
-            style={[_styles.emptyTile, styles.tile]}
-            animation={contentAnimation}
-            duration={500}
-            onAnimationEnd={() =>
-              contentAnimation === "bounceOut" && setUnmount(true)
-            }
-          >
-            <Text style={[_styles.content]}>{content}</Text>
-          </Animatable.View>
-        </TouchableHighlight>
-      ) : (
-        <TouchableHighlight onPress={onPress}>
-          <Animatable.View
-            style={[_styles.emptyTile, styles.tile]}
-            // animation={contentAnimation}
-            duration={500}
-          ></Animatable.View>
-        </TouchableHighlight>
-      )} */}
     </>
   );
 };
