@@ -3,13 +3,10 @@ import { Tile } from "../components";
 import Emojis from "../models/emojis";
 import { guidGenerator } from "../utils";
 import { useMatch } from "../hooks/useMatch";
-import { NOT_MATCH_SHOWING_TIME } from "../context/playingContext";
-
-const sleep = (time = 1000) =>
-  new Promise((resolve) => setTimeout(resolve, time));
+import { NOT_MATCH_SHOWING_TIME } from "../const/variables";
 
 export const useTiles = (initialTiles) => {
-  const { onValidateMatch, isMatch, resetMatch } = useMatch();
+  const { addCurrentTile, isMatch, resetMatch } = useMatch();
   const [tiles, setTiles] = useState(initialTiles);
   const [tilesSelected, setTilesSelected] = useState(0);
   const [hideTiles, setHideTiles] = useState({ hide: false, tiles: [] });
@@ -17,17 +14,19 @@ export const useTiles = (initialTiles) => {
 
   const onPress = useCallback(
     (_tile) => {
-      const newTiles = tiles.map((tile) => {
-        if (_tile.id === tile.id) {
-          return { ...tile, show: false };
-        }
-        return tile;
-      });
-      setTiles(newTiles);
-      onValidateMatch({ content: _tile.content, id: _tile.id });
-      setTilesSelected(tilesSelected + 1);
+      if (tilesSelected !== 2) {
+        const newTiles = tiles.map((tile) => {
+          if (_tile.id === tile.id) {
+            return { ...tile, show: false };
+          }
+          return tile;
+        });
+        setTiles(newTiles);
+        addCurrentTile({ content: _tile.content, id: _tile.id });
+        setTilesSelected(tilesSelected + 1);
+      }
     },
-    [tiles, onValidateMatch, tilesSelected]
+    [tiles, addCurrentTile, tilesSelected]
   );
 
   const newTiles = useMemo(
@@ -41,6 +40,7 @@ export const useTiles = (initialTiles) => {
 
   const validateMatch = async () => {
     const { match, tiles } = isMatch;
+    console.log("MATCH ", isMatch);
     if (match) {
       // await sleep(NOT_MATCH_SHOWING_TIME);
       // setChanges({ type: "remove", tiles });
@@ -86,7 +86,7 @@ export const useTiles = (initialTiles) => {
 
   useEffect(() => {
     validateMatch();
-  }, [isMatch, tiles, resetMatch, tilesSelected]);
+  }, [validateMatch]);
 
   // useEffect(() => {
   //   let animationDuration = 500;

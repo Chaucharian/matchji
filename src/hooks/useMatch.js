@@ -19,7 +19,7 @@ export const useMatch = () => {
     setSecondTile({ content: null, id: null });
   };
 
-  const onValidateMatch = useCallback(
+  const addCurrentTile = useCallback(
     ({ content, id }) => {
       if (firstTile.content === null) {
         setFirsTile({ content, id });
@@ -44,5 +44,5 @@ export const useMatch = () => {
     }
   }, [firstTile, secondTile, setIsMatch]);
 
-  return { isMatch, resetMatch, onValidateMatch };
+  return { isMatch, resetMatch, addCurrentTile };
 };

@@ -9,6 +9,7 @@ import Emojis from "../models/emojis";
 import { sortEmojis, guidGenerator } from "../utils";
 import { actionTypes } from "./actions";
 import { Tile } from "../components/Tile";
+import { TILE_MOUNT_ANIMATION_DURATION } from "../const/variables";
 
 const GameContext = createContext();
 
@@ -17,10 +18,7 @@ const initialState = {
   amount: false,
 };
 
-export const TILE_MOUNT_ANIMATION_DURATION = 500;
-export const NOT_MATCH_SHOWING_TIME = 1000;
-
-const generateTiles = ({ amount }) => {
+const generateTiles = ({ amount, show = true }) => {
   let animationDuration = TILE_MOUNT_ANIMATION_DURATION;
   const tiles = sortEmojis(Emojis, amount).map((emoji, index) => {
     const key = guidGenerator();
@@ -30,7 +28,7 @@ const generateTiles = ({ amount }) => {
     return {
       id: index,
       tile: Tile,
-      show: true,
+      show,
       unmount: false,
       key,
       styles: { width: 100, height: 100 },
@@ -44,8 +42,14 @@ const generateTiles = ({ amount }) => {
 const reducer = (state, action) => {
   switch (action.type) {
     case actionTypes.INIT: {
-      const { amount } = action.payload;
-      const tiles = generateTiles({ amount });
+      const { amount, show } = action.payload;
+      const tiles = generateTiles({ amount, show });
+      return { ...state, tiles };
+    }
+    case actionTypes.HIDE_ALL: {
+      const newTiles = state.tiles.map((tile) => {
+        return { ...tile, key, show: true };
+      });
       return { ...state, tiles };
     }
     case actionTypes.RESET: {

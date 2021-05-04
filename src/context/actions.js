@@ -3,6 +3,7 @@ export const actionTypes = {
   RESET_BOARD: "RESET_BOARD",
   INIT: "INIT",
   HIDE: "HIDE",
+  HIDE_ALL: "HIDE_ALL",
   REMOVE: "REMOVE",
 };
 
@@ -24,5 +25,9 @@ export const remove = (payload) => ({
 });
 export const hide = (payload) => ({
   type: actionTypes.HIDE,
+  payload,
+});
+export const hideAll = (payload) => ({
+  type: actionTypes.HIDE_ALL,
   payload,
 });
