@@ -48,9 +48,10 @@ const reducer = (state, action) => {
     }
     case actionTypes.HIDE_ALL: {
       const newTiles = state.tiles.map((tile) => {
-        return { ...tile, key, show: true };
+        const key = guidGenerator();
+        return { ...tile, key, show: false };
       });
-      return { ...state, tiles };
+      return { ...state, tiles: newTiles };
     }
     case actionTypes.RESET: {
       const { amount } = action.payload;
@@ -77,20 +78,18 @@ const reducer = (state, action) => {
     case actionTypes.SHOW: {
       const { show, tiles } = action.payload;
 
-      if (tiles.length) {
-        console.log(" SHOW ", tiles);
-        const newTiles = state.tiles.map((tile) => {
-          const match = tiles.find((_tile) => _tile.id === tile.id);
-          if (match) {
-            const key = guidGenerator();
-            // this is for remount tiles and watch animation
-            return { ...tile, key, show };
-          }
-          return tile;
-        });
+      console.log(" SHOW ", tiles);
+      const newTiles = state.tiles.map((tile) => {
+        const match = tiles.find((_tile) => _tile.id === tile.id);
+        if (match) {
+          const key = guidGenerator();
+          // this is for remount tiles and watch animation
+          return { ...tile, key, show };
+        }
+        return tile;
+      });
 
-        return { ...state, tiles: newTiles };
-      }
+      return { ...state, tiles: newTiles };
     }
   }
 };

@@ -1,30 +1,23 @@
 import { useCallback, useState, useMemo, useEffect } from "react";
-import { Tile } from "../components";
-import Emojis from "../models/emojis";
-import { guidGenerator } from "../utils";
 import { useMatch } from "../hooks/useMatch";
 import { NOT_MATCH_SHOWING_TIME } from "../const/variables";
 import { sleep } from "../utils";
+import { usePlayingContext, show, remove } from "../context";
 
-export const useTiles = (initialTiles) => {
+export const useTiles = () => {
+  const {
+    state: { tiles: initialTiles = [] },
+    dispatch,
+  } = usePlayingContext();
   const { addCurrentTile, isMatch, resetMatch } = useMatch();
-  const [tiles, setTiles] = useState(initialTiles);
+  const [tiles, setTiles] = useState([]);
   const [tilesSelected, setTilesSelected] = useState(0);
-  const [hideTiles, setHideTiles] = useState({ hide: false, tiles: [] });
-  const [changes, setChanges] = useState({ type: "", tiles: [] });
 
   const onPress = useCallback(
     (_tile) => {
       if (tilesSelected !== 2) {
-        // const newTiles = tiles.map((tile) => {
-        //   if (_tile.id === tile.id) {
-        //     return { ...tile, show: false };
-        //   }
-        //   return tile;
-        // });
-        // setTiles(newTiles);
         if (!_tile.show) {
-          setChanges({ type: "show", tiles: [_tile] });
+          dispatch(show({ tiles: [_tile], show: true }));
           addCurrentTile({ content: _tile.content, id: _tile.id });
           setTilesSelected(tilesSelected + 1);
         }
@@ -42,21 +35,20 @@ export const useTiles = (initialTiles) => {
     [tiles, onPress]
   );
 
-  const validateMatch = async () => {
+  const validateMatch = useCallback(async () => {
     if (tilesSelected === 2) {
       const { match, tiles } = isMatch;
       if (match) {
         await sleep(NOT_MATCH_SHOWING_TIME);
-        setChanges({ type: "remove", tiles });
+        dispatch(remove({ tiles: tiles }));
       } else if (!match) {
-        console.log(" VALIDATE ", tilesSelected);
         await sleep(NOT_MATCH_SHOWING_TIME * 2);
-        setChanges({ type: "hide", tiles });
+        dispatch(show({ tiles: tiles, show: false }));
       }
       resetMatch();
       setTilesSelected(0);
     }
-  };
+  }, [isMatch, dispatch, resetMatch, setTilesSelected, sleep]);
 
   useEffect(() => {
     setTiles(initialTiles);
@@ -64,7 +56,7 @@ export const useTiles = (initialTiles) => {
 
   useEffect(() => {
     validateMatch();
-  }, [validateMatch]);
+  }, [isMatch]);
 
-  return { tiles: newTiles, changes };
+  return { tiles: newTiles };
 };

@@ -9,36 +9,23 @@ import {
   hide,
   show,
   resetBoard,
+  hideAll,
 } from "../context";
 import { sleep } from "../utils";
 
 export const Game = () => {
-  const {
-    state: { tiles: contextTiles },
-    dispatch,
-  } = usePlayingContext();
-  const { tiles, changes } = useTiles(contextTiles);
+  const { dispatch } = usePlayingContext();
+  const { tiles } = useTiles();
 
   const initializeScreen = useCallback(async () => {
     dispatch(init({ amount: 20, show: true }));
     await sleep(5000);
-    dispatch(init({ amount: 20, show: false }));
+    dispatch(hideAll({ show: false }));
   }, [init]);
 
   useEffect(() => {
     initializeScreen();
   }, [dispatch, initializeScreen]);
-
-  useEffect(() => {
-    if (changes.tiles.length !== 0) {
-      if (changes.type === "hide") {
-        console.log(" HIDE ");
-        dispatch(show({ tiles: changes.tiles, show: false }));
-      } else if (changes.type === "show") {
-        dispatch(show({ tiles: changes.tiles, show: true }));
-      }
-    }
-  }, [changes]);
 
   return (
     <View>
