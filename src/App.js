@@ -3,7 +3,7 @@ import { StatusBar } from "expo-status-bar";
 import { GameScreen } from "./screens";
 import { GameProvider } from "./context";
 
-export default () => {
+export const App = () => {
   return (
     <>
       <GameProvider>

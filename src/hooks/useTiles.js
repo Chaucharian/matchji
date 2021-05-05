@@ -1,5 +1,5 @@
 import { useCallback, useState, useMemo, useEffect } from "react";
-import { useMatch } from "../hooks/useMatch";
+import { useMatch } from "./useMatch";
 import { NOT_MATCH_SHOWING_TIME } from "../const/variables";
 import { sleep } from "../utils";
 import { usePlayingContext, show, remove } from "../context";
@@ -23,7 +23,7 @@ export const useTiles = () => {
         }
       }
     },
-    [addCurrentTile, tilesSelected]
+    [addCurrentTile, dispatch, tilesSelected]
   );
 
   const newTiles = useMemo(
@@ -48,7 +48,7 @@ export const useTiles = () => {
       resetMatch();
       setTilesSelected(0);
     }
-  }, [isMatch, dispatch, resetMatch, setTilesSelected, tilesSelected, sleep]);
+  }, [tilesSelected, isMatch, resetMatch, dispatch]);
 
   useEffect(() => {
     setTiles(initialTiles);
@@ -57,7 +57,7 @@ export const useTiles = () => {
   useEffect(() => {
     console.log("IS MATCH ", isMatch);
     validateMatch();
-  }, [isMatch]);
+  }, [isMatch, validateMatch]);
 
   return { tiles: newTiles };
 };
