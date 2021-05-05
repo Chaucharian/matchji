@@ -78,7 +78,6 @@ const reducer = (state, action) => {
     case actionTypes.SHOW: {
       const { show, tiles } = action.payload;
 
-      console.log(" SHOW ", tiles);
       const newTiles = state.tiles.map((tile) => {
         const match = tiles.find((_tile) => _tile.id === tile.id);
         if (match) {
@@ -86,6 +85,25 @@ const reducer = (state, action) => {
           // this is for remount tiles and watch animation
           return { ...tile, key, show };
         }
+        return tile;
+      });
+
+      return { ...state, tiles: newTiles };
+    }
+    case actionTypes.REMOVE: {
+      const { tiles } = action.payload;
+
+      const newTiles = state.tiles.map((tile) => {
+        if (tile.content === tiles[0].content) {
+          const key = guidGenerator();
+          // this is for remount tiles and watch animation
+          return { ...tile, key, show: false, unmount: true };
+        }
+        // if (match) {
+        //   const key = guidGenerator();
+        //   // this is for remount tiles and watch animation
+        //   return { ...tile, key, show: false, unmount: true };
+        // }
         return tile;
       });
 

@@ -126,6 +126,7 @@ const animationTypes = { in: "bounceIn", out: "bounceOut" };
 export const Tile = ({
   content,
   show,
+  unmount,
   animationDuration = 500,
   onPress,
   styles,
@@ -142,6 +143,15 @@ export const Tile = ({
           >
             <Text style={[_styles.content]}>{content}</Text>
           </Animatable.View>
+        </TouchableHighlight>
+      ) : unmount ? (
+        <TouchableHighlight onPress={onPress}>
+          <Animatable.View
+            style={[_styles.emptyTile, styles.tile]}
+            animation={animationTypes.in}
+            duration={animationDuration}
+            onAnimationEnd={() => {}}
+          ></Animatable.View>
         </TouchableHighlight>
       ) : (
         <TouchableHighlight

@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
-import { useGameContext, usePlayingContext, reset } from "../context";
+import { useGameContext, usePlayingContext, init } from "../context";
 
 export const GameHeader = ({}) => {
   const {
@@ -14,7 +14,10 @@ export const GameHeader = ({}) => {
       <Text style={styles.time} onPress={() => console.log(" TIME ")}>
         {currentTime}
       </Text>
-      <Button title="RESET" onPress={() => dispatch(reset({ amount: 4 }))} />
+      <Button
+        title="RESET"
+        onPress={() => dispatch(init({ amount: 20, show: false }))}
+      />
     </View>
   );
 };

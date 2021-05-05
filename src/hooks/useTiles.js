@@ -48,13 +48,14 @@ export const useTiles = () => {
       resetMatch();
       setTilesSelected(0);
     }
-  }, [isMatch, dispatch, resetMatch, setTilesSelected, sleep]);
+  }, [isMatch, dispatch, resetMatch, setTilesSelected, tilesSelected, sleep]);
 
   useEffect(() => {
     setTiles(initialTiles);
   }, [initialTiles]);
 
   useEffect(() => {
+    console.log("IS MATCH ", isMatch);
     validateMatch();
   }, [isMatch]);
 
