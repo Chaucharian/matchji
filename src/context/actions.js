@@ -5,6 +5,8 @@ export const actionTypes = {
   HIDE: "HIDE",
   HIDE_ALL: "HIDE_ALL",
   REMOVE: "REMOVE",
+  SHOW: "SHOW",
+  SHOW_ALL: "SHOW_ALL",
 };
 
 export const reset = (payload) => ({
@@ -23,8 +25,8 @@ export const remove = (payload) => ({
   type: actionTypes.REMOVE,
   payload,
 });
-export const hide = (payload) => ({
-  type: actionTypes.HIDE,
+export const show = (payload) => ({
+  type: actionTypes.SHOW,
   payload,
 });
 export const hideAll = (payload) => ({

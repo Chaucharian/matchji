@@ -33,10 +33,10 @@ export const useMatch = () => {
   useEffect(() => {
     if (firstTile.content !== null && secondTile.content !== null) {
       if (firstTile.content === secondTile.content) {
-        setIsMatch({ tiles: [firstTile.id, secondTile.id], match: true });
+        setIsMatch({ tiles: [firstTile, secondTile], match: true });
       } else {
         setIsMatch({
-          tiles: [firstTile.id, secondTile.id],
+          tiles: [firstTile, secondTile],
           match: false,
         });
       }

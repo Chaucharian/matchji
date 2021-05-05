@@ -72,32 +72,25 @@ const reducer = (state, action) => {
           return { emoji, key };
         }
       });
-      // console.log(
-      //   " NEW ",
-      //   emojis.map((a) => a.key)
-      // );
       return { ...state, emojis };
     }
-    case actionTypes.HIDE: {
-      const { tiles } = action.payload;
+    case actionTypes.SHOW: {
+      const { show, tiles } = action.payload;
 
-      // let newTiles = [];
-      // tiles.forEach( _tile => {
-      //   tileRemoved = state.tiles.filter( tile => tile.id !== _tile.id)[0];
-      //   newTiles.push(tileRemoved);
-      // }
+      if (tiles.length) {
+        console.log(" SHOW ", tiles);
+        const newTiles = state.tiles.map((tile) => {
+          const match = tiles.find((_tile) => _tile.id === tile.id);
+          if (match) {
+            const key = guidGenerator();
+            // this is for remount tiles and watch animation
+            return { ...tile, key, show };
+          }
+          return tile;
+        });
 
-      const newTiles = state.tiles.map((tile) => {
-        const match = tiles.find((_tile) => _tile.id === tile.id);
-        if (match) {
-          const key = guidGenerator();
-          // this is for remount tiles and watch animation
-          return { ...tile, key, unmount: true };
-        }
-        return tile;
-      });
-      console.log("HIDE", tiles);
-      return { ...state, tiles: newTiles };
+        return { ...state, tiles: newTiles };
+      }
     }
   }
 };
