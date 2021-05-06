@@ -32,7 +32,6 @@ export const useTiles = () => {
 
   const validateMatch = useCallback(async () => {
     const { match, tiles } = isMatch;
-    console.log("MATCH ",tiles,match)
       if (match) {
         await sleep(NOT_MATCH_SHOWING_TIME);
         // dispatch(remove({ tiles: tiles }));
