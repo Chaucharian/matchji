@@ -9,9 +9,11 @@ import {
   hide,
   show,
   resetBoard,
+  changeTiles,
   hideAll,
 } from "../context";
 import { sleep } from "../utils";
+import { INITIAL_TILE_ANIMATION_DURATION } from '../utils';
 
 export const Game = () => {
   const { dispatch } = usePlayingContext();
@@ -21,7 +23,8 @@ export const Game = () => {
     dispatch(init({ amount: 20, show: true }));
     await sleep(5000);
     dispatch(hideAll({ show: false }));
-  }, [init]);
+    dispatch(changeTiles({ animationDuration: INITIAL_TILE_ANIMATION_DURATION }));
+  }, [dispatch]);
 
   useEffect(() => {
     initializeScreen();

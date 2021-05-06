@@ -7,6 +7,7 @@ export const actionTypes = {
   REMOVE: "REMOVE",
   SHOW: "SHOW",
   SHOW_ALL: "SHOW_ALL",
+  CHANGE_TILES: "CHANGE_TILES"
 };
 
 export const reset = (payload) => ({
@@ -31,5 +32,9 @@ export const show = (payload) => ({
 });
 export const hideAll = (payload) => ({
   type: actionTypes.HIDE_ALL,
+  payload,
+});
+export const changeTiles = (payload) => ({
+  type: actionTypes.CHANGE_TILES,
   payload,
 });

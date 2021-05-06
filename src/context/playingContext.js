@@ -9,7 +9,7 @@ import Emojis from "../models/emojis";
 import { sortEmojis, guidGenerator } from "../utils";
 import { actionTypes } from "./actions";
 import { Tile } from "../components/Tile";
-import { TILE_MOUNT_ANIMATION_DURATION } from "../const/variables";
+import { INITIAL_TILE_ANIMATION_DURATION } from "../const/variables";
 
 const GameContext = createContext();
 
@@ -19,7 +19,7 @@ const initialState = {
 };
 
 const generateTiles = ({ amount, show = true }) => {
-  let animationDuration = TILE_MOUNT_ANIMATION_DURATION;
+  let animationDuration = INITIAL_TILE_ANIMATION_DURATION;
   const tiles = sortEmojis(Emojis, amount).map((emoji, index) => {
     const key = guidGenerator();
     // animation effect on mount
@@ -107,6 +107,11 @@ const reducer = (state, action) => {
         return tile;
       });
 
+      return { ...state, tiles: newTiles };
+    }
+    case actionTypes.CHANGE_TILES: {
+      const changes = action.payload;
+      const newTiles = state.tiles.map( (tile) => ({...tile, ...changes }) );
       return { ...state, tiles: newTiles };
     }
   }

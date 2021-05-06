@@ -2,7 +2,7 @@ import { useCallback, useState, useMemo, useEffect } from "react";
 import { useMatch } from "./useMatch";
 import { NOT_MATCH_SHOWING_TIME } from "../const/variables";
 import { sleep } from "../utils";
-import { usePlayingContext, show, remove } from "../context";
+import { usePlayingContext, show } from "../context";
 
 export const useTiles = () => {
   const {
@@ -36,11 +36,11 @@ export const useTiles = () => {
   );
 
   const validateMatch = useCallback(async () => {
-    if (tilesSelected === 2) {
-      const { match, tiles } = isMatch;
+    const { match, tiles } = isMatch;
+    if (tilesSelected === 2 && tiles.length) {
       if (match) {
         await sleep(NOT_MATCH_SHOWING_TIME);
-        dispatch(remove({ tiles: tiles }));
+        // dispatch(remove({ tiles: tiles }));
       } else if (!match) {
         await sleep(NOT_MATCH_SHOWING_TIME * 2);
         dispatch(show({ tiles: tiles, show: false }));
@@ -48,16 +48,15 @@ export const useTiles = () => {
       resetMatch();
       setTilesSelected(0);
     }
-  }, [tilesSelected, isMatch, resetMatch, dispatch]);
+  }, [isMatch, tilesSelected, resetMatch, dispatch]);
 
   useEffect(() => {
     setTiles(initialTiles);
   }, [initialTiles]);
 
   useEffect(() => {
-    console.log("IS MATCH ", isMatch);
     validateMatch();
-  }, [isMatch, validateMatch]);
+  }, [validateMatch]);
 
   return { tiles: newTiles };
 };
