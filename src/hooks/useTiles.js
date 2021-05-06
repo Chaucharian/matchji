@@ -11,30 +11,28 @@ export const useTiles = () => {
   } = usePlayingContext();
   const { addCurrentTile, isMatch, resetMatch } = useMatch();
   const [tiles, setTiles] = useState([]);
-  const [tilesSelected, setTilesSelected] = useState(0);
+  const shouldValidateMatch = useMemo( () => isMatch.tiles.length === 2, [isMatch]);
 
   const onPress = useCallback(
     (_tile) => {
           dispatch(show({ tiles: [_tile], show: true }));
           addCurrentTile({ content: _tile.content, id: _tile.id });
-          setTilesSelected(tilesSelected + 1);
     },
-    [addCurrentTile, dispatch, tilesSelected]
+    [addCurrentTile, dispatch]
   );
 
   const newTiles = useMemo(
     () =>
       tiles.map((tile) => ({
         ...tile,
-        onPress: () => (tilesSelected !== 2 && !tile.show) && onPress(tile),
+        onPress: () => !tile.show && onPress(tile),
       })),
-    [tiles, tilesSelected, onPress]
+    [tiles, onPress]
   );
 
   const validateMatch = useCallback(async () => {
     const { match, tiles } = isMatch;
-    console.log("MATCH ",tilesSelected)
-    if (tilesSelected === 2 && tiles.length) {
+    console.log("MATCH ",tiles,match)
       if (match) {
         await sleep(NOT_MATCH_SHOWING_TIME);
         // dispatch(remove({ tiles: tiles }));
@@ -42,18 +40,18 @@ export const useTiles = () => {
         await sleep(NOT_MATCH_SHOWING_TIME * 2);
         dispatch(show({ tiles: tiles, show: false }));
       }
+  }, [ dispatch, isMatch]);
+
+  useEffect(() => {
+    if (shouldValidateMatch) {
+      validateMatch();
       resetMatch();
-      setTilesSelected(0);
     }
-  }, [isMatch, tilesSelected, resetMatch, dispatch]);
+  }, [resetMatch, validateMatch, shouldValidateMatch]);
 
   useEffect(() => {
     setTiles(initialTiles);
   }, [initialTiles]);
-
-  useEffect(() => {
-    validateMatch();
-  }, [validateMatch]);
 
   return { tiles: newTiles };
 };
