@@ -18,7 +18,7 @@ const initialState = {
   amount: false,
 };
 
-const generateTiles = ({ amount, show = true }) => {
+const generateTiles = ({ amount, show = true, styles = { width: 100, height: 100, backgroundColor: "#fdf9ef" } }) => {
   let animationDuration = INITIAL_TILE_ANIMATION_DURATION;
   const tiles = sortEmojis(Emojis, amount).map((emoji, index) => {
     const key = guidGenerator();
@@ -31,7 +31,7 @@ const generateTiles = ({ amount, show = true }) => {
       show,
       unmount: false,
       key,
-      styles: { width: 100, height: 100 },
+      styles,
       content: emoji,
       animationDuration,
     };
@@ -43,7 +43,7 @@ const reducer = (state, action) => {
   switch (action.type) {
     case actionTypes.INIT: {
       const { amount, show } = action.payload;
-      const tiles = generateTiles({ amount, show });
+      const tiles = generateTiles({ amount, show, styles: { width: 50, height: 50, backgroundColor: "#fdf9ef" } });
       return { ...state, tiles };
     }
     case actionTypes.HIDE_ALL: {
@@ -51,6 +51,7 @@ const reducer = (state, action) => {
         const key = guidGenerator();
         return { ...tile, key, show: false };
       });
+
       return { ...state, tiles: newTiles };
     }
     case actionTypes.RESET: {

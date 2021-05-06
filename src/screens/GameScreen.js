@@ -34,7 +34,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   container: {
-    backgroundColor: "#2c2823",
+    backgroundColor: "#f6e9c2",
     height: "100%",
   },
 });

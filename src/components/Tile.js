@@ -13,19 +13,16 @@ const _styles = StyleSheet.create({
   container: {},
   tile: {
     zIndex: 1,
-    width: 100,
-    height: 100,
-    backgroundColor: "powderblue",
+    // backgroundColor: "powderblue",
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 5,
     borderWidth: 1,
-    borderColor: "skyblue",
+    elevation: 4
+    // borderColor: "skyblue",
   },
   unmountTile: {
     zIndex: 1,
-    width: 100,
-    height: 100,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 5,
@@ -34,8 +31,6 @@ const _styles = StyleSheet.create({
   },
   emptyTile: {
     zIndex: 1,
-    width: 100,
-    height: 100,
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 5,
@@ -57,17 +52,20 @@ export const Tile = ({
   onPress,
   styles,
 }) => {
+
+  const getFontSize = (styles) => styles.width <= 50 ? 25 : 45;
+
   return (
     <>
       {show ? (
         <TouchableHighlight onPress={onPress}>
           <Animatable.View
-            style={[_styles.emptyTile, styles.tile]}
+            style={[_styles.emptyTile, { ...styles }]}
             animation={animationTypes.in}
             duration={animationDuration}
             onAnimationEnd={() => {}}
           >
-            <Text style={[_styles.content]}>{content}</Text>
+            <Text style={[_styles.content, { fontSize: getFontSize(styles) }]}>{content}</Text>
           </Animatable.View>
         </TouchableHighlight>
       ) : unmount ? (
@@ -85,7 +83,7 @@ export const Tile = ({
           onPress={onPress}
         >
           <Animatable.View
-            style={[_styles.tile, styles.tile]}
+            style={[_styles.tile, { ...styles }]}
             animation={animationTypes.in}
             duration={animationDuration}
             onAnimationEnd={() => {}}

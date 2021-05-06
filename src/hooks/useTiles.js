@@ -33,6 +33,7 @@ export const useTiles = () => {
 
   const validateMatch = useCallback(async () => {
     const { match, tiles } = isMatch;
+    console.log("MATCH ",tilesSelected)
     if (tilesSelected === 2 && tiles.length) {
       if (match) {
         await sleep(NOT_MATCH_SHOWING_TIME);

@@ -16,7 +16,7 @@ export const Game = () => {
   }, [dispatch]);
 
   return (
-    <View>
+    <View style={[styles.container]}>
       <Layout tiles={tiles} />
     </View>
   );
@@ -24,6 +24,7 @@ export const Game = () => {
 
 const styles = StyleSheet.create({
   container: {
-    height: "100%",
+    marginLeft: 50,
+    marginRight: 50,
   },
 });
