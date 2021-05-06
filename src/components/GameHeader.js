@@ -1,6 +1,6 @@
 import React, { useMemo, useRef } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
-import { useGameContext, usePlayingContext, init } from "../context";
+import { useGameContext, usePlayingContext, init, initializeBoard} from "../context";
 
 export const GameHeader = ({}) => {
   const {
@@ -16,7 +16,7 @@ export const GameHeader = ({}) => {
       </Text>
       <Button
         title="RESET"
-        onPress={() => dispatch(init({ amount: 20, show: false }))}
+        onPress={() => initializeBoard(dispatch) }
       />
     </View>
   );

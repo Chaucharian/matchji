@@ -15,13 +15,9 @@ export const useTiles = () => {
 
   const onPress = useCallback(
     (_tile) => {
-      if (tilesSelected !== 2) {
-        if (!_tile.show) {
           dispatch(show({ tiles: [_tile], show: true }));
           addCurrentTile({ content: _tile.content, id: _tile.id });
           setTilesSelected(tilesSelected + 1);
-        }
-      }
     },
     [addCurrentTile, dispatch, tilesSelected]
   );
@@ -30,9 +26,9 @@ export const useTiles = () => {
     () =>
       tiles.map((tile) => ({
         ...tile,
-        onPress: () => onPress(tile),
+        onPress: () => (tilesSelected !== 2 && !tile.show) && onPress(tile),
       })),
-    [tiles, onPress]
+    [tiles, tilesSelected, onPress]
   );
 
   const validateMatch = useCallback(async () => {
