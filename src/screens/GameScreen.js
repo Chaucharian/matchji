@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, Alert } from "react-native";
-import { GamePlayingProvider } from "../context";
+import { LayoutProvider } from "../context";
 import { Game } from "../core/GameMemo";
 import { GameHeader } from "../components";
 
@@ -20,12 +20,12 @@ export const GameScreen = () => {
   // }, [timeOver]);
 
   return (
-    <GamePlayingProvider>
+    <LayoutProvider>
       <View style={{ ...styles.container }}>
         <GameHeader />
         <Game />
       </View>
-    </GamePlayingProvider>
+    </LayoutProvider>
   );
 };
 

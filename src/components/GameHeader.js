@@ -1,37 +1,36 @@
 import React, { useMemo, useRef } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
-import { useGameContext, usePlayingContext, init, initializeBoard} from "../context";
+import { useGameContext, useLayoutContext, init, initializeBoard} from "../context";
 
-export const GameHeader = ({}) => {
+export const GameHeader = () => {
   const {
     settings: { currentTime },
   } = useGameContext();
-  const { dispatch } = usePlayingContext();
+  const { dispatch } = useLayoutContext();
 
   return (
     <View style={styles.container}>
-      {/* <Text style={styles.score}>SCORE: {score}</Text> */}
-      <Text style={styles.time} onPress={() => console.log(" TIME ")}>
-        {currentTime}
-      </Text>
       <Button
         title="RESET"
         onPress={() => initializeBoard(dispatch) }
       />
+      <Text style={styles.time} onPress={() => console.log(" TIME ")}>
+        {currentTime}
+      </Text>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    paddingTop: 30,
+    paddingTop: 50,
     paddingLeft: 8,
     paddingRight: 8,
     display: "flex",
     flexDirection: "row",
     // alignItems: "flex-end",
     alignItems: "center",
-    // justifyContent: "center",
+    justifyContent: "center",
     height: 100,
   },
   score: {

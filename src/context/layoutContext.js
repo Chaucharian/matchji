@@ -118,7 +118,7 @@ const reducer = (state, action) => {
   }
 };
 
-export const GamePlayingProvider = ({ children, ...options }) => {
+export const LayoutProvider = ({ children, ...options }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
 
   return (
@@ -133,4 +133,11 @@ export const GamePlayingProvider = ({ children, ...options }) => {
   );
 };
 
-export const usePlayingContext = () => useContext(GameContext);
+export const useLayoutContext = () => {
+  const context = useContext(GameContext);
+
+  if(context === undefined) {
+    throw new Error("useLayoutContext must be used inside LayoutProvider");
+  }
+  return context;
+}

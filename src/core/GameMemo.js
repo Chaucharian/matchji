@@ -3,12 +3,12 @@ import { StyleSheet, View, Alert } from "react-native";
 import { Layout } from "../components/Layout";
 import { useTiles } from "../hooks/useTiles";
 import {
-  usePlayingContext,
+  useLayoutContext,
   initializeBoard
 } from "../context";
 
 export const Game = () => {
-  const { dispatch } = usePlayingContext();
+  const { dispatch } = useLayoutContext();
   const { tiles } = useTiles();
 
   useEffect(() => {
@@ -24,6 +24,7 @@ export const Game = () => {
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 50,
     marginLeft: 50,
     marginRight: 50,
   },

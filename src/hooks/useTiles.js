@@ -2,13 +2,13 @@ import { useCallback, useState, useMemo, useEffect } from "react";
 import { useMatch } from "./useMatch";
 import { NOT_MATCH_SHOWING_TIME } from "../const/variables";
 import { sleep } from "../utils";
-import { usePlayingContext, show } from "../context";
+import { useLayoutContext, show } from "../context";
 
 export const useTiles = () => {
   const {
     state: { tiles: initialTiles = [] },
     dispatch,
-  } = usePlayingContext();
+  } = useLayoutContext();
   const { addCurrentTile, isMatch, resetMatch } = useMatch();
   const [tiles, setTiles] = useState([]);
   const shouldValidateMatch = useMemo( () => isMatch.tiles.length === 2, [isMatch]);
