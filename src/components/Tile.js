@@ -1,13 +1,10 @@
 import React, { useMemo, useRef, useState, useEffect } from "react";
 import {
   StyleSheet,
-  View,
-  TouchableOpacity,
   Text,
   TouchableHighlight,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
-import { TILE_MOUNT_ANIMATION_DURATION } from "../const/variables";
 
 const _styles = StyleSheet.create({
   container: {},

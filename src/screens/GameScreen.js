@@ -1,15 +1,11 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, Alert } from "react-native";
-import { LayoutProvider } from "../context";
+import { LayoutProvider, useGameContext } from "../context";
 import { Game } from "../core/GameMemo";
-import { GameHeader } from "../components";
+import { GameHeader, Modal } from "../components";
 
 export const GameScreen = () => {
-  // const {
-  //   settings: { backgroundColor, timeOver },
-  //   setTimeOver,
-  //   reset,
-  // } = useGameContext();
+  const { settings: {pause} } = useGameContext();
 
   // useEffect(() => {
   //   if (timeOver) {
@@ -18,10 +14,11 @@ export const GameScreen = () => {
   //     // ]);
   //   }
   // }, [timeOver]);
-
+console.log(pause)
   return (
     <LayoutProvider>
       <View style={{ ...styles.container }}>
+        <Modal show={pause} />
         <GameHeader />
         <Game />
       </View>
@@ -34,6 +31,7 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   container: {
+    alignItems: "center",
     backgroundColor: "#f6e9c2",
     height: "100%",
   },

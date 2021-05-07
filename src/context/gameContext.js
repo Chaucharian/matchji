@@ -14,6 +14,7 @@ const initialState = {
   initialEmojis: Emojis,
   score: 0,
   backgroundColor: "#2c2823",
+  pause: false
 };
 
 export const GameProvider = ({ children, ...options }) => {
@@ -61,6 +62,13 @@ export const GameProvider = ({ children, ...options }) => {
     [settings]
   );
 
+  const openMenu = useCallback(
+    (value) => {
+      setSettings({ ...settings, pause: value });
+    },
+    [settings]
+  );
+
   useTimer({
     currentTime: settings.currentTime,
     onSetTime: (value) => setCurrentTime(value),
@@ -77,6 +85,7 @@ export const GameProvider = ({ children, ...options }) => {
         increaseScore,
         addTime,
         setCurrentTime,
+        openMenu
       }}
     >
       {children}

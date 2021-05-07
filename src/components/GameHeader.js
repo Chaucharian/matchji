@@ -4,15 +4,16 @@ import { useGameContext, useLayoutContext, init, initializeBoard} from "../conte
 
 export const GameHeader = () => {
   const {
-    settings: { currentTime },
+    settings: { currentTime, pause },
+    openMenu
   } = useGameContext();
-  const { dispatch } = useLayoutContext();
+  const { } = useLayoutContext();
 
   return (
     <View style={styles.container}>
       <Button
-        title="RESET"
-        onPress={() => initializeBoard(dispatch) }
+        title="MENU"
+        onPress={() => openMenu(!pause) }
       />
       <Text style={styles.time} onPress={() => console.log(" TIME ")}>
         {currentTime}
