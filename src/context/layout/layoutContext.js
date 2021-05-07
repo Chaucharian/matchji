@@ -5,11 +5,11 @@ import React, {
   useCallback,
   useReducer,
 } from "react";
-import Emojis from "../models/emojis";
-import { sortEmojis, guidGenerator } from "../utils";
+import Emojis from "../../models/emojis";
+import { sortEmojis, guidGenerator } from "../../utils";
 import { actionTypes } from "./actions";
-import { Tile } from "../components/Tile";
-import { INITIAL_TILE_ANIMATION_DURATION } from "../const/variables";
+import { Tile } from "../../components/Tile";
+import { INITIAL_TILE_ANIMATION_DURATION } from "../../const/variables";
 
 const GameContext = createContext();
 

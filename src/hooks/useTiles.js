@@ -2,7 +2,7 @@ import { useCallback, useState, useMemo, useEffect } from "react";
 import { useMatch } from "./useMatch";
 import { NOT_MATCH_SHOWING_TIME } from "../const/variables";
 import { sleep } from "../utils";
-import { useLayoutContext, show } from "../context";
+import { useLayoutContext, show } from "../context/layout";
 
 export const useTiles = () => {
   const {

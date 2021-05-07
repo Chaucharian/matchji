@@ -5,7 +5,7 @@ import { useTiles } from "../hooks/useTiles";
 import {
   useLayoutContext,
   initializeBoard
-} from "../context";
+} from "../context/layout";
 
 export const Game = () => {
   const { dispatch } = useLayoutContext();

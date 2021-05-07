@@ -1,6 +1,7 @@
 import React, { useMemo, useRef } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
-import { useGameContext, useLayoutContext, init, initializeBoard} from "../context";
+import { useGameContext } from "../context/game";
+import { useLayoutContext } from "../context/layout";
 
 export const GameHeader = () => {
   const {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useMemo } from "react";
 import { StyleSheet, View, useWindowDimensions, Vibration } from "react-native";
 import { Emoji } from "../components";
-import { useGameContext, useGameProvider } from "../context/gameContext";
+import { useGameContext, useGameProvider } from "../context";
 import Emojis from "../models/emojis";
 import Sound from "react-native-sound";
 

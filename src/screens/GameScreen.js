@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, Alert } from "react-native";
-import { LayoutProvider, useGameContext } from "../context";
+import { useGameContext } from "../context/game";
+import { LayoutProvider } from "../context/layout";
 import { Game } from "../core/GameMemo";
 import { GameHeader, Modal } from "../components";
 
