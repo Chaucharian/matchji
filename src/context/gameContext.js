@@ -9,7 +9,7 @@ const initialState = {
   match: false,
   isPlaying: false,
   initialTime: 10,
-  currentTime: 60,
+  currentTime: 0,
   emojiAmount: 1,
   initialEmojis: Emojis,
   score: 0,

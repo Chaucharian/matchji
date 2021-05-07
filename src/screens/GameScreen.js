@@ -5,7 +5,7 @@ import { Game } from "../core/GameMemo";
 import { GameHeader, Modal } from "../components";
 
 export const GameScreen = () => {
-  const { settings: {pause} } = useGameContext();
+  const { settings: {pause}, openMenu } = useGameContext();
 
   // useEffect(() => {
   //   if (timeOver) {
@@ -14,11 +14,11 @@ export const GameScreen = () => {
   //     // ]);
   //   }
   // }, [timeOver]);
-console.log(pause)
+
   return (
     <LayoutProvider>
       <View style={{ ...styles.container }}>
-        <Modal show={pause} />
+        <Modal show={pause} onPress={() => openMenu(false) } />
         <GameHeader />
         <Game />
       </View>
@@ -31,7 +31,6 @@ const styles = StyleSheet.create({
     fontSize: 40,
   },
   container: {
-    alignItems: "center",
     backgroundColor: "#f6e9c2",
     height: "100%",
   },
