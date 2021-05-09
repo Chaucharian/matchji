@@ -2,19 +2,20 @@ import React, { useMemo, useRef } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { useGameContext } from "../context/game";
 import { useLayoutContext } from "../context/layout";
+import { useModalContext, open } from "../context/modal";
 
 export const GameHeader = () => {
   const {
-    settings: { currentTime, pause },
-    openMenu
-  } = useGameContext();
-  const { } = useLayoutContext();
+    state: { show },
+    dispatch 
+  } = useModalContext();
+  const { settings: { currentTime } } = useGameContext();
 
   return (
     <View style={styles.container}>
       <Button
         title="MENU"
-        onPress={() => openMenu(!pause) }
+        onPress={() => dispatch( open(({ show: !show })) ) }
       />
       <Text style={styles.time} onPress={() => console.log(" TIME ")}>
         {currentTime}

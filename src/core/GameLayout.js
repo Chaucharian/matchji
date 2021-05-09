@@ -7,7 +7,7 @@ import {
   initializeBoard
 } from "../context/layout";
 
-export const Game = () => {
+export const GameLayout = () => {
   const { dispatch } = useLayoutContext();
   const { tiles } = useTiles();
 

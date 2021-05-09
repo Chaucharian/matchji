@@ -1,5 +1,5 @@
 export * from "./Emoji";
-export * from "./GameHeader";
+export * from "../core/GameHeader";
 export * from "./Layout";
 export * from "./Tile";
 export * from "./Modal";

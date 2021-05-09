@@ -36,7 +36,7 @@ export const useTiles = () => {
         await sleep(NOT_MATCH_SHOWING_TIME);
         // dispatch(remove({ tiles: tiles }));
       } else if (!match) {
-        await sleep(NOT_MATCH_SHOWING_TIME * 2);
+        await sleep(NOT_MATCH_SHOWING_TIME);
         dispatch(show({ tiles: tiles, show: false }));
       }
   }, [ dispatch, isMatch]);

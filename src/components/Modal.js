@@ -24,6 +24,7 @@ const _styles = StyleSheet.create({
 });
 
 export const Modal = ({ show, content, onPress, styles }) => {
+
   return (
     <>
       {show && (

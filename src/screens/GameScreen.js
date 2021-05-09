@@ -1,12 +1,14 @@
 import React, { useEffect } from "react";
 import { StyleSheet, View, Alert } from "react-native";
-import { useGameContext } from "../context/game";
+import { useModalContext, open } from "../context/modal";
 import { LayoutProvider } from "../context/layout";
-import { Game } from "../core/GameMemo";
+import { GameLayout } from "../core/GameLayout";
 import { GameHeader, Modal } from "../components";
 
 export const GameScreen = () => {
-  const { settings: {pause}, openMenu } = useGameContext();
+  const {
+    state: { show }, dispatch
+  } = useModalContext();
 
   // useEffect(() => {
   //   if (timeOver) {
@@ -19,9 +21,9 @@ export const GameScreen = () => {
   return (
     <LayoutProvider>
       <View style={{ ...styles.container }}>
-        <Modal show={pause} onPress={() => openMenu(false) } />
+        <Modal show={show} onPress={() => dispatch(open({ show: false }))} />
         <GameHeader />
-        <Game />
+        <GameLayout />
       </View>
     </LayoutProvider>
   );
