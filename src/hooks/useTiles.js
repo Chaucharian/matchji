@@ -3,12 +3,14 @@ import { useMatch } from "./useMatch";
 import { NOT_MATCH_SHOWING_TIME } from "../const/variables";
 import { sleep } from "../utils";
 import { useLayoutContext, show } from "../context/layout";
+import { useGameContext } from "../context/game";
 
 export const useTiles = () => {
   const {
     state: { tiles: initialTiles = [] },
     dispatch,
   } = useLayoutContext();
+  const { addTime } = useGameContext();
   const { addCurrentTile, isMatch, resetMatch } = useMatch();
   const [tiles, setTiles] = useState([]);
   const shouldValidateMatch = useMemo( () => isMatch.tiles.length === 2, [isMatch]);
@@ -33,20 +35,21 @@ export const useTiles = () => {
   const validateMatch = useCallback(async () => {
     const { match, tiles } = isMatch;
       if (match) {
-        await sleep(NOT_MATCH_SHOWING_TIME);
+        // TODO ZenMode change this behavior (remove the tiles)
         // dispatch(remove({ tiles: tiles }));
+        addTime(5);
       } else if (!match) {
         await sleep(NOT_MATCH_SHOWING_TIME);
         dispatch(show({ tiles: tiles, show: false }));
       }
-  }, [ dispatch, isMatch]);
+  }, [ dispatch, isMatch, addTime]);
 
   useEffect(() => {
     if (shouldValidateMatch) {
       validateMatch();
       resetMatch();
     }
-  }, [resetMatch, validateMatch, shouldValidateMatch]);
+  }, [resetMatch, validateMatch, shouldValidateMatch, addTime]);
 
   useEffect(() => {
     setTiles(initialTiles);

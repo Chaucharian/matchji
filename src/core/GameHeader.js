@@ -1,15 +1,17 @@
-import React, { useMemo, useRef } from "react";
+import React, { useMemo, useRef, useState } from "react";
 import { StyleSheet, Text, View, Button } from "react-native";
 import { useGameContext } from "../context/game";
 import { useLayoutContext } from "../context/layout";
 import { useModalContext, open } from "../context/modal";
+import { Timer } from "../components/Timer";
 
 export const GameHeader = () => {
+  const [currentTime, setTime] = useState(60);
   const {
     state: { show },
     dispatch 
   } = useModalContext();
-  const { settings: { currentTime } } = useGameContext();
+  const { settings: { initialTime, extraTime }, addTime } = useGameContext();
 
   return (
     <View style={styles.container}>
@@ -17,9 +19,7 @@ export const GameHeader = () => {
         title="MENU"
         onPress={() => dispatch( open(({ show: !show })) ) }
       />
-      <Text style={styles.time} onPress={() => console.log(" TIME ")}>
-        {currentTime}
-      </Text>
+      <Timer initialTime={initialTime} addTime={extraTime} onTimeAdded={() => addTime(0)}/>
     </View>
   );
 };

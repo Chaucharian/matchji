@@ -1,5 +1,4 @@
 import React, { useContext, createContext, useState, useCallback } from "react";
-import { useTimer } from "../../hooks/useTimer";
 import Emojis from "../../models/emojis";
 
 const GameContext = createContext();
@@ -8,13 +7,14 @@ const initialState = {
   timeOver: false,
   match: false,
   isPlaying: false,
-  initialTime: 10,
+  initialTime: 60,
   currentTime: 60,
   emojiAmount: 1,
   initialEmojis: Emojis,
   score: 0,
   backgroundColor: "#2c2823",
-  pause: false
+  pause: false,
+  extraTime: 0
 };
 
 export const GameProvider = ({ children, ...options }) => {
@@ -36,7 +36,7 @@ export const GameProvider = ({ children, ...options }) => {
 
   const addTime = useCallback(
     (value) => {
-      setSettings({ ...settings, currentTime: settings.currentTime + value });
+      setSettings({ ...settings, extraTime: value });
     },
     [settings]
   );
@@ -69,11 +69,11 @@ export const GameProvider = ({ children, ...options }) => {
     [settings]
   );
 
-  useTimer({
-    currentTime: settings.currentTime,
-    onSetTime: (value) => setCurrentTime(value),
-    onStop: () => setTimeOver(true),
-  });
+  // useTimer({
+  //   currentTime: settings.currentTime,
+  //   onSetTime: (value) => setCurrentTime(value),
+  //   onStop: () => setTimeOver(true),
+  // });
 
   return (
     <GameContext.Provider
