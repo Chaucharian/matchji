@@ -4,13 +4,14 @@ import { useModalContext, open } from "../context/modal";
 import { LayoutProvider } from "../context/layout";
 import { GameLayout } from "../core/GameLayout";
 import { GameHeader, Modal } from "../components";
-import { useGameContext, pause } from "../context/game";
+import { usePause } from "../hooks/usePause";
 
 export const GameScreen = () => {
   const {
     state: { show }, dispatch
   } = useModalContext();
-  const { dispatch: gameDispatch } = useGameContext();
+  usePause(show);
+  
   // useEffect(() => {
   //   if (timeOver) {
   //     // Alert.alert("PERDISTE", "", [
@@ -18,14 +19,6 @@ export const GameScreen = () => {
   //     // ]);
   //   }
   // }, [timeOver]);
-
-  useEffect( () => {
-    if(show) {
-      gameDispatch(pause({ pause: true }));
-    } else {
-      gameDispatch(pause({ pause: false }));
-    }
-  }, [gameDispatch, show]);
 
   return (
     <LayoutProvider>

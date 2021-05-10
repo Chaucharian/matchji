@@ -43,8 +43,8 @@ const generateTiles = ({ amount, show = true, styles = { width: 100, height: 100
 const reducer = (state, action) => {
   switch (action.type) {
     case actionTypes.INIT: {
-      const { amount, show } = action.payload;
-      const tiles = generateTiles({ amount, show, styles: { width: 50, height: 50, backgroundColor: "#fdf9ef" } });
+      const { amount, show, size=50 } = action.payload;
+      const tiles = generateTiles({ amount, show, styles: { width: size, height: size, backgroundColor: "#fdf9ef" } });
       return { ...state, tiles };
     }
     case actionTypes.HIDE_ALL: {
