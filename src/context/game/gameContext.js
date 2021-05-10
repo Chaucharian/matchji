@@ -27,9 +27,12 @@ const reducer = (state, action) => {
       return { ...state, extraTime: time };
     }
     case actionTypes.NEXT_LEVEL: {
-      // const { time } = action.payload;
+      return { ...state, currentLevel: state.currentLevel + 1 };
+    }
+    case actionTypes.PAUSE: {
+      const { pause } = action.payload;
 
-      // return { ...state, currentLevel: state.currentLevel + 1 };
+      return { ...state, pause };
     }
   }
 };

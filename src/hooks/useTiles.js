@@ -2,7 +2,7 @@ import { useCallback, useState, useMemo, useEffect } from "react";
 import { useMatch } from "./useMatch";
 import { NOT_MATCH_SHOWING_TIME } from "../const/variables";
 import { sleep } from "../utils";
-import { useLayoutContext, show } from "../context/layout";
+import { useLayoutContext, show, validateWin } from "../context/layout";
 import { useGameContext } from "../context/game";
 import { addTime } from '../context/game/actions';
 import { EXTRA_TIME_ON_MATCH } from '../const';
@@ -10,7 +10,7 @@ import { EXTRA_TIME_ON_MATCH } from '../const';
 export const useTiles = () => {
   const {
     state: { tiles: initialTiles = [] },
-    dispatch,
+    dispatch: layoutDispatch,
   } = useLayoutContext();
   const { dispatch: gameDispatch } = useGameContext();
   const { addCurrentTile, isMatch, resetMatch } = useMatch();
@@ -19,10 +19,10 @@ export const useTiles = () => {
 
   const onPress = useCallback(
     (_tile) => {
-          dispatch(show({ tiles: [_tile], show: true }));
+      layoutDispatch(show({ tiles: [_tile], show: true }));
           addCurrentTile({ content: _tile.content, id: _tile.id });
     },
-    [addCurrentTile, dispatch]
+    [addCurrentTile, layoutDispatch]
   );
 
   const newTiles = useMemo(
@@ -40,11 +40,12 @@ export const useTiles = () => {
         // TODO ZenMode change this behavior (remove the tiles)
         // dispatch(remove({ tiles: tiles }));
         gameDispatch(addTime({ time: EXTRA_TIME_ON_MATCH }));
+        layoutDispatch(validateWin());
       } else if (!match) {
         await sleep(NOT_MATCH_SHOWING_TIME);
-        dispatch(show({ tiles: tiles, show: false }));
+        layoutDispatch(show({ tiles: tiles, show: false }));
       }
-  }, [ dispatch, isMatch, gameDispatch]);
+  }, [ layoutDispatch, isMatch, gameDispatch]);
 
   useEffect(() => {
     if (shouldValidateMatch) {

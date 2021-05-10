@@ -8,12 +8,16 @@ import {
 } from "../context/layout";
 
 export const GameLayout = () => {
-  const { dispatch } = useLayoutContext();
+  const { state: { boardCompleted }, dispatch } = useLayoutContext();
   const { tiles } = useTiles();
 
   useEffect(() => {
-    initializeBoard(dispatch);
+    initializeBoard(dispatch, 6);
   }, [dispatch]);
+
+  useEffect(() => {
+    console.log(boardCompleted);
+  }, [boardCompleted]);
 
   return (
     <View style={[styles.container]}>

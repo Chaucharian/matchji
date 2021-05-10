@@ -16,6 +16,7 @@ const GameContext = createContext();
 const initialState = {
   tiles: [],
   amount: false,
+  boardCompleted: false
 };
 
 const generateTiles = ({ amount, show = true, styles = { width: 100, height: 100, backgroundColor: "#fdf9ef" } }) => {
@@ -114,6 +115,11 @@ const reducer = (state, action) => {
       const changes = action.payload;
       const newTiles = state.tiles.map( (tile) => ({...tile, ...changes }) );
       return { ...state, tiles: newTiles };
+    }
+    case actionTypes.VALIDATE_WIN: {
+      const boardCompleted = state.tiles.every((tile) => tile.show);
+
+      return { ...state, boardCompleted };
     }
   }
 };

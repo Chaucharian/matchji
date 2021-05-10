@@ -7,6 +7,7 @@ export const Timer = ({ initialTime, addTime, stop, start, onTimeAdded = () => {
 
   useTimer({
     currentTime,
+    stop,
     onSetTime: (value) => setTime(value),
     onStop
   });
@@ -16,7 +17,7 @@ export const Timer = ({ initialTime, addTime, stop, start, onTimeAdded = () => {
       setTime(currentTime+addTime);
       onTimeAdded(addTime);
     }
-  }, [currentTime, addTime]);
+  }, [currentTime, addTime, onTimeAdded]);
 
   return (
       <Text style={styles.text}>

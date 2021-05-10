@@ -7,7 +7,8 @@ export const actionTypes = {
   REMOVE: "REMOVE",
   SHOW: "SHOW",
   SHOW_ALL: "SHOW_ALL",
-  CHANGE_TILES: "CHANGE_TILES"
+  CHANGE_TILES: "CHANGE_TILES",
+  VALIDATE_WIN: "VALIDATE_WIN"
 };
 
 export const reset = (payload) => ({
@@ -36,5 +37,9 @@ export const hideAll = (payload) => ({
 });
 export const changeTiles = (payload) => ({
   type: actionTypes.CHANGE_TILES,
+  payload,
+});
+export const validateWin = (payload) => ({
+  type: actionTypes.VALIDATE_WIN,
   payload,
 });
