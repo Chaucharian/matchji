@@ -2,13 +2,13 @@ import { useEffect } from 'react';
 import { useGameContext, pause } from '../context/game';
 
 export const usePause = (stopGame) => {
-    const { dispatch } = useGameContext();
+    const { dispatch: { pause } } = useGameContext();
 
     useEffect( () => {
         if(stopGame) {
-          dispatch(pause({ pause: true }));
+          pause({ pause: true });
         } else {
-            dispatch(pause({ pause: false }));
+            pause({ pause: false });
         }
-      }, [dispatch, stopGame]);
+      }, [pause, stopGame]);
 }

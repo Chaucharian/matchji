@@ -1,6 +1,5 @@
-import React, { useContext, createContext, useState, useCallback, useReducer } from "react";
-import Emojis from "../../models/emojis";
-import { actionTypes, addTimeAction } from "./actions";
+import React, { useContext, createContext, useState, useCallback, useReducer, useMemo } from "react";
+import { actionTypes, addTime, nextLevel, pause } from "./actions";
 
 const GameContext = createContext();
 
@@ -38,71 +37,19 @@ const reducer = (state, action) => {
 };
 
 export const GameProvider = ({ children, ...options }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
-  // const [settings, setSettings] = useState({ ...initialState, ...options });
+  const [state, dispatcher] = useReducer(reducer, initialState);
 
-  // const setTimeOver = useCallback(
-  //   (value) => {
-  //     setSettings({ ...settings, timeOver: value });
-  //   },
-  //   [settings]
-  // );
+  const dispatch = useMemo( () => ({
+    pause: (payload) => dispatcher(pause(payload)),
+    addTime: (payload) => dispatcher(addTime(payload)),
+    nextLevel: (payload) => dispatcher(nextLevel(payload)),
+   }), [dispatcher]);
 
-  // const increaseScore = useCallback(
-  //   (value) => {
-  //     setSettings({ ...settings, score: settings.score + 1 });
-  //   },
-  //   [settings]
-  // );
-
-  // const setCurrentTime = useCallback(
-  //   (value) => {
-  //     setSettings({ ...settings, currentTime: value });
-  //   },
-  //   [settings]
-  // );
-
-  // const reset = useCallback(
-  //   (value) => {
-  //     setSettings({ ...initialState, initialEmojis: [...Emojis] });
-  //   },
-  //   [settings]
-  // );
-
-  // const setEmojiAmount = useCallback(
-  //   (value) => {
-  //     setSettings({ ...initialState, emojiAmount: value });
-  //   },
-  //   [settings]
-  // );
-
-  // const openMenu = useCallback(
-  //   (value) => {
-  //     setSettings({ ...settings, pause: value });
-  //   },
-  //   [settings]
-  // );
+  const context = useMemo( () => ({ state, dispatch }), [state, dispatch]);
   
-  // useTimer({
-  //   currentTime: settings.currentTime,
-  //   onSetTime: (value) => setCurrentTime(value),
-  //   onStop: () => setTimeOver(true),
-  // });
-
   return (
     <GameContext.Provider
-      value={{
-        state,
-        dispatch
-        // settings,
-        // setEmojiAmount,
-        // setSettings,
-        // setTimeOver,
-        // increaseScore,
-        // addTime,
-        // setCurrentTime,
-        // openMenu
-      }}
+      value={context}
     >
       {children}
     </GameContext.Provider>

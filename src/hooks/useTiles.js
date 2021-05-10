@@ -12,7 +12,7 @@ export const useTiles = () => {
     state: { tiles: initialTiles = [] },
     dispatch: layoutDispatch,
   } = useLayoutContext();
-  const { dispatch: gameDispatch } = useGameContext();
+  const { dispatch: { addTime } } = useGameContext();
   const { addCurrentTile, isMatch, resetMatch } = useMatch();
   const [tiles, setTiles] = useState([]);
   const shouldValidateMatch = useMemo( () => isMatch.tiles.length === 2, [isMatch]);
@@ -39,13 +39,13 @@ export const useTiles = () => {
       if (match) {
         // TODO ZenMode change this behavior (remove the tiles)
         // dispatch(remove({ tiles: tiles }));
-        gameDispatch(addTime({ time: EXTRA_TIME_ON_MATCH }));
+        addTime({ time: EXTRA_TIME_ON_MATCH });
         layoutDispatch(validateWin());
       } else if (!match) {
         await sleep(NOT_MATCH_SHOWING_TIME);
         layoutDispatch(show({ tiles: tiles, show: false }));
       }
-  }, [ layoutDispatch, isMatch, gameDispatch]);
+  }, [ layoutDispatch, isMatch, addTime]);
 
   useEffect(() => {
     if (shouldValidateMatch) {
