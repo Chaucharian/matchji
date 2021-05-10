@@ -8,15 +8,16 @@ import { actionTypes } from "./actions";
 const ModalContext = createContext();
 
 const initialState = {
-  show: false
+  show: false,
+  content: {}
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case actionTypes.OPEN: {
-      const { show } = action.payload;
+      const { show, content } = action.payload;
 
-      return { ...state, show };
+      return { ...state, show, content };
     }
   }
 };

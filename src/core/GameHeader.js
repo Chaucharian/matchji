@@ -4,14 +4,14 @@ import { useGameContext } from "../context/game";
 import { useLayoutContext } from "../context/layout";
 import { useModalContext, open } from "../context/modal";
 import { Timer } from "../components/Timer";
+import { addTime } from '../context/game';
 
 export const GameHeader = () => {
-  const [currentTime, setTime] = useState(60);
   const {
     state: { show },
     dispatch 
   } = useModalContext();
-  const { settings: { initialTime, extraTime }, addTime } = useGameContext();
+  const { state: { initialTime, extraTime }, dispatch: gameDispatch } = useGameContext();
 
   return (
     <View style={styles.container}>
@@ -19,7 +19,7 @@ export const GameHeader = () => {
         title="MENU"
         onPress={() => dispatch( open(({ show: !show })) ) }
       />
-      <Timer initialTime={initialTime} addTime={extraTime} onTimeAdded={() => addTime(0)}/>
+      <Timer initialTime={initialTime} addTime={extraTime} onTimeAdded={() => gameDispatch(addTime({ time: 0 })) }/>
     </View>
   );
 };
