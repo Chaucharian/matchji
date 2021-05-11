@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity, Text, Button } from "react-native";
 import * as Animatable from "react-native-animatable";
+import { useModalContext } from "../context/modal";
 
 const _styles = StyleSheet.create({
   container: {
@@ -23,7 +24,8 @@ const _styles = StyleSheet.create({
   content: {},
 });
 
-export const Modal = ({ show, content, onPress, styles }) => {
+export const Modal = ({ show, onPress, styles }) => {
+  const { state: { content } } = useModalContext();
 
   return (
     <>

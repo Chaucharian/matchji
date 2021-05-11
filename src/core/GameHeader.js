@@ -7,7 +7,7 @@ import { Timer } from "../components/Timer";
 export const GameHeader = () => {
   const {
     state: { show },
-    dispatch: { open } 
+    dispatch: { openMenu } 
   } = useModalContext();
   const { state: { initialTime, extraTime, pause }, dispatch: { addTime } } = useGameContext();
 
@@ -15,7 +15,7 @@ export const GameHeader = () => {
     <View style={styles.container}>
       <Button
         title="MENU"
-        onPress={() => open(({ show: !show })) }
+        onPress={() => openMenu(({ show: !show })) }
       />
       <Timer initialTime={initialTime} stop={pause} addTime={extraTime} onTimeAdded={() => addTime({ time: 0 }) }/>
     </View>

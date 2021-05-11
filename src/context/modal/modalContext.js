@@ -1,22 +1,31 @@
-import React, {
-  useContext,
-  createContext,
-  useReducer,
-  useMemo,
-} from "react";
+import React, { useContext, createContext, useReducer, useMemo } from "react";
 import { actionTypes, open } from "./actions";
+import { MenuTemplate } from "./templates";
 
 const ModalContext = createContext();
 
+export const MODAL_TYPES = {
+  MENU: "MENU",
+  WIN: "WIN",
+  GAME_OVER: "GAME_OVER",
+};
+
 const initialState = {
   show: false,
-  content: {}
+  content: <></>,
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case actionTypes.OPEN: {
-      const { show, content } = action.payload;
+      const { show, type } = action.payload;
+      let content;
+
+      if (type === MODAL_TYPES.MENU) {
+        content = <MenuTemplate />;
+      } else if (type === MODAL_TYPES.WIN) {
+        content = <MenuTemplate />;
+      }
 
       return { ...state, show, content };
     }
@@ -26,26 +35,30 @@ const reducer = (state, action) => {
 export const ModalProvider = ({ children, ...options }) => {
   const [state, dispatcher] = useReducer(reducer, initialState);
 
-  const dispatch = useMemo( () => ({
-    open: (payload) => dispatcher(open(payload)),
-   }), [dispatcher]);
+  const dispatch = useMemo(
+    () => ({
+      openMenu: (payload) =>
+        dispatcher(open({ ...payload, type: MODAL_TYPES.MENU })),
+      openWin: (payload) =>
+        dispatcher(open({ ...payload, type: MODAL_TYPES.WIN })),
+      openGameOver: (payload) =>
+        dispatcher(open({ ...payload, type: MODAL_TYPES.GAME_OVER })),
+    }),
+    [dispatcher]
+  );
 
-  const context = useMemo( () => ({ state, dispatch }), [state, dispatch]);
+  const context = useMemo(() => ({ state, dispatch }), [state, dispatch]);
 
   return (
-    <ModalContext.Provider
-      value={context}
-    >
-      {children}
-    </ModalContext.Provider>
+    <ModalContext.Provider value={context}>{children}</ModalContext.Provider>
   );
 };
 
 export const useModalContext = () => {
   const context = useContext(ModalContext);
 
-  if(context === undefined) {
+  if (context === undefined) {
     throw new Error("useModalContext must be used inside ModalProvider");
   }
   return context;
-}
+};
