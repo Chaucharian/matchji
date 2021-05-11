@@ -1,33 +1,20 @@
 import React, { useContext, createContext, useReducer, useMemo } from "react";
 import { actionTypes, open } from "./actions";
-import { MenuTemplate, WinTemplate } from "./templates";
+import { MODAL_TYPES } from '../../const/variables';
 
 const ModalContext = createContext();
 
-export const MODAL_TYPES = {
-  MENU: "MENU",
-  WIN: "WIN",
-  GAME_OVER: "GAME_OVER",
-};
-
 const initialState = {
   show: false,
-  content: <></>,
+  type: MODAL_TYPES.MENU
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case actionTypes.OPEN: {
       const { show, type } = action.payload;
-      let content;
 
-      if (type === MODAL_TYPES.MENU) {
-        content = <MenuTemplate />;
-      } else if (type === MODAL_TYPES.WIN) {
-        content = <WinTemplate />;
-      }
-
-      return { ...state, show, content };
+      return { ...state, show, type };
     }
   }
 };

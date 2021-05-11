@@ -4,6 +4,7 @@ import { Layout } from "../components/Layout";
 import { useTiles } from "../hooks/useTiles";
 import { useInitializeBoard } from "../hooks/useInitializeBoard";
 import { useLayoutContext } from "../context/layout";
+import { useGameContext } from "../context/game";
 import { useWin } from '../hooks/useWin';
 
 export const GameLayout = () => {
@@ -11,12 +12,18 @@ export const GameLayout = () => {
     state: { boardCompleted },
   } = useLayoutContext();
   const { tiles } = useTiles();
-  useInitializeBoard(6);
+  const { state: { currentLevelParams } } = useGameContext();
+  const initializeBoard = useInitializeBoard(currentLevelParams);
   useWin();
 
   useEffect(() => {
-    console.log(boardCompleted);
+    console.log("WIN! ",boardCompleted);
   }, [boardCompleted]);
+
+
+  useEffect(() => {
+    initializeBoard(currentLevelParams);
+  }, [currentLevelParams, initializeBoard]);
 
   return (
     <View style={[styles.container]}>

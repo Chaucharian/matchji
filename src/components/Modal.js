@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useMemo, useCallback } from "react";
 import { StyleSheet, View, TouchableOpacity, Text, Button } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { useModalContext } from "../context/modal";
+import { MODAL_TYPES } from '../const/variables';
+import { MenuTemplate, WinTemplate } from '../context/modal/templates';
+import { useGameContext } from '../context/game';
+import { nextLevel } from '../context/game/actions';
 
 const _styles = StyleSheet.create({
   container: {
@@ -25,7 +29,24 @@ const _styles = StyleSheet.create({
 });
 
 export const Modal = ({ show, onPress, styles }) => {
-  const { state: { content } } = useModalContext();
+  const { state: { type }, dispatch: { openWin } } = useModalContext();
+  const { dispatch: { nextLevel } } = useGameContext();
+
+  const handleAction = useCallback( (action) => {
+    nextLevel();
+    openWin({ show: false });
+  }, [nextLevel, openWin]);
+
+  const content = useMemo( () => {
+    let newContent;
+    if (type === MODAL_TYPES.MENU) {
+      newContent = <MenuTemplate />;
+    } else if (type === MODAL_TYPES.WIN) {
+      newContent  = <WinTemplate onPress={handleAction} />;
+    }
+    return newContent;
+  }, [type, handleAction]);
+
 
   return (
     <>
@@ -42,7 +63,7 @@ export const Modal = ({ show, onPress, styles }) => {
             duration={1000}
             onAnimationEnd={() => {}}
           >
-              <Button title="CERRAR" onPress={onPress} ></Button>
+          <Button title="CERRAR" onPress={onPress} ></Button>
             {content}
           </Animatable.View>
         </Animatable.View>
