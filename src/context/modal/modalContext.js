@@ -1,6 +1,6 @@
 import React, { useContext, createContext, useReducer, useMemo } from "react";
 import { actionTypes, open } from "./actions";
-import { MenuTemplate } from "./templates";
+import { MenuTemplate, WinTemplate } from "./templates";
 
 const ModalContext = createContext();
 
@@ -24,7 +24,7 @@ const reducer = (state, action) => {
       if (type === MODAL_TYPES.MENU) {
         content = <MenuTemplate />;
       } else if (type === MODAL_TYPES.WIN) {
-        content = <MenuTemplate />;
+        content = <WinTemplate />;
       }
 
       return { ...state, show, content };

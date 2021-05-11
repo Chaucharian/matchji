@@ -1,17 +1,19 @@
 import { useEffect } from 'react';
 import { useGameContext } from '../context/game';
 import { useLayoutContext } from '../context/layout';
-import { useInitializeBoard } from '../context/hooks/useInitializeBoard';
+import { useModalContext } from '../context/modal';
+import { useInitializeBoard } from './useInitializeBoard';
 
 export const useWin = () => {
     const { dispatch: { nextLevel } } = useGameContext();
     const { state: { boardCompleted } } = useLayoutContext();
+    const { dispatch: { openWin: openWinModal } } = useModalContext();
     const initializeBoard = useInitializeBoard();
 
     useEffect( () => {
         if(boardCompleted) {
           nextLevel();
-          initializeBoard(6);
+          openWinModal({ show: true });
         }
-      }, [initializeBoard, nextLevel, boardCompleted]);
+      }, [initializeBoard, openWinModal, nextLevel, boardCompleted]);
 }

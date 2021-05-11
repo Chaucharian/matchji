@@ -4,6 +4,7 @@ import { Layout } from "../components/Layout";
 import { useTiles } from "../hooks/useTiles";
 import { useInitializeBoard } from "../hooks/useInitializeBoard";
 import { useLayoutContext } from "../context/layout";
+import { useWin } from '../hooks/useWin';
 
 export const GameLayout = () => {
   const {
@@ -11,6 +12,7 @@ export const GameLayout = () => {
   } = useLayoutContext();
   const { tiles } = useTiles();
   useInitializeBoard(6);
+  useWin();
 
   useEffect(() => {
     console.log(boardCompleted);

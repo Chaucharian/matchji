@@ -5,13 +5,13 @@ import { LayoutProvider } from "../context/layout";
 import { GameLayout } from "../core/GameLayout";
 import { GameHeader, Modal } from "../components";
 import { usePause } from "../hooks/usePause";
+import { useWin } from "../hooks/useWin";
 
 export const GameScreen = () => {
   const {
     state: { show }, dispatch: { openMenu }
   } = useModalContext();
   usePause(show);
-  
   // useEffect(() => {
   //   if (timeOver) {
   //     // Alert.alert("PERDISTE", "", [
