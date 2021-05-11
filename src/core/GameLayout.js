@@ -2,18 +2,15 @@ import React, { useCallback, useEffect, useState, useMemo } from "react";
 import { StyleSheet, View, Alert } from "react-native";
 import { Layout } from "../components/Layout";
 import { useTiles } from "../hooks/useTiles";
-import {
-  useLayoutContext,
-  initializeBoard
-} from "../context/layout";
+import { useInitializeBoard } from "../hooks/useInitializeBoard";
+import { useLayoutContext } from "../context/layout";
 
 export const GameLayout = () => {
-  const { state: { boardCompleted }, dispatch } = useLayoutContext();
+  const {
+    state: { boardCompleted },
+  } = useLayoutContext();
   const { tiles } = useTiles();
-
-  useEffect(() => {
-    initializeBoard(dispatch, 6);
-  }, [dispatch]);
+  useInitializeBoard(6);
 
   useEffect(() => {
     console.log(boardCompleted);

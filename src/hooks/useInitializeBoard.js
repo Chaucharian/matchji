@@ -1,9 +1,7 @@
-import {init, hideAll, changeTiles } from './actions';
-import { sleep } from '../../utils';
-import { INITIAL_TILE_ANIMATION_DURATION } from '../../const/variables';
-import { useLayoutContext } from './layoutContext';
-import { useCallback, useState } from 'react';
-import { useEffect } from 'react';
+import { sleep } from '../utils';
+import { INITIAL_TILE_ANIMATION_DURATION } from '../const/variables';
+import { useLayoutContext } from '../context/layout';
+import { useCallback, useState, useEffect  } from 'react';
 
 // TODO merge hideAll and changeTiles into a same action
 export const useInitializeBoard = (initialAmount) => {
@@ -23,5 +21,5 @@ export const useInitializeBoard = (initialAmount) => {
         }
     }, [amount, run]);
 
-    return (amount) => setAmount(amount)
+    return useCallback( (amount) => setAmount(amount), [setAmount]);
 }

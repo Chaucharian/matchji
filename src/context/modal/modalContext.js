@@ -2,8 +2,9 @@ import React, {
   useContext,
   createContext,
   useReducer,
+  useMemo,
 } from "react";
-import { actionTypes } from "./actions";
+import { actionTypes, open } from "./actions";
 
 const ModalContext = createContext();
 
@@ -23,14 +24,17 @@ const reducer = (state, action) => {
 };
 
 export const ModalProvider = ({ children, ...options }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatcher] = useReducer(reducer, initialState);
+
+  const dispatch = useMemo( () => ({
+    open: (payload) => dispatcher(open(payload)),
+   }), [dispatcher]);
+
+  const context = useMemo( () => ({ state, dispatch }), [state, dispatch]);
 
   return (
     <ModalContext.Provider
-      value={{
-        state,
-        dispatch,
-      }}
+      value={context}
     >
       {children}
     </ModalContext.Provider>

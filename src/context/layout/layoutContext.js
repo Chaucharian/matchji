@@ -3,11 +3,12 @@ import React, {
   createContext,
   useState,
   useCallback,
+  useMemo,
   useReducer,
 } from "react";
 import Emojis from "../../models/emojis";
 import { sortEmojis, guidGenerator } from "../../utils";
-import { actionTypes } from "./actions";
+import { actionTypes, changeTiles, init, reset, resetBoard, hideAll, show, remove, validateWin } from "./actions";
 import { Tile } from "../../components/Tile";
 import { INITIAL_TILE_ANIMATION_DURATION } from "../../const/variables";
 
@@ -125,14 +126,24 @@ const reducer = (state, action) => {
 };
 
 export const LayoutProvider = ({ children, ...options }) => {
-  const [state, dispatch] = useReducer(reducer, initialState);
+  const [state, dispatcher] = useReducer(reducer, initialState);
 
+  const dispatch = useMemo( () => ({
+    init: (payload) => dispatcher(init(payload)),
+    hideAll: (payload) => dispatcher(hideAll(payload)),
+    reset: (payload) => dispatcher(reset(payload)),
+    resetBoard: (payload) => dispatcher(resetBoard(payload)),
+    show: (payload) => dispatcher(show(payload)),
+    remove: (payload) => dispatcher(remove(payload)),
+    changeTiles: (payload) => dispatcher(changeTiles(payload)),
+    validateWin: (payload) => dispatcher(validateWin(payload)),
+   }), [dispatcher]);
+
+  const context = useMemo( () => ({ state, dispatch }), [state, dispatch]);
+  
   return (
     <GameContext.Provider
-      value={{
-        state,
-        dispatch,
-      }}
+      value={context}
     >
       {children}
     </GameContext.Provider>

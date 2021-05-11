@@ -1,16 +1,17 @@
 import { useEffect } from 'react';
 import { useGameContext } from '../context/game';
 import { useLayoutContext } from '../context/layout';
-import { initializeBoard } from '../context/layout/customActions';
+import { useInitializeBoard } from '../context/hooks/useInitializeBoard';
 
 export const useWin = () => {
     const { dispatch: { nextLevel } } = useGameContext();
-    const { state: { boardCompleted }, layoutDispatch } = useLayoutContext();
+    const { state: { boardCompleted } } = useLayoutContext();
+    const initializeBoard = useInitializeBoard();
 
     useEffect( () => {
         if(boardCompleted) {
           nextLevel();
-          initializeBoard(layoutDispatch, 6);
+          initializeBoard(6);
         }
-      }, [layoutDispatch, nextLevel, boardCompleted]);
+      }, [initializeBoard, nextLevel, boardCompleted]);
 }

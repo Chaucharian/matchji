@@ -8,7 +8,7 @@ import { usePause } from "../hooks/usePause";
 
 export const GameScreen = () => {
   const {
-    state: { show }, dispatch
+    state: { show }, dispatch: { open }
   } = useModalContext();
   usePause(show);
   
@@ -23,7 +23,7 @@ export const GameScreen = () => {
   return (
     <LayoutProvider>
       <View style={{ ...styles.container }}>
-        <Modal show={show} onPress={() => dispatch(open({ show: false }))} />
+        <Modal show={show} onPress={() => open({ show: false }) } />
         <GameHeader />
         <GameLayout />
       </View>
