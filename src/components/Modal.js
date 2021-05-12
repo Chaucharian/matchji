@@ -30,7 +30,7 @@ const _styles = StyleSheet.create({
 
 export const Modal = ({ show, onPress, styles }) => {
   const { state: { type }, dispatch: { openWin } } = useModalContext();
-  const { dispatch: { nextLevel } } = useGameContext();
+  const { state: { currentLevel }, dispatch: { nextLevel } } = useGameContext();
 
   const handleAction = useCallback( (action) => {
     nextLevel();
@@ -42,10 +42,10 @@ export const Modal = ({ show, onPress, styles }) => {
     if (type === MODAL_TYPES.MENU) {
       newContent = <MenuTemplate />;
     } else if (type === MODAL_TYPES.WIN) {
-      newContent  = <WinTemplate onPress={handleAction} />;
+      newContent  = <WinTemplate level={currentLevel} onPress={handleAction} />;
     }
     return newContent;
-  }, [type, handleAction]);
+  }, [type, handleAction, currentLevel]);
 
 
   return (
