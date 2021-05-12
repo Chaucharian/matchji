@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, Text } from "react-native";
 import { useTimer } from "../hooks";
 
-export const Timer = ({ initialTime, addTime, stop, start, onTimeAdded = () => {}, onStop = () => {} }) => {
+export const Timer = ({ initialTime, addTime, stop, start, reset, onReset = () => {}, onTimeChange = () => {}, onStop = () => {} }) => {
   const [currentTime, setTime] = useState(initialTime);
 
   useTimer({
@@ -15,9 +15,16 @@ export const Timer = ({ initialTime, addTime, stop, start, onTimeAdded = () => {
   useEffect( () => {
     if(addTime) {
       setTime(currentTime+addTime);
-      onTimeAdded(addTime);
+      onTimeChange(addTime);
     }
-  }, [currentTime, addTime, onTimeAdded]);
+  }, [currentTime, addTime, onTimeChange]);
+
+  useEffect( () => {
+    if(reset) {
+      setTime(initialTime);
+      onReset();
+    }
+  }, [currentTime, onReset, addTime, reset, initialTime]);
 
   return (
       <Text style={styles.text}>
