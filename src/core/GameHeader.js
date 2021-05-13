@@ -3,6 +3,7 @@ import { StyleSheet, View, Button } from "react-native";
 import { useGameContext } from "../context/game";
 import { useModalContext, open } from "../context/modal";
 import { Timer } from "../components/Timer";
+import { BurguerButton } from '../components/BurgerButton';
 
 export const GameHeader = () => {
   const {
@@ -16,7 +17,7 @@ export const GameHeader = () => {
 
   return (
     <View style={styles.container}>
-      <Button title="MENU" onPress={() => openMenu({ show: !show })} />
+      <BurguerButton onPress={() => openMenu({ show: !show })}/>
       <Timer
         initialTime={initialTime}
         stop={pause}

@@ -23,7 +23,7 @@ export const GameScreen = () => {
   return (
     <LayoutProvider>
       <View style={{ ...styles.container }}>
-        <Modal show={show} onPress={() => openMenu({ show: false }) } />
+        <Modal show={show} onClose={() => openMenu({ show: false }) } />
         <GameHeader />
         <GameLayout />
       </View>

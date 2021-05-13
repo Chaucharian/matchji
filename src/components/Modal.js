@@ -28,7 +28,7 @@ const _styles = StyleSheet.create({
   content: {},
 });
 
-export const Modal = ({ show, onPress, styles }) => {
+export const Modal = ({ show, onClose, styles }) => {
   const { state: { type }, dispatch: { openWin } } = useModalContext();
   const { state: { currentLevel }, dispatch: { nextLevel } } = useGameContext();
 
@@ -40,12 +40,12 @@ export const Modal = ({ show, onPress, styles }) => {
   const content = useMemo( () => {
     let newContent;
     if (type === MODAL_TYPES.MENU) {
-      newContent = <MenuTemplate />;
+      newContent = <MenuTemplate onClose={onClose}/>;
     } else if (type === MODAL_TYPES.WIN) {
       newContent  = <WinTemplate level={currentLevel} onPress={handleAction} />;
     }
     return newContent;
-  }, [type, handleAction, currentLevel]);
+  }, [type, handleAction, currentLevel, onClose]);
 
 
   return (
@@ -63,7 +63,6 @@ export const Modal = ({ show, onPress, styles }) => {
             duration={1000}
             onAnimationEnd={() => {}}
           >
-          <Button title="CERRAR" onPress={onPress} ></Button>
             {content}
           </Animatable.View>
         </Animatable.View>
