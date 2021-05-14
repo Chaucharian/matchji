@@ -16,7 +16,7 @@ const _styles = StyleSheet.create({
 export const CloseButton = ({ onPress, styles }) => {
 
   return (
-    <Button onPress={onPress} styles={_styles.button} >
+    <Button onPress={onPress} styles={{ ..._styles.button, ...styles}} >
         <Text style={[_styles.container]}>X</Text>
     </Button>
   );

@@ -6,7 +6,6 @@ import { Button } from "../../components/Button";
 const _styles = StyleSheet.create({
   container: {
     flex: 1,
-    //   display: "flex",
     justifyContent: "center",
   },
   header: {
@@ -14,14 +13,19 @@ const _styles = StyleSheet.create({
     flexDirection: "row",
     padding: 10,
   },
+  closeButton: {
+    position: "absolute",
+    top: 10,
+    right: 15,
+  },
   titleContainer: {
     flexDirection: "row",
     justifyContent: "center",
-    flex: 1
-  },  
+    flex: 1,
+  },
   title: {
     fontSize: 30,
-    fontWeight: "bold"
+    fontWeight: "bold",
   },
   optionsContainer: {
     flex: 1,
@@ -34,28 +38,36 @@ const _styles = StyleSheet.create({
 });
 
 export const MenuTemplate = ({ onClose }) => (
-  <View style={[_styles.container]}>
-    <View style={[_styles.header]}>
-      <View style={[_styles.titleContainer]}>
-        <Text style={[_styles.title]}>MENU</Text>
+  <>
+    <View
+      style={[_styles.container]}
+    >
+      <View style={[_styles.header]}>
+        <View style={[_styles.titleContainer]}>
+          <Text style={[_styles.title]}>MENU</Text>
+        </View>
+      </View>
+      <View style={[_styles.optionsContainer]}>
+        <View style={[_styles.options]}>
+          <Button>
+            <Text>RESET</Text>
+          </Button>
+          <Button>
+            <Text>BACK</Text>
+          </Button>
+          <Button>
+            <Text>BACK</Text>
+          </Button>
+        </View>
       </View>
     </View>
-    {/* <CloseButton onPress={onClose} /> */}
-    <View style={[_styles.optionsContainer]}>
-      <View style={[_styles.options]}>
-        <Button>
-          <Text>RESET</Text>
-        </Button>
-        <Button>
-          <Text>BACK</Text>
-        </Button>
-        <Button>
-          <Text>BACK</Text>
-        </Button>
-      </View>
-    </View>
-  </View>
+    <CloseButton
+      styles={_styles.closeButton}
+      onPress={onClose}
+    />
+  </>
 );
+
 export const WinTemplate = ({ onPress, level }) => (
   <View>
     <Text>GANASTE!</Text>

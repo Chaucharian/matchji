@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, TouchableHighlight, View } from "react-native";
+import { StyleSheet, TouchableHighlight, TouchableOpacity, TouchableNativeFeedback, View } from "react-native";
 
 const _styles = StyleSheet.create({
   container: {
@@ -20,10 +20,11 @@ export const Button = ({ children, styles, onPress }) => {
     // const { primary, secondary } = useTheme();
 
   return (
-    <TouchableHighlight onPress={onPress}>
+    // Using TouchableNativeFeedback cause with position absolute not work properly
+    <TouchableNativeFeedback onPress={onPress}>
       <View style={[_styles.container, { ...styles }]}>
           {children}
       </View>
-    </TouchableHighlight>
+    </TouchableNativeFeedback>
   );
 };

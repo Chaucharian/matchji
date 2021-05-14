@@ -49,8 +49,7 @@ export const Modal = ({ show, onClose, styles }) => {
 
 
   return (
-    <>
-      {show && (
+      show && (
         <Animatable.View
           style={[_styles.container, { ...styles }]}
           animation={"fadeIn"}
@@ -66,7 +65,6 @@ export const Modal = ({ show, onClose, styles }) => {
             {content}
           </Animatable.View>
         </Animatable.View>
-      )}
-    </>
+      )
   );
 };
