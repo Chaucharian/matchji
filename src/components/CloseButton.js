@@ -3,6 +3,10 @@ import { StyleSheet, Text } from "react-native";
 import { Button } from "./Button";
 
 const _styles = StyleSheet.create({
+    button: {
+        width: 40,
+        height: 40,    
+    },  
     container: {
         fontWeight: "bold",
         fontSize: 30
@@ -12,7 +16,7 @@ const _styles = StyleSheet.create({
 export const CloseButton = ({ onPress, styles }) => {
 
   return (
-    <Button onPress={onPress} >
+    <Button onPress={onPress} styles={_styles.button} >
         <Text style={[_styles.container]}>X</Text>
     </Button>
   );

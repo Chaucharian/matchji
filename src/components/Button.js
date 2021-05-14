@@ -9,8 +9,8 @@ const _styles = StyleSheet.create({
     borderRadius: 5,
     borderWidth: 2,
     borderColor: "#000",
-    width: 40,
-    height: 40,
+    width: 200,
+    height: 50,
     backgroundColor: "#fdf9ef"
   },
 });

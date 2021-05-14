@@ -5,4 +5,6 @@ export * from "./Tile";
 export * from "./Modal";
 export * from "./Button";
 export * from "./BurgerButton";
+export * from "./CloseButton";
 export * from "./Timer";
+export * from "./Button";
