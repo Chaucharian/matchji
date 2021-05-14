@@ -24,6 +24,8 @@ export const ModalProvider = ({ children, ...options }) => {
 
   const dispatch = useMemo(
     () => ({
+      close: () =>
+        dispatcher(open({ show: false })),
       openMenu: (payload) =>
         dispatcher(open({ ...payload, type: MODAL_TYPES.MENU })),
       openWin: (payload) =>

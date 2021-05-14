@@ -1,6 +1,7 @@
 export const actionTypes = {
   ADD_TIME: "ADD_TIME",
   NEXT_LEVEL: "NEXT_LEVEL",
+  RESET_LEVEL: "RESET_LEVEL",
   PAUSE: "PAUSE",
   RESET: "RESET"
 };
@@ -19,5 +20,9 @@ export const pause = (payload) => ({
 });
 export const reset = (payload) => ({
   type: actionTypes.RESET,
+  payload,
+});
+export const resetLevel = (payload) => ({
+  type: actionTypes.RESET_LEVEL,
   payload,
 });

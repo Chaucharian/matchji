@@ -57,9 +57,18 @@ const reducer = (state, action) => {
       return { ...state, tiles: newTiles };
     }
     case actionTypes.RESET: {
-      const { amount } = action.payload;
-      const tiles = generateTiles({ amount });
-      return { ...state, tiles };
+      const { tiles } = state;
+      let animationDuration = INITIAL_TILE_ANIMATION_DURATION;
+
+      const newTiles = tiles.map( tile => { 
+        const key = guidGenerator();
+        // animation effect on mount
+        animationDuration += 200;
+        
+        return { ...tile, show: true, animationDuration, key } 
+      });
+
+      return { ...state, tiles: newTiles };
     }
     case actionTypes.RESET_BOARD: {
       const emojis = state.emojis.map(({ emoji, key }, i) => {

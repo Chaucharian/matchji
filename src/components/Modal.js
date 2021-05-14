@@ -28,24 +28,28 @@ const _styles = StyleSheet.create({
   content: {},
 });
 
-export const Modal = ({ show, onClose, styles }) => {
-  const { state: { type }, dispatch: { openWin } } = useModalContext();
-  const { state: { currentLevel }, dispatch: { nextLevel } } = useGameContext();
+export const Modal = ({ styles }) => {
+  const { state: { type, show }, dispatch: { openWin, close } } = useModalContext();
+  const { state: { currentLevel }, dispatch: { nextLevel, resetLevel } } = useGameContext();
 
   const handleAction = useCallback( (action) => {
-    nextLevel();
-    openWin({ show: false });
-  }, [nextLevel, openWin]);
+    if(action == "next") {
+      nextLevel();
+    } else if(action == "reset") {
+      resetLevel();
+    }
+    close();
+  }, [nextLevel, resetLevel,close]);
 
   const content = useMemo( () => {
     let newContent;
     if (type === MODAL_TYPES.MENU) {
-      newContent = <MenuTemplate onClose={onClose}/>;
+      newContent = <MenuTemplate onClose={close} onReset={() => handleAction("reset")} />;
     } else if (type === MODAL_TYPES.WIN) {
-      newContent  = <WinTemplate level={currentLevel} onPress={handleAction} />;
+      newContent  = <WinTemplate level={currentLevel} onPress={() => handleAction("next")} />;
     }
     return newContent;
-  }, [type, handleAction, currentLevel, onClose]);
+  }, [type, handleAction, currentLevel, close]);
 
 
   return (

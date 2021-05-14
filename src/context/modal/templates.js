@@ -37,7 +37,7 @@ const _styles = StyleSheet.create({
   },
 });
 
-export const MenuTemplate = ({ onClose }) => (
+export const MenuTemplate = ({ onClose, onReset }) => (
   <>
     <View
       style={[_styles.container]}
@@ -49,7 +49,7 @@ export const MenuTemplate = ({ onClose }) => (
       </View>
       <View style={[_styles.optionsContainer]}>
         <View style={[_styles.options]}>
-          <Button>
+          <Button onPress={onReset}>
             <Text>RESET</Text>
           </Button>
           <Button>
@@ -69,9 +69,25 @@ export const MenuTemplate = ({ onClose }) => (
 );
 
 export const WinTemplate = ({ onPress, level }) => (
-  <View>
-    <Text>GANASTE!</Text>
-    <Text>NIVEL: {level}</Text>
-    <Button title="NEXT" onPress={onPress}></Button>
-  </View>
+  <>
+    <View
+      style={[_styles.container]}
+    >
+      <View style={[_styles.header]}>
+        <View style={[_styles.titleContainer]}>
+          <View style={[{ justifyContent: "center", flexDirection: "column"}]}>
+            <Text style={[_styles.title]}>YOU WIN!</Text>
+            <Text style={[_styles.title]}>LEVEL {level}</Text>
+          </View>
+        </View>
+      </View>
+      <View style={[_styles.optionsContainer]}>
+        <View style={[_styles.options]}>
+          <Button onPress={onPress}>
+            <Text>NEXT</Text>
+          </Button>
+        </View>
+      </View>
+    </View>
+  </>
 );

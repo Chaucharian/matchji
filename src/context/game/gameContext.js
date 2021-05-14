@@ -1,5 +1,5 @@
-import React, { useContext, createContext, useState, useCallback, useReducer, useMemo } from "react";
-import { actionTypes, addTime, nextLevel, pause, reset } from "./actions";
+import React, { useContext, createContext, useReducer, useMemo } from "react";
+import { actionTypes, addTime, nextLevel, pause, reset, resetLevel } from "./actions";
 import { LEVEL_PARAMS } from '../../const/variables';
 
 const GameContext = createContext();
@@ -30,6 +30,7 @@ const initialState = {
   currentLevel: 1,
   pause: false,
   reset: false,
+  gameOver: false,
   extraTime: 0,
   currentLevelParams:  getLevelParams(4)//{ amount: 24, size: 100 } // first level
 };
@@ -54,8 +55,12 @@ const reducer = (state, action) => {
     }
     case actionTypes.RESET: {
       const { reset } = action.payload;
-
       return { ...state, reset };
+    }
+    case actionTypes.RESET_LEVEL: {
+      const { currentLevelParams } = state;
+      
+      return { ...state, currentLevelParams, reset: true };
     }
   }
 };
@@ -67,6 +72,7 @@ export const GameProvider = ({ children, ...options }) => {
     pause: (payload) => dispatcher(pause(payload)),
     addTime: (payload) => dispatcher(addTime(payload)),
     nextLevel: (payload) => dispatcher(nextLevel(payload)),
+    resetLevel: (payload) => dispatcher(resetLevel(payload)),
     setReset: (payload) => dispatcher(reset(payload)),
    }), [dispatcher]);
 

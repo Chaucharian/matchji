@@ -9,9 +9,10 @@ import { useWin } from "../hooks/useWin";
 
 export const GameScreen = () => {
   const {
-    state: { show }, dispatch: { openMenu }
+    state: { show }
   } = useModalContext();
   usePause(show);
+
   // useEffect(() => {
   //   if (timeOver) {
   //     // Alert.alert("PERDISTE", "", [
@@ -23,7 +24,7 @@ export const GameScreen = () => {
   return (
     <LayoutProvider>
       <View style={{ ...styles.container }}>
-        <Modal show={show} onClose={() => openMenu({ show: false }) } />
+        <Modal />
         <GameHeader />
         <GameLayout />
       </View>

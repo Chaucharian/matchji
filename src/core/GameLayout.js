@@ -12,8 +12,8 @@ export const GameLayout = () => {
     state: { boardCompleted },
   } = useLayoutContext();
   const { tiles } = useTiles();
-  const { state: { currentLevelParams } } = useGameContext();
-  const initializeBoard = useInitializeBoard(currentLevelParams);
+  const { state: { currentLevelParams, reset } } = useGameContext();
+  const { initialize: initializeBoard, reset: resetBoard } = useInitializeBoard(currentLevelParams);
   useWin();
 
   useEffect(() => {
@@ -24,6 +24,12 @@ export const GameLayout = () => {
   useEffect(() => {
     initializeBoard(currentLevelParams);
   }, [currentLevelParams, initializeBoard]);
+
+  useEffect(() => {
+    if(reset) {
+      resetBoard();
+    }
+  }, [reset, resetBoard]);
 
   return (
     <View style={[styles.container]}>
