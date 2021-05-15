@@ -11,8 +11,8 @@ export const GameHeader = () => {
     dispatch: { openMenu },
   } = useModalContext();
   const {
-    state: { initialTime, extraTime, pause, reset },
-    dispatch: { addTime, setReset },
+    state: { initialTime, extraTime, pause, resetTimer },
+    dispatch: { addTime, setResetTimer },
   } = useGameContext();
 
   return (
@@ -21,9 +21,9 @@ export const GameHeader = () => {
       <Timer
         initialTime={initialTime}
         stop={pause}
-        reset={reset}
+        reset={resetTimer}
         addTime={extraTime}
-        onReset={() => setReset({ reset: false}) }
+        onReset={() => setResetTimer({ resetTimer: false}) }
         onTimeChange={() => addTime({ time: 0 })}
       />
     </View>

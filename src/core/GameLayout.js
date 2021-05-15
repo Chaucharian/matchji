@@ -4,7 +4,7 @@ import { Layout } from "../components/Layout";
 import { useTiles } from "../hooks/useTiles";
 import { useInitializeBoard } from "../hooks/useInitializeBoard";
 import { useLayoutContext } from "../context/layout";
-import { useGameContext } from "../context/game";
+import { resetLayout, resetTimer, useGameContext } from "../context/game";
 import { useWin } from '../hooks/useWin';
 
 export const GameLayout = () => {
@@ -12,7 +12,7 @@ export const GameLayout = () => {
     state: { boardCompleted },
   } = useLayoutContext();
   const { tiles } = useTiles();
-  const { state: { currentLevelParams, reset } } = useGameContext();
+  const { state: { currentLevelParams, resetLayout }, dispatch: { setResetLayout }  } = useGameContext();
   const { initialize: initializeBoard, reset: resetBoard } = useInitializeBoard(currentLevelParams);
   useWin();
 
@@ -26,10 +26,11 @@ export const GameLayout = () => {
   }, [currentLevelParams, initializeBoard]);
 
   useEffect(() => {
-    if(reset) {
+    if(resetLayout) {
       resetBoard();
+      setResetLayout({ resetLayout: false });
     }
-  }, [reset, resetBoard]);
+  }, [resetBoard, resetLayout, setResetLayout]);
 
   return (
     <View style={[styles.container]}>

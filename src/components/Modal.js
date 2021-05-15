@@ -39,7 +39,7 @@ export const Modal = ({ styles }) => {
       resetLevel();
     }
     close();
-  }, [nextLevel, resetLevel,close]);
+  }, [nextLevel, resetLevel, close]);
 
   const content = useMemo( () => {
     let newContent;
