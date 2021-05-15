@@ -1,11 +1,10 @@
 import React, { useMemo, useCallback } from "react";
-import { StyleSheet, View, TouchableOpacity, Text, Button } from "react-native";
+import { StyleSheet } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { useModalContext } from "../context/modal";
 import { MODAL_TYPES } from '../const/variables';
-import { MenuTemplate, WinTemplate } from '../context/modal/templates';
+import { MenuTemplate, WinTemplate, GameOverTemplate } from '../context/modal/templates';
 import { useGameContext } from '../context/game';
-import { nextLevel } from '../context/game/actions';
 
 const _styles = StyleSheet.create({
   container: {
@@ -29,7 +28,7 @@ const _styles = StyleSheet.create({
 });
 
 export const Modal = ({ styles }) => {
-  const { state: { type, show }, dispatch: { openWin, close } } = useModalContext();
+  const { state: { type, show }, dispatch: { close } } = useModalContext();
   const { state: { currentLevel }, dispatch: { nextLevel, resetLevel } } = useGameContext();
 
   const handleAction = useCallback( (action) => {
@@ -47,10 +46,11 @@ export const Modal = ({ styles }) => {
       newContent = <MenuTemplate onClose={close} onReset={() => handleAction("reset")} />;
     } else if (type === MODAL_TYPES.WIN) {
       newContent  = <WinTemplate level={currentLevel} onPress={() => handleAction("next")} />;
+    } else if (type === MODAL_TYPES.GAME_OVER) {
+      newContent  = <GameOverTemplate level={currentLevel} onReset={() => handleAction("reset")} onMenu={() => handleAction("menu")} />;
     }
     return newContent;
   }, [type, handleAction, currentLevel, close]);
-
 
   return (
       show && (

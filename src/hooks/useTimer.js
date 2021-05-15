@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
 
-export const useTimer = ({ currentTime = 10, stop, onStop, onSetTime }) => {
+export const useTimer = ({ currentTime = 10, stop, onSetTime }) => {
   // const [time, setTime] = useState(intialTime);
 
   useEffect(() => {
@@ -9,8 +9,7 @@ export const useTimer = ({ currentTime = 10, stop, onStop, onSetTime }) => {
       const timeout = setTimeout(() => onSetTime(currentTime - 1), 1000);
       return () => clearTimeout(timeout);
     }
-    onStop();
-  }, [currentTime, onSetTime, onStop, stop]);
+  }, [currentTime, onSetTime, stop]);
 
   return currentTime;
 };

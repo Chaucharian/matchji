@@ -1,5 +1,5 @@
 import React, { useContext, createContext, useReducer, useMemo } from "react";
-import { actionTypes, addTime, nextLevel, pause, reset, resetTimer, resetLevel, resetLayout } from "./actions";
+import { actionTypes, addTime, nextLevel, pause, reset, resetTimer, resetLevel, resetLayout, gameOver } from "./actions";
 import { LEVEL_PARAMS } from '../../const/variables';
 
 const GameContext = createContext();
@@ -54,6 +54,11 @@ const reducer = (state, action) => {
 
       return { ...state, pause };
     }
+    case actionTypes.GAME_OVER: {
+      const { gameOver } = action.payload;
+
+      return { ...state, gameOver };
+    }
     case actionTypes.RESET_LAYOUT: {
       const { resetLayout } = action.payload;
       return { ...state, resetLayout };
@@ -75,6 +80,7 @@ export const GameProvider = ({ children, ...options }) => {
   const dispatch = useMemo(
     () => ({
       pause: (payload) => dispatcher(pause(payload)),
+      gameOver: (payload) => dispatcher(gameOver(payload)),
       addTime: (payload) => dispatcher(addTime(payload)),
       nextLevel: (payload) => dispatcher(nextLevel(payload)),
       resetLevel: (payload) =>

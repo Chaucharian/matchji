@@ -1,25 +1,16 @@
-import React, { useEffect } from "react";
-import { StyleSheet, View, Alert } from "react-native";
-import { useModalContext, open } from "../context/modal";
+import React from "react";
+import { StyleSheet, View } from "react-native";
+import { useModalContext } from "../context/modal";
 import { LayoutProvider } from "../context/layout";
 import { GameLayout } from "../core/GameLayout";
 import { GameHeader, Modal } from "../components";
 import { usePause } from "../hooks/usePause";
-import { useWin } from "../hooks/useWin";
 
 export const GameScreen = () => {
   const {
-    state: { show }
+    state: { show, }
   } = useModalContext();
   usePause(show);
-
-  // useEffect(() => {
-  //   if (timeOver) {
-  //     // Alert.alert("PERDISTE", "", [
-  //     //   { text: "REINTENTAR", onPress: () => reset() },
-  //     // ]);
-  //   }
-  // }, [timeOver]);
 
   return (
     <LayoutProvider>

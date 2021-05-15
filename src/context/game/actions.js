@@ -4,7 +4,8 @@ export const actionTypes = {
   RESET_LEVEL: "RESET_LEVEL",
   RESET_LAYOUT: "RESET_LAYOUT",
   RESET_TIMER: "RESET_TIMER",
-  PAUSE: "PAUSE"
+  PAUSE: "PAUSE",
+  GAME_OVER: "GAME_OVER"
 };
 
 export const addTime = (payload) => ({
@@ -17,6 +18,10 @@ export const nextLevel = (payload) => ({
 });
 export const pause = (payload) => ({
   type: actionTypes.PAUSE,
+  payload,
+});
+export const gameOver = (payload) => ({
+  type: actionTypes.GAME_OVER,
   payload,
 });
 export const resetLayout = (payload) => ({

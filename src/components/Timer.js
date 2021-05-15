@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, Text } from "react-native";
 import { useTimer } from "../hooks";
+import { gameOver } from '../context/game/actions';
 
 export const Timer = ({ initialTime, addTime, stop, start, reset, onReset = () => {}, onTimeChange = () => {}, onStop = () => {} }) => {
   const [currentTime, setTime] = useState(initialTime);
@@ -9,7 +10,6 @@ export const Timer = ({ initialTime, addTime, stop, start, reset, onReset = () =
     currentTime,
     stop,
     onSetTime: (value) => setTime(value),
-    onStop
   });
 
   useEffect( () => {
@@ -26,9 +26,16 @@ export const Timer = ({ initialTime, addTime, stop, start, reset, onReset = () =
     }
   }, [currentTime, onReset, addTime, reset, initialTime]);
 
+  useEffect( () => {
+    if(currentTime === 0) {
+      onStop();
+      setTime(null);
+    }
+  }, [currentTime, onStop ]);
+
   return (
       <Text style={styles.text}>
-        {currentTime}
+        {currentTime === null ? 0 : currentTime }
       </Text>
   );
 };

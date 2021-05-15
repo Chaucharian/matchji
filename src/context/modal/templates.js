@@ -68,7 +68,7 @@ export const MenuTemplate = ({ onClose, onReset }) => (
   </>
 );
 
-export const WinTemplate = ({ onPress, level }) => (
+export const WinTemplate = ({ onPress, level, time }) => (
   <>
     <View
       style={[_styles.container]}
@@ -78,6 +78,7 @@ export const WinTemplate = ({ onPress, level }) => (
           <View style={[{ justifyContent: "center", flexDirection: "column"}]}>
             <Text style={[_styles.title]}>YOU WIN!</Text>
             <Text style={[_styles.title]}>LEVEL {level}</Text>
+            <Text style={[_styles.title]}>YOUR TIME {time}</Text>
           </View>
         </View>
       </View>
@@ -85,6 +86,33 @@ export const WinTemplate = ({ onPress, level }) => (
         <View style={[_styles.options]}>
           <Button onPress={onPress}>
             <Text>NEXT</Text>
+          </Button>
+        </View>
+      </View>
+    </View>
+  </>
+);
+
+export const GameOverTemplate = ({ onReset, onMenu, level }) => (
+  <>
+    <View
+      style={[_styles.container]}
+    >
+      <View style={[_styles.header]}>
+        <View style={[_styles.titleContainer]}>
+          <View style={[{ justifyContent: "center", flexDirection: "column"}]}>
+            <Text style={[_styles.title]}>GAME OVER</Text>
+            <Text style={[_styles.title]}>LEVEL {level}</Text>
+          </View>
+        </View>
+      </View>
+      <View style={[_styles.optionsContainer]}>
+        <View style={[_styles.options]}>
+          <Button onPress={onReset}>
+            <Text>RESTART</Text>
+          </Button>
+          <Button onPress={onMenu}>
+            <Text>BACK</Text>
           </Button>
         </View>
       </View>
