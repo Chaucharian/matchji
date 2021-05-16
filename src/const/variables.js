@@ -14,3 +14,7 @@ export const MODAL_TYPES = {
     WIN: "WIN",
     GAME_OVER: "GAME_OVER",
   };
+export const GAME_MODES = {
+    MENU: "CLASSIC",
+    WIN: "ZEN",
+  };

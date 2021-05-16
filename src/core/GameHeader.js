@@ -1,38 +1,45 @@
-import React, { useMemo, useRef, useState, useCallback } from "react";
-import { StyleSheet, View, Button } from "react-native";
+import React from "react";
+import { StyleSheet, View, Text } from "react-native";
 import { useGameContext } from "../context/game";
-import { useModalContext, open } from "../context/modal";
+import { useModalContext } from "../context/modal";
 import { Timer } from "../components/Timer";
-import { BurguerButton } from '../components/BurgerButton';
-import { gameOver } from '../context/game/actions';
+import { PauseButton } from "../components/PauseButton";
 
 export const GameHeader = () => {
   const {
     dispatch: { openMenu, openGameOver },
   } = useModalContext();
   const {
-    state: { initialTime, extraTime, pause, resetTimer, gameOver },
+    state: { initialTime, extraTime, pause, resetTimer, gameOver, currentLevel },
     dispatch: { addTime, setResetTimer },
   } = useGameContext();
 
   return (
-    <View style={styles.container}>
-      <BurguerButton onPress={() => openMenu({ show: true })}/>
-      <Timer
-        initialTime={initialTime}
-        stop={pause}
-        reset={resetTimer}
-        addTime={extraTime}
-        gameOver={gameOver}
-        onStop={() => openGameOver({ show: true }) }
-        onReset={() => setResetTimer({ resetTimer: false}) }
-        onTimeChange={() => addTime({ time: 0 })}
+    <View style={_styles.container}>
+      <PauseButton
+        styles={_styles.pauseButton}
+        onPress={() => openMenu({ show: true })}
       />
+      <View style={[_styles.timeContainer]}>
+        <View style={[{ justifyContent: "center", flexDirection: "column", alignItems: "center" }]}>
+          <Timer
+            initialTime={initialTime}
+            stop={pause}
+            reset={resetTimer}
+            addTime={extraTime}
+            gameOver={gameOver}
+            onStop={() => openGameOver({ show: true })}
+            onReset={() => setResetTimer({ resetTimer: false })}
+            onTimeChange={() => addTime({ time: 0 })}
+          />
+          <Text style={[_styles.levelText]}>Nivel {currentLevel}</Text>
+        </View>
+      </View>
     </View>
   );
 };
 
-const styles = StyleSheet.create({
+const _styles = StyleSheet.create({
   container: {
     paddingTop: 50,
     paddingLeft: 8,
@@ -44,9 +51,19 @@ const styles = StyleSheet.create({
     justifyContent: "center",
     height: 100,
   },
-  score: {
+  timeContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    flex: 1,
+  },
+  levelText: {
     fontSize: 20,
-    color: "gold",
+    fontWeight: "bold"
+  },
+  pauseButton: {
+    position: "absolute",
+    top: 60,
+    left: 25,
   },
   time: {
     fontFamily: "sans-serif-light",

@@ -6,12 +6,13 @@ const _styles = StyleSheet.create({
   button: {
     width: 40,
     height: 45
+    
   }
 });
 
-export const BurguerButton = ({ onPress, styles }) => {
+export const PauseButton = ({ onPress, styles }) => {
 
   return (
-    <Button onPress={onPress} styles={_styles.button}/>
+    <Button onPress={onPress} styles={{ ..._styles.button, ...styles }}/>
   );
 };
