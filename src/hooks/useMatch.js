@@ -1,13 +1,7 @@
-import { useCallback, useEffect, useState} from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Vibration } from "react-native";
-import { NOT_MATCH_VIBRATION } from '../const/variables';
-import Sound from "react-native-sound";
-
-Sound.setCategory("Playback");
-const matchSound = new Sound(`match.mp3`);
-const tapSound = new Sound(`tap.mp3`);
-tapSound.setVolume(1);
-matchSound.setVolume(1);
+import { NOT_MATCH_VIBRATION } from "../const/variables";
+import { useSound } from "./useSound";
 
 export const useMatch = () => {
   const [firstTile, setFirsTile] = useState({ content: null, id: null });
@@ -16,6 +10,8 @@ export const useMatch = () => {
     tiles: [],
     match: false,
   });
+  const { play: matchPlay } = useSound({ file: "match.mp3" });
+  const { play: tapPlay } = useSound({ file: "tap.mp3" });
 
   const resetMatch = () =>
     setIsMatch({
@@ -30,21 +26,21 @@ export const useMatch = () => {
 
   const addCurrentTile = useCallback(
     ({ content, id }) => {
-      tapSound.play();
+      tapPlay();
       if (firstTile.content === null) {
         setFirsTile({ content, id });
       } else if (secondTile.content === null && firstTile.id !== id) {
         setSecondTile({ content, id });
       }
     },
-    [firstTile, secondTile, setFirsTile, setSecondTile]
+    [firstTile, secondTile, setFirsTile, setSecondTile, tapPlay]
   );
 
   useEffect(() => {
     if (firstTile.content !== null && secondTile.content !== null) {
       if (firstTile.content === secondTile.content) {
         setIsMatch({ tiles: [firstTile, secondTile], match: true });
-        matchSound.play();
+        matchPlay();
       } else {
         setIsMatch({
           tiles: [firstTile, secondTile],
@@ -54,7 +50,7 @@ export const useMatch = () => {
       }
       resetSelection();
     }
-  }, [firstTile, secondTile, setIsMatch]);
+  }, [firstTile, secondTile, setIsMatch, matchPlay]);
 
   return { isMatch, resetMatch, addCurrentTile };
 };
