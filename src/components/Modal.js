@@ -2,9 +2,14 @@ import React, { useMemo, useCallback } from "react";
 import { StyleSheet } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { useModalContext } from "../context/modal";
-import { MODAL_TYPES } from '../const/variables';
-import { MenuTemplate, WinTemplate, GameOverTemplate } from '../context/modal/templates';
-import { useGameContext } from '../context/game';
+import { MODAL_TYPES } from "../const/variables";
+import {
+  MenuTemplate,
+  WinTemplate,
+  GameOverTemplate,
+} from "../context/modal/templates";
+import { useGameContext } from "../context/game";
+import { useGeneralContext } from "../context/general";
 
 const _styles = StyleSheet.create({
   container: {
@@ -28,47 +33,78 @@ const _styles = StyleSheet.create({
 });
 
 export const Modal = ({ styles }) => {
-  const { state: { type, show }, dispatch: { close } } = useModalContext();
-  const { state: { currentLevel }, dispatch: { nextLevel, resetLevel } } = useGameContext();
+  const {
+    state: { type, show },
+    dispatch: { close },
+  } = useModalContext();
+  const {
+    state: { currentLevel },
+    dispatch: { nextLevel, resetLevel },
+  } = useGameContext();
+  const {
+    dispatch: { goMenu },
+  } = useGeneralContext();
 
-  const handleAction = useCallback( (action) => {
-    if(action == "next") {
-      nextLevel();
-    } else if(action == "reset") {
-      resetLevel();
-    }
-    close();
-  }, [nextLevel, resetLevel, close]);
+  const handleAction = useCallback(
+    (action) => {
+      if (action == "next") {
+        nextLevel();
+      } else if (action == "reset") {
+        resetLevel();
+      } else if (action == "menu") {
+        goMenu();
+      }
+      close();
+    },
+    [nextLevel, resetLevel, goMenu, close]
+  );
 
-  const content = useMemo( () => {
+  const content = useMemo(() => {
     let newContent;
     if (type === MODAL_TYPES.MENU) {
-      newContent = <MenuTemplate onClose={close} onReset={() => handleAction("reset")} />;
+      newContent = (
+        <MenuTemplate
+          onClose={close}
+          onMenu={() => handleAction("menu")}
+          onReset={() => handleAction("reset")}
+        />
+      );
     } else if (type === MODAL_TYPES.WIN) {
-      newContent  = <WinTemplate level={currentLevel} onPress={() => handleAction("next")} />;
+      newContent = (
+        <WinTemplate
+          level={currentLevel}
+          onPress={() => handleAction("next")}
+        />
+      );
     } else if (type === MODAL_TYPES.GAME_OVER) {
-      newContent  = <GameOverTemplate level={currentLevel} onReset={() => handleAction("reset")} onMenu={() => handleAction("menu")} />;
+      newContent = (
+        <GameOverTemplate
+          level={currentLevel}
+          onReset={() => handleAction("reset")}
+          onMenu={() => handleAction("menu")}
+        />
+      );
     }
     return newContent;
   }, [type, handleAction, currentLevel, close]);
 
   return (
-      show && (
+    show && (
+      <Animatable.View
+        style={[_styles.container, { ...styles }]}
+        animation={"fadeIn"}
+        duration={1000}
+        onAnimationEnd={() => {}}
+      >
         <Animatable.View
-          style={[_styles.container, { ...styles }]}
-          animation={"fadeIn"}
+          style={[_styles.modal, { ...styles }]}
+          animation={"bounceInDown"}
           duration={1000}
           onAnimationEnd={() => {}}
         >
-          <Animatable.View
-            style={[_styles.modal, { ...styles }]}
-            animation={"bounceInDown"}
-            duration={1000}
-            onAnimationEnd={() => {}}
-          >
-            {content}
-          </Animatable.View>
+          {content}
         </Animatable.View>
-      )
+      </Animatable.View>
+    )
   );
 };

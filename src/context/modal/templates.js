@@ -37,7 +37,7 @@ const _styles = StyleSheet.create({
   },
 });
 
-export const MenuTemplate = ({ onClose, onReset }) => (
+export const MenuTemplate = ({ onMenu, onClose, onReset }) => (
   <>
     <View
       style={[_styles.container]}
@@ -49,14 +49,14 @@ export const MenuTemplate = ({ onClose, onReset }) => (
       </View>
       <View style={[_styles.optionsContainer]}>
         <View style={[_styles.options]}>
+          <Button onPress={onClose}>
+            <Text>CONTINUE</Text>
+          </Button>
           <Button onPress={onReset}>
             <Text>RESET</Text>
           </Button>
-          <Button>
-            <Text>BACK</Text>
-          </Button>
-          <Button>
-            <Text>BACK</Text>
+          <Button onPress={onMenu} >
+            <Text>MENU</Text>
           </Button>
         </View>
       </View>
@@ -112,7 +112,7 @@ export const GameOverTemplate = ({ onReset, onMenu, level }) => (
             <Text>RESTART</Text>
           </Button>
           <Button onPress={onMenu}>
-            <Text>BACK</Text>
+            <Text>MENU</Text>
           </Button>
         </View>
       </View>

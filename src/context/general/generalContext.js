@@ -1,5 +1,5 @@
 import React, { useContext, createContext, useReducer, useMemo } from "react";
-import { actionTypes, initGame, showTutorial } from "./actions";
+import { actionTypes, initGame, showTutorial, goMenu } from "./actions";
 import { GAME_MODES } from "../../const/variables";
 
 const GeneralContext = createContext();
@@ -16,7 +16,7 @@ const reducer = (state, action) => {
     case actionTypes.INIT_GAME: {
       const { mode } = action.payload;
 
-      return { ...state, mode };
+      return { ...state, currentMode: mode };
     }
     case actionTypes.SHOW_TUTORIAL: {
       const { mode, show } = action.payload;
@@ -36,6 +36,12 @@ const reducer = (state, action) => {
         showZenTutorial: newShowZenTutorial,
       };
     }
+    case actionTypes.GO_MENU: {
+      return {
+        ...state,
+        currentMode: null
+      };
+    }
   }
 };
 
@@ -49,6 +55,7 @@ export const GeneralProvider = ({ children, ...options }) => {
       showClassicTutorial: (payload) =>
         dispatcher(showTutorial({ ...payload, mode: GAME_MODES.CLASSIC })),
       showZenTutorial: (payload) => dispatcher(showTutorial({ ...payload, mode: GAME_MODES.ZEN })),
+      goMenu: () => dispatcher(goMenu()),
     }),
     [dispatcher]
   );
