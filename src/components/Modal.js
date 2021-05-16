@@ -10,6 +10,7 @@ import {
 } from "../context/modal/templates";
 import { useGameContext } from "../context/game";
 import { useGeneralContext } from "../context/general";
+import { useTheme } from "../context/theme/themeContext";
 
 const _styles = StyleSheet.create({
   container: {
@@ -44,6 +45,7 @@ export const Modal = ({ styles }) => {
   const {
     dispatch: { goMenu },
   } = useGeneralContext();
+  const { state: { secondary },dispatch: { changeTheme } } = useTheme();
 
   const handleAction = useCallback(
     (action) => {
@@ -53,10 +55,13 @@ export const Modal = ({ styles }) => {
         resetLevel();
       } else if (action == "menu") {
         goMenu();
+      } else if (action == "theme") {
+        changeTheme();
+        return;
       }
       close();
     },
-    [nextLevel, resetLevel, goMenu, close]
+    [nextLevel, resetLevel, goMenu, changeTheme, close]
   );
 
   const content = useMemo(() => {
@@ -65,6 +70,7 @@ export const Modal = ({ styles }) => {
       newContent = (
         <MenuTemplate
           onClose={close}
+          onChangeTheme={() => handleAction("theme")}
           onMenu={() => handleAction("menu")}
           onReset={() => handleAction("reset")}
         />
@@ -97,7 +103,7 @@ export const Modal = ({ styles }) => {
         onAnimationEnd={() => {}}
       >
         <Animatable.View
-          style={[_styles.modal, { ...styles }]}
+          style={[_styles.modal, { ...styles, backgroundColor: secondary }]}
           animation={"bounceInDown"}
           duration={1000}
           onAnimationEnd={() => {}}

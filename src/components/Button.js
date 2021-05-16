@@ -6,6 +6,7 @@ import {
   TouchableNativeFeedback,
   View,
 } from "react-native";
+import { useTheme } from "../context/theme/themeContext";
 import { useSound } from "../hooks/useSound";
 
 const _styles = StyleSheet.create({
@@ -23,9 +24,9 @@ const _styles = StyleSheet.create({
 });
 
 export const Button = ({ children, styles, onPress }) => {
-  // TODO add theme to apply dark mode
-  // const { primary, secondary } = useTheme();
+  const { state: { primary } } = useTheme();
   const { play } = useSound({ file: "tap.mp3" });
+
   const handlePress = useCallback(() => {
     play();
     onPress();
@@ -34,7 +35,7 @@ export const Button = ({ children, styles, onPress }) => {
   return (
     // Using TouchableNativeFeedback cause with position absolute not work properly
     <TouchableNativeFeedback onPress={handlePress}>
-      <View style={[_styles.container, { ...styles }]}>{children}</View>
+      <View style={[_styles.container, { ...styles, backgroundColor: primary }]}>{children}</View>
     </TouchableNativeFeedback>
   );
 };

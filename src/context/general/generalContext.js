@@ -8,7 +8,9 @@ const initialState = {
   showClassicTutorial: true,
   showZenTutorial: true,
   currentMode: null,
-  currentLevel: 1
+  currentLevel: 1,
+  isMusicMute: false,
+  isSoundMute: false
 };
 
 const reducer = (state, action) => {

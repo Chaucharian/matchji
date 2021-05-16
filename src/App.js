@@ -4,16 +4,19 @@ import { InitialScreen } from "./screens/InitialScreen";
 import { GameProvider } from "./context/game";
 import { GeneralProvider } from "./context/general";
 import { ModalProvider } from "./context/modal";
+import { ThemeProvider } from "./context/theme/themeContext";
 
 export const App = () => {
   return (
     <GeneralProvider>
-      <GameProvider>
-        <ModalProvider>
-          <InitialScreen />
-          <StatusBar style="auto" />
-        </ModalProvider>
-      </GameProvider>
+      <ThemeProvider>
+        <GameProvider>
+          <ModalProvider>
+            <InitialScreen />
+            <StatusBar style="auto" />
+          </ModalProvider>
+        </GameProvider>
+      </ThemeProvider>
     </GeneralProvider>
   );
 };

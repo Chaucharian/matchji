@@ -1,7 +1,8 @@
 import React from "react";
-import { Text, View, StyleSheet } from "react-native";
+import { View, StyleSheet } from "react-native";
 import { CloseButton } from "../../components/CloseButton";
 import { Button } from "../../components/Button";
+import { Text } from "../../components/Text";
 
 const _styles = StyleSheet.create({
   container: {
@@ -23,10 +24,6 @@ const _styles = StyleSheet.create({
     justifyContent: "center",
     flex: 1,
   },
-  title: {
-    fontSize: 30,
-    fontWeight: "bold",
-  },
   optionsContainer: {
     flex: 1,
     justifyContent: "center",
@@ -37,26 +34,29 @@ const _styles = StyleSheet.create({
   },
 });
 
-export const MenuTemplate = ({ onMenu, onClose, onReset }) => (
+export const MenuTemplate = ({ onMenu, onClose, onReset, onChangeTheme }) => (
   <>
     <View
       style={[_styles.container]}
     >
       <View style={[_styles.header]}>
         <View style={[_styles.titleContainer]}>
-          <Text style={[_styles.title]}>MENU</Text>
+          <Text title>MENU</Text>
         </View>
       </View>
       <View style={[_styles.optionsContainer]}>
         <View style={[_styles.options]}>
+        <Button onPress={onChangeTheme}>
+            <Text button>DARK</Text>
+          </Button>
           <Button onPress={onClose}>
-            <Text>CONTINUE</Text>
+            <Text button>CONTINUE</Text>
           </Button>
           <Button onPress={onReset}>
-            <Text>RESET</Text>
+            <Text button>RESET</Text>
           </Button>
           <Button onPress={onMenu} >
-            <Text>MENU</Text>
+            <Text button>MENU</Text>
           </Button>
         </View>
       </View>
@@ -76,15 +76,15 @@ export const WinTemplate = ({ onPress, level, time }) => (
       <View style={[_styles.header]}>
         <View style={[_styles.titleContainer]}>
           <View style={[{ justifyContent: "center", flexDirection: "column"}]}>
-            <Text style={[_styles.title]}>YOU WIN!</Text>
-            <Text style={[_styles.title]}>LEVEL {level}</Text>
-            <Text style={[_styles.title]}>YOUR TIME {time}</Text>
+            <Text title>YOU WIN!</Text>
+            <Text title>LEVEL {level}</Text>
+            <Text title>YOUR TIME {time}</Text>
           </View>
         </View>
       </View>
       <View style={[_styles.optionsContainer]}>
         <View style={[_styles.options]}>
-          <Button onPress={onPress}>
+          <Button button onPress={onPress}>
             <Text>NEXT</Text>
           </Button>
         </View>
@@ -101,18 +101,18 @@ export const GameOverTemplate = ({ onReset, onMenu, level }) => (
       <View style={[_styles.header]}>
         <View style={[_styles.titleContainer]}>
           <View style={[{ justifyContent: "center", flexDirection: "column"}]}>
-            <Text style={[_styles.title]}>GAME OVER</Text>
-            <Text style={[_styles.title]}>LEVEL {level}</Text>
+            <Text title>GAME OVER</Text>
+            <Text title>LEVEL {level}</Text>
           </View>
         </View>
       </View>
       <View style={[_styles.optionsContainer]}>
         <View style={[_styles.options]}>
           <Button onPress={onReset}>
-            <Text>RESTART</Text>
+            <Text button>RESTART</Text>
           </Button>
           <Button onPress={onMenu}>
-            <Text>MENU</Text>
+            <Text button>MENU</Text>
           </Button>
         </View>
       </View>

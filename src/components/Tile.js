@@ -1,10 +1,11 @@
-import React, { useMemo, useRef, useState, useEffect } from "react";
+import React from "react";
 import {
   StyleSheet,
   Text,
   TouchableHighlight,
 } from "react-native";
 import * as Animatable from "react-native-animatable";
+import { useTheme } from "../context/theme/themeContext";
 
 const _styles = StyleSheet.create({
   container: {},
@@ -49,7 +50,7 @@ export const Tile = ({
   onPress,
   styles,
 }) => {
-
+  const { state: { primary } } = useTheme();
   const getFontSize = (styles) => styles.width <= 50 ? 25 : 45;
 
   return (
@@ -57,7 +58,7 @@ export const Tile = ({
       {show ? (
         <TouchableHighlight onPress={onPress}>
           <Animatable.View
-            style={[_styles.emptyTile, { ...styles }]}
+            style={[_styles.emptyTile, { ...styles, backgroundColor: primary }]}
             animation={animationTypes.in}
             duration={animationDuration}
             onAnimationEnd={() => {}}
@@ -80,7 +81,7 @@ export const Tile = ({
           onPress={onPress}
         >
           <Animatable.View
-            style={[_styles.tile, { ...styles }]}
+            style={[_styles.tile, { ...styles, backgroundColor: primary }]}
             animation={animationTypes.in}
             duration={animationDuration}
             onAnimationEnd={() => {}}

@@ -1,30 +1,45 @@
-import { useState, useEffect, useMemo } from 'react';
+import { useState, useEffect, useMemo } from "react";
 import Sound from "react-native-sound";
+import { useGeneralContext } from "../context/general";
 
-export const useSound = ({ category = "Playback", mode, volume, file }) => {
-    const [sound, setSound] = useState(new Sound(file));
-    
-    const actions = useMemo( () => ({
-        play: () => {
-            sound.play( (error) => {
-                if (error) {
-                    console.log('failed to load the sound', error);
-                    return;
-                  }
-                sound.release();
-            });
-        },
-        stop: sound.stop()
-    }), [sound]);
+export const useSound = ({
+  category = "Playback",
+  soundType = "sound",
+  mode,
+  volume,
+  file,
+}) => {
+  const { isMusicMute, isSoundMute } = useGeneralContext();
+  const [sound, setSound] = useState(new Sound(file));
 
-    useEffect( () => {
-        sound.setVolume(1);
-    },[sound]);
+  const actions = useMemo(
+    () => ({
+      play: () => {
+        sound.play((error) => {
+          if (error) {
+            console.log("failed to load the sound", error);
+            return;
+          }
+          sound.release();
+        });
+      },
+      stop: sound.stop(),
+    }),
+    [sound]
+  );
 
-    useEffect( () => {
-        Sound.setCategory(category, true);
-        // Sound.setMode()
-    },[category]);
+  useEffect(() => {
+        if ((isSoundMute && soundType == "sound") || (isMusicMute && soundType == "music")) {
+            sound.setVolume(0);
+          } else {
+            sound.setVolume(1);
+          }
+  }, [sound, isSoundMute, isMusicMute, soundType]);
 
-    return actions
-}
+  useEffect(() => {
+    Sound.setCategory(category, true);
+    // Sound.setMode()
+  }, [category]);
+
+  return actions;
+};
