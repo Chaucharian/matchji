@@ -20,7 +20,6 @@ export const useSound = ({
             console.log("failed to load the sound", error);
             return;
           }
-          sound.release();
         });
       },
       stop: sound.stop(),
@@ -29,11 +28,15 @@ export const useSound = ({
   );
 
   useEffect(() => {
-        if ((isSoundMute && soundType == "sound") || (isMusicMute && soundType == "music")) {
-            sound.setVolume(0);
-          } else {
-            sound.setVolume(1);
-          }
+    if (
+      (isSoundMute && soundType == "sound") ||
+      (isMusicMute && soundType == "music")
+    ) {
+      sound.setVolume(0);
+    } else {
+      sound.setVolume(1);
+    }
+    return () => sound.release();
   }, [sound, isSoundMute, isMusicMute, soundType]);
 
   useEffect(() => {

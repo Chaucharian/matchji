@@ -13,13 +13,15 @@ export const GameLayout = () => {
   useWin();
 
   useEffect(() => {
-    initializeBoard(currentLevelParams);
+    const initializeCleanUp = initializeBoard(currentLevelParams);
+    return initializeCleanUp;
   }, [currentLevelParams, initializeBoard]);
 
   useEffect(() => {
     if(resetLayout) {
-      resetBoard();
+      const resetCleanUp = resetBoard();
       setResetLayout({ resetLayout: false });
+      return () =>  resetCleanUp;
     }
   }, [resetBoard, resetLayout, setResetLayout]);
 
