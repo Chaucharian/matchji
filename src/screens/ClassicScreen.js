@@ -6,12 +6,15 @@ import { GameLayout } from "../core/GameLayout";
 import { GameHeader, Modal } from "../components";
 import { usePause } from "../hooks/usePause";
 import { useTheme } from "../context/theme/themeContext";
+import { useTutorial } from '../hooks/useTutorial';
+
 
 export const GameScreen = () => {
   const {
     state: { show, }
   } = useModalContext();
   usePause(show);
+  useTutorial();
   const { state: { secondary } } = useTheme();
 
   return (

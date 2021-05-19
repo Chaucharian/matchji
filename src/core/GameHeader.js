@@ -35,6 +35,10 @@ export const GameHeader = () => {
           <Text style={[_styles.levelText]}>Nivel {currentLevel}</Text>
         </View>
       </View>
+      <PauseButton 
+        styles={_styles.giftButton}
+        // onPress={() => openMenu({ show: true })}
+      />
     </View>
   );
 };
@@ -64,6 +68,11 @@ const _styles = StyleSheet.create({
     position: "absolute",
     top: 60,
     left: 25,
+  },
+  giftButton: {
+    position: "absolute",
+    top: 60,
+    right: 25,
   },
   time: {
     fontFamily: "sans-serif-light",

@@ -32,9 +32,9 @@ export const useTiles = () => {
     () =>
       tiles.map((tile) => ({
         ...tile,
-        onPress: () => !tile.show && onPress(tile),
+        onPress: () => !tile.show &&  !shouldValidateMatch && onPress(tile),
       })),
-    [tiles, onPress]
+    [tiles, onPress, shouldValidateMatch]
   );
 
   const validateMatch = useCallback(async () => {

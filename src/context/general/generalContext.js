@@ -5,12 +5,14 @@ import { GAME_MODES } from "../../const/variables";
 const GeneralContext = createContext();
 
 const initialState = {
-  showClassicTutorial: true,
-  showZenTutorial: true,
+  // showClassicTutorial: true,
+  // showZenTutorial: true,
   currentMode: null,
   currentLevel: 1,
   isMusicMute: false,
-  isSoundMute: false
+  isSoundMute: false,
+  isFirstTimeClassic: true,
+  isFirstTimeZen: true,
 };
 
 const reducer = (state, action) => {
@@ -20,24 +22,24 @@ const reducer = (state, action) => {
 
       return { ...state, currentMode: mode };
     }
-    case actionTypes.SHOW_TUTORIAL: {
-      const { mode, show } = action.payload;
-      const { showClassicTutorial, showZenTutorial } = state;
-      let newShowClassicTutorial = showClassicTutorial;
-      let newShowZenTutorial = showZenTutorial;
+    // case actionTypes.SHOW_TUTORIAL: {
+    //   const { mode, show } = action.payload;
+    //   const { showClassicTutorial, showZenTutorial } = state;
+    //   let newShowClassicTutorial = showClassicTutorial;
+    //   let newShowZenTutorial = showZenTutorial;
 
-      if (mode === GAME_MODES.CLASSIC) {
-        newShowClassicTutorial = show;
-      } else {
-        newShowZenTutorial = show;
-      }
+    //   if (mode === GAME_MODES.CLASSIC) {
+    //     newShowClassicTutorial = show;
+    //   } else {
+    //     newShowZenTutorial = show;
+    //   }
 
-      return {
-        ...state,
-        showClassicTutorial: newShowClassicTutorial,
-        showZenTutorial: newShowZenTutorial,
-      };
-    }
+    //   return {
+    //     ...state,
+    //     showClassicTutorial: newShowClassicTutorial,
+    //     showZenTutorial: newShowZenTutorial,
+    //   };
+    // }
     case actionTypes.GO_MENU: {
       return {
         ...state,

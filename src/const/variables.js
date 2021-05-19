@@ -1,5 +1,5 @@
-export const INITIAL_TILE_ANIMATION_DURATION = 500;
-export const NOT_MATCH_SHOWING_TIME = 500;
+export const INITIAL_TILE_ANIMATION_DURATION = 300;
+export const NOT_MATCH_SHOWING_TIME = 300;
 export const EXTRA_TIME_ON_MATCH = 2;
 export const EXTRA_TIME_ON_SHOW_AD = 5;
 export const NOT_MATCH_VIBRATION = 100;
@@ -13,6 +13,7 @@ export const MODAL_TYPES = {
     MENU: "MENU",
     WIN: "WIN",
     GAME_OVER: "GAME_OVER",
+    TUTORIAL: "TUTORIAL"
   };
 export const GAME_MODES = {
     MENU: "CLASSIC",

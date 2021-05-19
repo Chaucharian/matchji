@@ -6,15 +6,16 @@ const ModalContext = createContext();
 
 const initialState = {
   show: false,
-  type: MODAL_TYPES.MENU
+  type: MODAL_TYPES.MENU,
+  content: { title: <></>, body: <></> }
 };
 
 const reducer = (state, action) => {
   switch (action.type) {
     case actionTypes.OPEN: {
-      const { show, type } = action.payload;
+      const { show, type, content } = action.payload;
 
-      return { ...state, show, type };
+      return { ...state, show, type, content: content ? content : state.content };
     }
   }
 };
@@ -32,6 +33,8 @@ export const ModalProvider = ({ children, ...options }) => {
         dispatcher(open({ ...payload, type: MODAL_TYPES.WIN })),
       openGameOver: (payload) =>
         dispatcher(open({ ...payload, type: MODAL_TYPES.GAME_OVER })),
+      openTutorial: (payload) =>
+        dispatcher(open({ ...payload, type: MODAL_TYPES.TUTORIAL })),
     }),
     [dispatcher]
   );

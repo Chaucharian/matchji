@@ -18,14 +18,6 @@ const getLevelParams = (amount) => {
 }
 
 const initialState = {
-  // timeOver: false,
-  // match: false,
-  // isPlaying: false,
-  // currentTime: 60,
-  // emojiAmount: 1,
-  // initialEmojis: Emojis,
-  // score: 0,
-  // backgroundColor: "#2c2823",
   initialTime: 60,
   currentLevel: 1,
   pause: false,

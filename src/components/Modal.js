@@ -7,6 +7,7 @@ import {
   MenuTemplate,
   WinTemplate,
   GameOverTemplate,
+  TutorialTemplate,
 } from "../context/modal/templates";
 import { useGameContext } from "../context/game";
 import { useGeneralContext } from "../context/general";
@@ -35,7 +36,11 @@ const _styles = StyleSheet.create({
 
 export const Modal = ({ styles }) => {
   const {
-    state: { type, show },
+    state: {
+      type,
+      show,
+      content: { title, body },
+    },
     dispatch: { close },
   } = useModalContext();
   const {
@@ -45,7 +50,10 @@ export const Modal = ({ styles }) => {
   const {
     dispatch: { goMenu },
   } = useGeneralContext();
-  const { state: { secondary },dispatch: { changeTheme } } = useTheme();
+  const {
+    state: { secondary },
+    dispatch: { changeTheme },
+  } = useTheme();
 
   const handleAction = useCallback(
     (action) => {
@@ -90,12 +98,20 @@ export const Modal = ({ styles }) => {
           onMenu={() => handleAction("menu")}
         />
       );
+    } else if (type === MODAL_TYPES.TUTORIAL) {
+      newContent = (
+        <TutorialTemplate
+          title={title}
+          body={body}
+          onOk={() => handleAction("close")}
+        />
+      );
     }
     return newContent;
-  }, [type, handleAction, currentLevel, close]);
+  }, [type, close, handleAction, currentLevel, title, body]);
 
   return (
-    show && (
+    show ? (
       <Animatable.View
         style={[_styles.container, { ...styles }]}
         animation={"fadeIn"}
@@ -111,6 +127,6 @@ export const Modal = ({ styles }) => {
           {content}
         </Animatable.View>
       </Animatable.View>
-    )
+    ) : <></>
   );
 };

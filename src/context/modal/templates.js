@@ -9,6 +9,10 @@ const _styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
   },
+  tutorialContainer: {
+    height: "100%",
+    justifyContent: "space-evenly",
+  },
   header: {
     justifyContent: "flex-end",
     flexDirection: "row",
@@ -31,6 +35,16 @@ const _styles = StyleSheet.create({
   },
   options: {
     justifyContent: "space-around",
+  },
+  textContainer: {
+    width: 250,
+    flexDirection: "column",
+    justifyContent: "center",
+  },
+  buttonContainer: {
+    flexDirection: "row",
+    justifyContent: "center",
+    flex: 1,
   },
 });
 
@@ -114,6 +128,32 @@ export const GameOverTemplate = ({ onReset, onMenu, level }) => (
           <Button onPress={onMenu}>
             <Text button>MENU</Text>
           </Button>
+        </View>
+      </View>
+    </View>
+  </>
+);
+
+export const TutorialTemplate = ({ onOk, title, body }) => (
+  <>
+    <View
+      style={[_styles.tutorialContainer]}
+    >
+      <View style={[_styles.header]}>
+        <View style={[_styles.titleContainer]}>
+          <View style={[{ justifyContent: "center", flexDirection: "column"}]}>
+            {title}
+          </View>
+        </View>
+      </View>
+      <View style={[_styles.optionsContainer]}>
+        <View style={[_styles.textContainer]}>
+          {body}
+          <View style={[_styles.buttonContainer]}>
+            <Button onPress={onOk}>
+              <Text button>Entendido</Text>
+            </Button>
+          </View>
         </View>
       </View>
     </View>
