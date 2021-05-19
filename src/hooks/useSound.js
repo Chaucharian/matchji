@@ -1,6 +1,7 @@
-import { useState, useEffect, useMemo } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 import Sound from "react-native-sound";
 import { useGeneralContext } from "../context/general";
+import Track from '../core/Track';
 
 export const useSound = ({
   category = "Playback",
@@ -10,17 +11,17 @@ export const useSound = ({
   file,
 }) => {
   const { isMusicMute, isSoundMute } = useGeneralContext();
-  const [sound, setSound] = useState(new Sound(file));
-
+  const { current: sound } = useRef(new Track(file));
+  
   const actions = useMemo(
     () => ({
-      play: () => {
-        sound.play((error) => {
-          if (error) {
-            console.log("failed to load the sound", error);
-            return;
-          }
-        });
+      play: async () => {
+        try {
+          sound.play();
+        } catch(err) {
+          console.log("  CATCH ",err);
+        }
+        
       },
       stop: sound.stop(),
     }),
@@ -36,13 +37,12 @@ export const useSound = ({
     } else {
       sound.setVolume(1);
     }
-    return () => sound.release();
   }, [sound, isSoundMute, isMusicMute, soundType]);
 
-  useEffect(() => {
-    Sound.setCategory(category, true);
-    // Sound.setMode()
-  }, [category]);
+  // useEffect(() => {
+  //   Sound.setCategory(category, true);
+  //   // Sound.setMode()
+  // }, [category]);
 
   return actions;
 };

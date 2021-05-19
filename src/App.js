@@ -5,6 +5,9 @@ import { GameProvider } from "./context/game";
 import { GeneralProvider } from "./context/general";
 import { ModalProvider } from "./context/modal";
 import { ThemeProvider } from "./context/theme/themeContext";
+import Sound from "react-native-sound";
+
+Sound.setCategory('Playback', true);
 
 export const App = () => {
   return (

@@ -10,8 +10,8 @@ export const useMatch = () => {
     tiles: [],
     match: false,
   });
-  // const { play: matchPlay } = useSound({ file: "match.mp3" });
-  // const { play: tapPlay } = useSound({ file: "tap.mp3" });
+  const { play: matchPlay } = useSound({ file: "match.mp3" });
+  const { play: tapPlay } = useSound({ file: "tap.mp3" });
 
   const resetMatch = () =>
     setIsMatch({
@@ -26,21 +26,21 @@ export const useMatch = () => {
 
   const addCurrentTile = useCallback(
     ({ content, id }) => {
-      // tapPlay();
+      tapPlay();
       if (firstTile.content === null) {
         setFirsTile({ content, id });
       } else if (secondTile.content === null && firstTile.id !== id) {
         setSecondTile({ content, id });
       }
     },
-    [firstTile, secondTile, setFirsTile, setSecondTile]
+    [firstTile, secondTile, setFirsTile, setSecondTile, tapPlay]
   );
 
   useEffect(() => {
     if (firstTile.content !== null && secondTile.content !== null) {
       if (firstTile.content === secondTile.content) {
         setIsMatch({ tiles: [firstTile, secondTile], match: true });
-        // matchPlay();
+        matchPlay();
       } else {
         setIsMatch({
           tiles: [firstTile, secondTile],
@@ -50,7 +50,7 @@ export const useMatch = () => {
       }
       resetSelection();
     }
-  }, [firstTile, secondTile, setIsMatch]);
+  }, [firstTile, secondTile, setIsMatch, matchPlay]);
 
   return { isMatch, resetMatch, addCurrentTile };
 };

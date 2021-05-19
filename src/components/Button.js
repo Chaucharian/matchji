@@ -25,12 +25,12 @@ const _styles = StyleSheet.create({
 
 export const Button = ({ children, styles, onPress }) => {
   const { state: { primary } } = useTheme();
-  // const { play } = useSound({ file: "tap.mp3" });
+  const { play } = useSound({ file: "tap.mp3" });
 
   const handlePress = useCallback(() => {
-    // play();
+    play();
     onPress();
-  }, [onPress]);
+  }, [onPress, play]);
 
   return (
     // Using TouchableNativeFeedback cause with position absolute not work properly
