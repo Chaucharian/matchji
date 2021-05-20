@@ -45,6 +45,7 @@ const styles = StyleSheet.create({
     fontFamily: "sans-serif-light",
     fontWeight: "normal",
     fontSize: 60,
-    color: "white",
+    color: "#645135"
+    // color: "white",
   },
 });

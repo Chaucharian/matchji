@@ -14,7 +14,7 @@ export const useTutorial = () => {
 
   const { current: instructions } = useRef({
     classic: {
-      title: <Text title>Classic Mode</Text>,
+      title: <Text title>¿Como jugar?</Text>,
       body: (
         <>
           <Text subtitle bold>

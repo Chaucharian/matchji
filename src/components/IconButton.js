@@ -9,17 +9,20 @@ import {
 import { useTheme } from "../context/theme/themeContext";
 import { useSound } from "../hooks/useSound";
 import Icon from "react-native-vector-icons/MaterialIcons";
+import AntIcon from "react-native-vector-icons/AntDesign";
 
-const _styles = StyleSheet.create({
-  container: {
-    // color: "",
-  },
-});
-
-export const IconButton = ({ type, size=40, color, styles, onPress }) => {
+export const IconButton = ({
+  type,
+  ant,
+  size = 40,
+  color,
+  styles,
+  onPress,
+}) => {
   const {
-    state: { primary },
+    state: { dark },
   } = useTheme();
+  
   // const { play } = useSound({ file: "tap.mp3" });
 
   const handlePress = useCallback(() => {
@@ -28,15 +31,24 @@ export const IconButton = ({ type, size=40, color, styles, onPress }) => {
   }, [onPress]);
 
   return (
-    <TouchableOpacity onPress={onPress}>
-      <Icon.Button
-      disabled={true}
-      name={type}
-      color={color}
-      backgroundColor={"transparent"}
-      size={size}
-      style={[_styles.container, { ...styles }]}
-    />
+    <TouchableOpacity onPress={onPress} style={[{ ...styles }]}>
+      {ant ? (
+        <AntIcon.Button
+          disabled={true}
+          name={type}
+          color={dark ? "#FFF" : "#000"}
+          backgroundColor={"transparent"}
+          size={size}
+        />
+      ) : (
+        <Icon.Button
+          disabled={true}
+          name={type}
+          color={dark ? "#FFF" : "#000"}
+          backgroundColor={"transparent"}
+          size={size}
+        />
+      )}
     </TouchableOpacity>
   );
 };

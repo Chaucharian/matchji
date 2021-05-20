@@ -4,24 +4,43 @@ import { useGameContext } from "../context/game";
 import { useModalContext } from "../context/modal";
 import { Timer } from "../components/Timer";
 import { PauseButton } from "../components/PauseButton";
+import { IconButton } from "../components/IconButton";
 
 export const GameHeader = () => {
   const {
     dispatch: { openMenu, openGameOver },
   } = useModalContext();
   const {
-    state: { initialTime, extraTime, pause, resetTimer, gameOver, currentLevel },
+    state: {
+      initialTime,
+      extraTime,
+      pause,
+      resetTimer,
+      gameOver,
+      currentLevel,
+    },
     dispatch: { addTime, setResetTimer },
   } = useGameContext();
 
   return (
     <View style={_styles.container}>
-      <PauseButton
+      <IconButton
+        type={"pause-circle-outline"}
         styles={_styles.pauseButton}
+        size={50}
         onPress={() => openMenu({ show: true })}
       />
       <View style={[_styles.timeContainer]}>
-        <View style={[{ justifyContent: "center", flexDirection: "column", alignItems: "center" }]}>
+        <View
+          style={[
+            {
+              justifyContent: "center",
+              flexDirection: "column",
+              alignItems: "center",
+            },
+          ]}
+        >
+          <Text style={[_styles.levelText]}>Nivel {currentLevel}</Text>
           <Timer
             initialTime={initialTime}
             stop={pause}
@@ -32,12 +51,14 @@ export const GameHeader = () => {
             onReset={() => setResetTimer({ resetTimer: false })}
             onTimeChange={() => addTime({ time: 0 })}
           />
-          <Text style={[_styles.levelText]}>Nivel {currentLevel}</Text>
         </View>
       </View>
-      <PauseButton 
+      <IconButton
+        ant
+        type={"gift"}
         styles={_styles.giftButton}
-        // onPress={() => openMenu({ show: true })}
+        size={50}
+        onPress={() => openMenu({ show: true })}
       />
     </View>
   );
@@ -45,15 +66,14 @@ export const GameHeader = () => {
 
 const _styles = StyleSheet.create({
   container: {
-    paddingTop: 50,
+    paddingTop: 20,
     paddingLeft: 8,
     paddingRight: 8,
     display: "flex",
     flexDirection: "row",
-    // alignItems: "flex-end",
     alignItems: "center",
     justifyContent: "center",
-    height: 100,
+    height: 180,
   },
   timeContainer: {
     flexDirection: "row",
@@ -61,8 +81,11 @@ const _styles = StyleSheet.create({
     flex: 1,
   },
   levelText: {
-    fontSize: 20,
-    fontWeight: "bold"
+    fontFamily: "Roboto",
+    fontVariant: ["lining-nums"],
+    fontSize: 15,
+    color: "white",
+    fontWeight: "bold",
   },
   pauseButton: {
     position: "absolute",
