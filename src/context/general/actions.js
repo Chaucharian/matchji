@@ -2,6 +2,7 @@ export const actionTypes = {
   INIT_GAME: "INIT_GAME",
   SHOW_TUTORIAL: "SHOW_TUTORIAL",
   GO_MENU: "GO_MENU",
+  MUTE: "MUTE",
 };
 
 export const initGame = (payload) => ({
@@ -14,5 +15,9 @@ export const showTutorial = (payload) => ({
 });
 export const goMenu = (payload) => ({
   type: actionTypes.GO_MENU,
+  payload,
+});
+export const mute = (payload) => ({
+  type: actionTypes.MUTE,
   payload,
 });

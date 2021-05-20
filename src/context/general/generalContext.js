@@ -1,5 +1,5 @@
 import React, { useContext, createContext, useReducer, useMemo } from "react";
-import { actionTypes, initGame, showTutorial, goMenu } from "./actions";
+import { actionTypes, initGame, showTutorial, goMenu, mute } from "./actions";
 import { GAME_MODES } from "../../const/variables";
 
 const GeneralContext = createContext();
@@ -40,6 +40,24 @@ const reducer = (state, action) => {
     //     showZenTutorial: newShowZenTutorial,
     //   };
     // }
+    case actionTypes.MUTE: {
+      const { type } = action.payload;
+      const { isSoundMute, isMusicMute } = state;
+      let newIsSoundMute = isSoundMute;
+      let newIsMusicMute = isMusicMute;
+
+      if(type === 'music') {
+        newIsMusicMute = !newIsMusicMute;
+      } else {
+        newIsSoundMute = !newIsSoundMute;
+      }
+
+      return {
+        ...state,
+        isSoundMute: newIsSoundMute,
+        isMusicMute: newIsMusicMute
+      };
+    }
     case actionTypes.GO_MENU: {
       return {
         ...state,
@@ -60,6 +78,8 @@ export const GeneralProvider = ({ children, ...options }) => {
         dispatcher(showTutorial({ ...payload, mode: GAME_MODES.CLASSIC })),
       showZenTutorial: (payload) => dispatcher(showTutorial({ ...payload, mode: GAME_MODES.ZEN })),
       goMenu: () => dispatcher(goMenu()),
+      muteMusic: () => dispatcher(mute({ type: 'music' })),
+      muteSound: () => dispatcher(mute({ type: 'sound' })),
     }),
     [dispatcher]
   );
