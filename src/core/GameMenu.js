@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Button } from "../components/Button";
+import { Controls } from "../components/Controls";
 import { Text } from "../components/Text";
 import { useGeneralContext } from "../context/general";
 
@@ -31,6 +32,7 @@ export const GameMenu = () => {
           </Button>
         </View>
       </View>
+      <Controls />
     </View>
   );
 };
