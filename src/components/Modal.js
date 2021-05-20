@@ -52,7 +52,6 @@ export const Modal = ({ styles }) => {
   } = useGeneralContext();
   const {
     state: { secondary },
-    dispatch: { changeTheme },
   } = useTheme();
 
   const handleAction = useCallback(
@@ -63,13 +62,10 @@ export const Modal = ({ styles }) => {
         resetLevel();
       } else if (action == "menu") {
         goMenu();
-      } else if (action == "theme") {
-        changeTheme();
-        return;
       }
       close();
     },
-    [nextLevel, resetLevel, goMenu, changeTheme, close]
+    [nextLevel, resetLevel, goMenu, close]
   );
 
   const content = useMemo(() => {
@@ -78,7 +74,6 @@ export const Modal = ({ styles }) => {
       newContent = (
         <MenuTemplate
           onClose={close}
-          onChangeTheme={() => handleAction("theme")}
           onMenu={() => handleAction("menu")}
           onReset={() => handleAction("reset")}
         />

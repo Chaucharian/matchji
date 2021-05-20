@@ -12,11 +12,11 @@ import Icon from "react-native-vector-icons/MaterialIcons";
 
 const _styles = StyleSheet.create({
   container: {
-    color: "#000",
+    // color: "",
   },
 });
 
-export const IconButton = ({ type, size=40, styles, onPress }) => {
+export const IconButton = ({ type, size=40, color, styles, onPress }) => {
   const {
     state: { primary },
   } = useTheme();
@@ -28,12 +28,15 @@ export const IconButton = ({ type, size=40, styles, onPress }) => {
   }, [onPress]);
 
   return (
-    <Icon.Button
+    <TouchableOpacity onPress={onPress}>
+      <Icon.Button
+      disabled={true}
       name={type}
+      color={color}
       backgroundColor={"transparent"}
       size={size}
       style={[_styles.container, { ...styles }]}
-      onPress={onPress}
     />
+    </TouchableOpacity>
   );
 };

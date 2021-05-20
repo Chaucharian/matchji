@@ -3,6 +3,7 @@ import { View, StyleSheet } from "react-native";
 import { CloseButton } from "../../components/CloseButton";
 import { Button } from "../../components/Button";
 import { Text } from "../../components/Text";
+import { Controls } from "../../components/Controls";
 
 const _styles = StyleSheet.create({
   container: {
@@ -48,7 +49,7 @@ const _styles = StyleSheet.create({
   },
 });
 
-export const MenuTemplate = ({ onMenu, onClose, onReset, onChangeTheme }) => (
+export const MenuTemplate = ({ onMenu, onClose, onReset }) => (
   <>
     <View
       style={[_styles.container]}
@@ -60,9 +61,6 @@ export const MenuTemplate = ({ onMenu, onClose, onReset, onChangeTheme }) => (
       </View>
       <View style={[_styles.optionsContainer]}>
         <View style={[_styles.options]}>
-        <Button onPress={onChangeTheme}>
-            <Text button>DARK</Text>
-          </Button>
           <Button onPress={onClose}>
             <Text button>CONTINUE</Text>
           </Button>
@@ -72,6 +70,7 @@ export const MenuTemplate = ({ onMenu, onClose, onReset, onChangeTheme }) => (
           <Button onPress={onMenu} >
             <Text button>MENU</Text>
           </Button>
+          <Controls />
         </View>
       </View>
     </View>
