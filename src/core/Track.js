@@ -18,18 +18,14 @@ class Track {
     };
   }
 
-  load() {
-    return new Promise(async (resolve, reject) => {
+  async load() {
       const { _sound, _id, status } = this;
-
       try {
         await _sound.loadAsync(audioFiles[_id]);
         status.loaded = true;
-        resolve();
       } catch (error) {
-        reject(error);
+        throw new Error(` Error loading ${_id} track`);
       }
-    });
   }
 
   unload() {

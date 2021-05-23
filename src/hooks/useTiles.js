@@ -5,6 +5,7 @@ import { sleep } from "../utils";
 import { useLayoutContext } from "../context/layout";
 import { useGameContext } from "../context/game";
 import { EXTRA_TIME_ON_MATCH } from "../const";
+import { useSoundContext } from "../context/sound";
 
 const match = new Match();
 
@@ -16,14 +17,16 @@ export const useTiles = () => {
   const {
     dispatch: { addTime },
   } = useGameContext();
+  const { playTap, playMatch } = useSoundContext();
   const [tiles, setTiles] = useState([]);
 
   const onPress = useCallback(
     (_tile) => {
+      playTap();
       show({ tiles: [_tile], show: true });
       match.addCurrentTile({ content: _tile.content, id: _tile.id });
     },
-    [show]
+    [show, playTap]
   );
 
   const newTiles = useMemo(
@@ -40,13 +43,14 @@ export const useTiles = () => {
     if (match) {
       // TODO ZenMode change this behavior (remove the tiles)
       // dispatch(remove({ tiles: tiles }));
+      playMatch();
       addTime({ time: EXTRA_TIME_ON_MATCH });
       validateWin();
     } else if (!match) {
       await sleep(NOT_MATCH_SHOWING_TIME);
       show({ tiles: tiles, show: false });
     }
-  }, [validateWin, show, addTime]);
+  }, [validateWin, show, addTime, playMatch]);
 
   useEffect(() => {
     match.subscribe( (isMatch) => {

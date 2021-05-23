@@ -6,9 +6,8 @@ import {
   TouchableNativeFeedback,
   View,
 } from "react-native";
+import { useSoundContext } from "../context/sound";
 import { useTheme } from "../context/theme/themeContext";
-import { useSound } from "../hooks/useSound";
-import Track from '../core/Track';
 
 const _styles = StyleSheet.create({
   container: {
@@ -24,15 +23,14 @@ const _styles = StyleSheet.create({
   },
 });
 
-const sound = new Track("tap");
-
 export const Button = ({ children, styles, onPress }) => {
   const { state: { primary } } = useTheme();
+  const { playTap } = useSoundContext();
 
   const handlePress = useCallback(() => {
-    sound.play();
+    playTap();
     onPress();
-  }, [onPress]);
+  }, [onPress, playTap]);
 
   return (
     // Using TouchableNativeFeedback cause with position absolute not work properly

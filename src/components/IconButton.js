@@ -10,6 +10,7 @@ import { useTheme } from "../context/theme/themeContext";
 import { useSound } from "../hooks/useSound";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import AntIcon from "react-native-vector-icons/AntDesign";
+import { useSoundContext } from "../context/sound";
 
 export const IconButton = ({
   type,
@@ -22,16 +23,15 @@ export const IconButton = ({
   const {
     state: { dark },
   } = useTheme();
-  
-  // const { play } = useSound({ file: "tap.mp3" });
+  const { playTap } = useSoundContext();
 
   const handlePress = useCallback(() => {
-    // play();
+    playTap();
     onPress();
-  }, [onPress]);
+  }, [onPress, playTap]);
 
   return (
-    <TouchableOpacity onPress={onPress} style={[{ ...styles }]}>
+    <TouchableOpacity onPress={handlePress} style={[{ ...styles }]}>
       {ant ? (
         <AntIcon.Button
           disabled={true}

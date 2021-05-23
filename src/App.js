@@ -5,17 +5,20 @@ import { GameProvider } from "./context/game";
 import { GeneralProvider } from "./context/general";
 import { ModalProvider } from "./context/modal";
 import { ThemeProvider } from "./context/theme/themeContext";
+import { SoundProvider } from './context/sound/soundContext';
 
 export const App = () => {
   return (
     <GeneralProvider>
       <ThemeProvider>
-        <GameProvider>
-          <ModalProvider>
-            <InitialScreen />
-            <StatusBar style="auto" />
-          </ModalProvider>
-        </GameProvider>
+        <SoundProvider>
+          <GameProvider>
+            <ModalProvider>
+              <InitialScreen />
+              <StatusBar style="auto" />
+            </ModalProvider>
+          </GameProvider>
+        </SoundProvider>
       </ThemeProvider>
     </GeneralProvider>
   );
