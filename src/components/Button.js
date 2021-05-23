@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { useTheme } from "../context/theme/themeContext";
 import { useSound } from "../hooks/useSound";
+import Track from '../core/Track';
 
 const _styles = StyleSheet.create({
   container: {
@@ -23,12 +24,13 @@ const _styles = StyleSheet.create({
   },
 });
 
+const sound = new Track("tap");
+
 export const Button = ({ children, styles, onPress }) => {
   const { state: { primary } } = useTheme();
-  // const { play } = useSound({ file: "tap.mp3" });
 
   const handlePress = useCallback(() => {
-    // play();
+    sound.play();
     onPress();
   }, [onPress]);
 
