@@ -1,10 +1,9 @@
 import { Audio } from "expo-av";
-// import logger from "../helpers/logger";
-// import { audio as audioFiles } from "../../data/media";
-const _import = {
-    tap: () => import('../assets/tap.mp3')
-}
 
+const audioFiles = { 
+  ["match"]: require('../assets/match.mp3'), 
+  ["tap"]: require('../assets/tap.mp3'), 
+}
 class Track {
   constructor(id) {
     this._id = id;
@@ -24,11 +23,7 @@ class Track {
       const { _sound, _id, status } = this;
 
       try {
-        //   await _sound.loadAsync(audioFiles[_id])
-        const audio = _import.tap();
-        console.log(" AUDIO ",audio)
-        await _sound.loadAsync(audio);
-        console.log(" LOAD ",_sound)
+        await _sound.loadAsync(audioFiles[_id]);
         status.loaded = true;
         resolve();
       } catch (error) {
@@ -82,39 +77,29 @@ class Track {
     });
   }
 
-  play({ loop = true, continueFromPreviousPosition = true, volume = 1 }) {
+  play(params = {}) {
     return new Promise(async (resolve, reject) => {
-      const {
-        _sound,
-        setCurrentTime,
-        setVolume,
-        fade,
-        setTrackToLooping,
-        load,
-        status,
-      } = this;
-
+      const { loop = true, continueFromPreviousPosition = true, volume = 1 } = params;
       try {
-        if (!status.loaded) {
-          await load();
+        if (!this.status.loaded) {
+          await this.load();
         }
 
         const shouldFadeIn =
-          continueFromPreviousPosition && status.pauseTime !== 0 ? true : false;
-        await setCurrentTime(
-          continueFromPreviousPosition ? status.pauseTime : 0
+          continueFromPreviousPosition && this.status.pauseTime !== 0 ? true : false;
+        await this.setCurrentTime(
+          continueFromPreviousPosition ? this.status.pauseTime : 0
         );
-        await setVolume(shouldFadeIn ? 0 : volume);
+        await this.setVolume(shouldFadeIn ? 0 : volume);
 
-        await _sound.playAsync();
-
+        await this._sound.playAsync();
         if (shouldFadeIn) {
-          await fade(volume);
+          await this.fade(volume);
         }
 
-        if (loop) {
-          await setTrackToLooping();
-        }
+        // if (loop) {
+        //   await this.setTrackToLooping();
+        // }
 
         resolve();
       } catch (error) {
