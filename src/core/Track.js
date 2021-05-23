@@ -19,12 +19,11 @@ class Track {
   }
 
   async load() {
-      const { _sound, _id, status } = this;
       try {
-        await _sound.loadAsync(audioFiles[_id]);
-        status.loaded = true;
+        await this._sound.loadAsync(audioFiles[this._id]);
+        this.status.loaded = true;
       } catch (error) {
-        throw new Error(` Error loading ${_id} track`);
+        throw new Error(` Error loading ${this._id} track`);
       }
   }
 
@@ -42,20 +41,15 @@ class Track {
     });
   }
 
-  setVolume(volume) {
-    return new Promise(async (resolve, reject) => {
-      const { _sound, status } = this;
-
-      if (!status.loaded) return resolve();
-
+  async setVolume(volume) {
+      if (!this.status.loaded) return 
+      
       try {
-        await _sound.setVolumeAsync(volume);
-        status.volume = volume;
-        resolve();
+        await this._sound.setVolumeAsync(volume);
+        this.status.volume = volume;
       } catch (error) {
-        reject(error);
+        console.log("Error setting volume");
       }
-    });
   }
 
   setCurrentTime(time) {
@@ -73,35 +67,32 @@ class Track {
     });
   }
 
-  play(params = {}) {
-    return new Promise(async (resolve, reject) => {
+  async play(params = {}) {
       const { loop = true, continueFromPreviousPosition = true, volume = 1 } = params;
       try {
         if (!this.status.loaded) {
           await this.load();
         }
 
-        const shouldFadeIn =
-          continueFromPreviousPosition && this.status.pauseTime !== 0 ? true : false;
+        // const shouldFadeIn =
+        //   continueFromPreviousPosition && this.status.pauseTime !== 0 ? true : false;
         await this.setCurrentTime(
           continueFromPreviousPosition ? this.status.pauseTime : 0
         );
-        await this.setVolume(shouldFadeIn ? 0 : volume);
+        // await this.setVolume(shouldFadeIn ? 0 : volume);
+        await this.setVolume(this.status.volume);
 
         await this._sound.playAsync();
-        if (shouldFadeIn) {
-          await this.fade(volume);
-        }
+        // if (shouldFadeIn) {
+        //   await this.fade(volume);
+        // }
 
         // if (loop) {
         //   await this.setTrackToLooping();
         // }
-
-        resolve();
       } catch (error) {
-        reject(error);
+        throw new Error(`Error playing ${this._id}: ${error}`);
       }
-    });
   }
 
   pause() {

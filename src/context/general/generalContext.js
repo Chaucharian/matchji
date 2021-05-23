@@ -22,24 +22,6 @@ const reducer = (state, action) => {
 
       return { ...state, currentMode: mode };
     }
-    // case actionTypes.SHOW_TUTORIAL: {
-    //   const { mode, show } = action.payload;
-    //   const { showClassicTutorial, showZenTutorial } = state;
-    //   let newShowClassicTutorial = showClassicTutorial;
-    //   let newShowZenTutorial = showZenTutorial;
-
-    //   if (mode === GAME_MODES.CLASSIC) {
-    //     newShowClassicTutorial = show;
-    //   } else {
-    //     newShowZenTutorial = show;
-    //   }
-
-    //   return {
-    //     ...state,
-    //     showClassicTutorial: newShowClassicTutorial,
-    //     showZenTutorial: newShowZenTutorial,
-    //   };
-    // }
     case actionTypes.MUTE: {
       const { type } = action.payload;
       const { isSoundMute, isMusicMute } = state;

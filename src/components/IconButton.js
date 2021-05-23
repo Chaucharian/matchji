@@ -7,7 +7,6 @@ import {
   View,
 } from "react-native";
 import { useTheme } from "../context/theme/themeContext";
-import { useSound } from "../hooks/useSound";
 import Icon from "react-native-vector-icons/MaterialIcons";
 import AntIcon from "react-native-vector-icons/AntDesign";
 import { useSoundContext } from "../context/sound";
