@@ -1,10 +1,12 @@
 import { useCallback, useState, useMemo, useEffect } from "react";
-import { useMatch } from "./useMatch";
+import { Match } from "../core/Match";
 import { NOT_MATCH_SHOWING_TIME } from "../const/variables";
 import { sleep } from "../utils";
 import { useLayoutContext } from "../context/layout";
 import { useGameContext } from "../context/game";
 import { EXTRA_TIME_ON_MATCH } from "../const";
+
+const match = new Match();
 
 export const useTiles = () => {
   const {
@@ -14,30 +16,26 @@ export const useTiles = () => {
   const {
     dispatch: { addTime },
   } = useGameContext();
-  const { addCurrentTile, isMatch, resetMatch } = useMatch();
   const [tiles, setTiles] = useState([]);
-  const shouldValidateMatch = useMemo(() => isMatch.tiles.length === 2, [
-    isMatch,
-  ]);
 
   const onPress = useCallback(
     (_tile) => {
       show({ tiles: [_tile], show: true });
-      addCurrentTile({ content: _tile.content, id: _tile.id });
+      match.addCurrentTile({ content: _tile.content, id: _tile.id });
     },
-    [addCurrentTile, show]
+    [show]
   );
 
   const newTiles = useMemo(
     () =>
       tiles.map((tile) => ({
         ...tile,
-        onPress: () => !tile.show &&  !shouldValidateMatch && onPress(tile),
+        onPress: () => !tile.show && onPress(tile),
       })),
-    [tiles, onPress, shouldValidateMatch]
+    [tiles, onPress]
   );
 
-  const validateMatch = useCallback(async () => {
+  const validateMatch = useCallback(async (isMatch) => {
     const { match, tiles } = isMatch;
     if (match) {
       // TODO ZenMode change this behavior (remove the tiles)
@@ -48,14 +46,13 @@ export const useTiles = () => {
       await sleep(NOT_MATCH_SHOWING_TIME);
       show({ tiles: tiles, show: false });
     }
-  }, [validateWin, show, isMatch, addTime]);
+  }, [validateWin, show, addTime]);
 
   useEffect(() => {
-    if (shouldValidateMatch) {
-      validateMatch();
-      resetMatch();
-    }
-  }, [resetMatch, validateMatch, shouldValidateMatch]);
+    match.subscribe( (isMatch) => {
+      validateMatch(isMatch)
+    });
+  }, [validateMatch]);
 
   useEffect(() => {
     setTiles(initialTiles);

@@ -17,7 +17,7 @@ export const Layout = ({ tiles, styles }) => {
   return (
     <View style={[_styles.container, { styles }]}>
       {tiles.map(({ tile: Tile, key, ...props }, i) => (
-        <Tile key={key} {...props} />
+        <Tile key={key} _key={key} {...props} />
       ))}
     </View>
   );

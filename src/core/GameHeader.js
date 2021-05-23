@@ -66,14 +66,14 @@ export const GameHeader = () => {
 
 const _styles = StyleSheet.create({
   container: {
-    paddingTop: 20,
+    paddingTop: 55,
     paddingLeft: 8,
     paddingRight: 8,
     display: "flex",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
-    height: 180,
+    height: 130,
   },
   timeContainer: {
     flexDirection: "row",

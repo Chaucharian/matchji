@@ -1,7 +1,7 @@
 import React, { useContext, createContext, useReducer, useMemo } from "react";
 import { actionTypes, changeTheme } from "./actions";
 
-const ThemeContext = createContext();
+export const ThemeContext = createContext();
 
 const initialState = {
   dark: false,

@@ -6,25 +6,26 @@ import { GameLayout } from "../core/GameLayout";
 import { GameHeader, Modal } from "../components";
 import { usePause } from "../hooks/usePause";
 import { useTheme } from "../context/theme/themeContext";
-import { useTutorial } from '../hooks/useTutorial';
-
+import { useTutorial } from "../hooks/useTutorial";
 
 export const GameScreen = () => {
   const {
-    state: { show, }
+    state: { show },
   } = useModalContext();
   usePause(show);
   useTutorial();
-  const { state: { secondary } } = useTheme();
+  const {
+    state: { secondary },
+  } = useTheme();
 
   return (
-    <LayoutProvider>
-      <View style={{ ...styles.container, backgroundColor: secondary }}>
-        <Modal />
-        <GameHeader />
-        <GameLayout />
-      </View>
-    </LayoutProvider>
+      <LayoutProvider>
+        <View style={{ ...styles.container, backgroundColor: secondary }}>
+          <Modal />
+          <GameHeader />
+          <GameLayout />
+        </View>
+      </LayoutProvider>
   );
 };
 
