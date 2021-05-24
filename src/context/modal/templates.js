@@ -164,7 +164,7 @@ export const TutorialTemplate = ({ onOk, title, body }) => (
         </View>
         <View style={[{ flex: 0.3 }]}></View>
         <MainButton onPress={onOk}>
-          Next level
+          Jugar
         </MainButton>
       </View>
     </View>
