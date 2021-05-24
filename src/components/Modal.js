@@ -27,7 +27,7 @@ const _styles = StyleSheet.create({
     zIndex: 10,
     position: "absolute",
     width: 320,
-    height: 350,
+    height: 380,
     borderRadius: 10,
     backgroundColor: "#fdf9ef",
   },
@@ -51,7 +51,7 @@ export const Modal = ({ styles }) => {
     dispatch: { goMenu },
   } = useGeneralContext();
   const {
-    state: { secondary },
+    state: { modal: { primary } },
   } = useTheme();
 
   const handleAction = useCallback(
@@ -82,6 +82,7 @@ export const Modal = ({ styles }) => {
       newContent = (
         <WinTemplate
           level={currentLevel}
+          time={20}
           onPress={() => handleAction("next")}
         />
       );
@@ -114,7 +115,7 @@ export const Modal = ({ styles }) => {
         onAnimationEnd={() => {}}
       >
         <Animatable.View
-          style={[_styles.modal, { ...styles, backgroundColor: secondary }]}
+          style={[_styles.modal, { ...styles, backgroundColor: primary  }]}
           animation={"bounceInDown"}
           duration={1000}
           onAnimationEnd={() => {}}

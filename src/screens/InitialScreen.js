@@ -12,9 +12,11 @@ export const InitialScreen = () => {
   } = useTheme();
   const { playMusic } = useSoundContext();
 
-  useEffect( () => {
-    playMusic();
-  },[playMusic]);
+  // TODO 
+  // REMOVE WHEN PROD
+  // useEffect( () => {
+  //   playMusic();
+  // },[playMusic]);
 
   return (
     <View style={[{ ..._styles.container, backgroundColor: secondary }]}>

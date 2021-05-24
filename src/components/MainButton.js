@@ -8,6 +8,8 @@ import {
 } from "react-native";
 import { useSoundContext } from "../context/sound";
 import { useTheme } from "../context/theme/themeContext";
+import { ButtonWithIcon } from "./ButtonWithIcon";
+import { Text } from "./Text";
 
 const _styles = StyleSheet.create({
   container: {
@@ -15,7 +17,7 @@ const _styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 5,
-    // borderWidth: 2,
+    borderWidth: 3,
     // borderColor: "#000",
     width: 250,
     height: 60,
@@ -23,19 +25,14 @@ const _styles = StyleSheet.create({
   },
 });
 
-export const Button = ({ children, styles, onPress }) => {
-  const { state: { primary } } = useTheme();
-  const { playTap } = useSoundContext();
-
-  const handlePress = useCallback(() => {
-    playTap();
-    onPress();
-  }, [onPress, playTap]);
+export const MainButton = ({ children, icon, onPress, ...props }) => {
+  const { state: { mainButton } } = useTheme();
 
   return (
-    // Using TouchableNativeFeedback cause with position absolute not work properly
-    <TouchableNativeFeedback onPress={handlePress}>
-      <View style={[_styles.container, { ...styles, backgroundColor: primary }]}>{children}</View>
-    </TouchableNativeFeedback>
+    <ButtonWithIcon styles={mainButton} size={24} icon={icon} onPress={onPress} {...props}>
+      <Text button styles={{ color: mainButton.color }} >
+        {children}
+      </Text>
+    </ButtonWithIcon>
   );
 };

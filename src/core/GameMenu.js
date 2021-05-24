@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Button } from "../components/Button";
+import { MainButton } from "../components/MainButton";
 import { Controls } from "../components/Controls";
 import { Text } from "../components/Text";
 import { useGeneralContext } from "../context/general";
@@ -22,14 +23,16 @@ export const GameMenu = () => {
       <View style={[_styles.menuContainer]}>
         <View style={[_styles.options]}>
           <Button onPress={() => initGame()}>
-            <Text button>CLASSIC</Text>
+            <Text button>Classic</Text>
           </Button>
+          <View style={[{ flex: 0.1 }]}></View>
           <Button onPress={() => initZenGame()}>
-            <Text button>ZEN</Text>
+            <Text button>Zen</Text>
           </Button>
-          <Button onPress={() => {}}>
-            <Text button>REMOVE ADS</Text>
-          </Button>
+          <View style={[{ flex: 0.5 }]}></View>
+          <MainButton icon="emoji-objects" onPress={() => {}}>
+            Remove Ads
+          </MainButton>
         </View>
       </View>
       <Controls />
@@ -68,6 +71,6 @@ const _styles = StyleSheet.create({
     flexDirection: "row",
   },
   options: {
-    justifyContent: "space-around",
+    // justifyContent: "space-around",
   },
 });

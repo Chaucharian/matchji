@@ -7,11 +7,18 @@ const initialState = {
   dark: false,
   primary: "#fdf9ef",
   secondary: "#f6e9c2",
+  mainButton: { color: "#FFF", backgroundColor: "#00AF65", borderColor: "#039055", borderWidth: 3 },
+  icon: { primary: "#FFF" },
+  modal: {
+    primary: "#FFF",
+  },
   fonts: {
     button: {
-      color: "#AAAAAA",
+      color: "#393939",
+      fontWeight: "bold",
+      fontSize: 20
     },
-    title: { fontSize: 30, fontWeight: "bold", color: "#AAAAAA" },
+    title: { fontSize: 30, fontWeight: "bold", color: "#000" },
     subtitle: { color: "#AAAAAA" },
   },
 };
@@ -19,18 +26,28 @@ const initialState = {
 const reducer = (state, action) => {
   switch (action.type) {
     case actionTypes.CHANGE_THEME: {
-      const { dark, fonts } = state;
+      const { dark, fonts, modal, icon } = state;
       const newDark = !dark;
       let primary, secondary;
       let newFonts = { ...fonts };
+      let newModal = { ...modal };
+      let newIcon = { ...icon };
 
       if (dark) {
         primary = initialState.primary;
         secondary = initialState.secondary;
         newFonts = initialState.fonts;
+        newModal = initialState.modal;
+        newIcon = initialState.icon;
       } else {
         primary = "#212121";
         secondary = "#191919";
+        newModal = {
+          primary: "#171717"
+        }
+        newIcon = {
+          primary: "#000"
+        }
         newFonts = {
           button: { ...fonts.button, color: "#FFF" },
           title: { ...fonts.title, color: "#FFF" },
@@ -38,7 +55,7 @@ const reducer = (state, action) => {
         };
       }
 
-      return { ...state, primary, secondary, fonts: newFonts, dark: newDark };
+      return { ...state, primary, secondary, fonts: newFonts, modal: newModal, icon: newIcon, dark: newDark };
     }
   }
 };

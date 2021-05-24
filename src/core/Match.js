@@ -51,7 +51,9 @@ export class Match {
         });
       }
       this.resetSelection();
+      // WATCH THIS
+      this.resetMatch();
     }
   }
 
-};
+}

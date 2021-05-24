@@ -14,9 +14,10 @@ import { useSoundContext } from "../context/sound";
 export const IconButton = ({
   type,
   ant,
-  size = 40,
+  size = 32,
   color,
   styles,
+  disabled,
   onPress,
 }) => {
   const {
@@ -30,7 +31,7 @@ export const IconButton = ({
   }, [onPress, playTap]);
 
   return (
-    <TouchableOpacity onPress={handlePress} style={[{ ...styles }]}>
+    <TouchableOpacity disabled={disabled} onPress={handlePress} style={[{ ...styles }]}>
       {ant ? (
         <AntIcon.Button
           disabled={true}

@@ -4,6 +4,9 @@ import { CloseButton } from "../../components/CloseButton";
 import { Button } from "../../components/Button";
 import { Text } from "../../components/Text";
 import { Controls } from "../../components/Controls";
+import { IconButton } from "../../components/IconButton";
+import { ButtonWithIcon } from '../../components/ButtonWithIcon';
+import { MainButton } from '../../components/MainButton';
 
 const _styles = StyleSheet.create({
   container: {
@@ -21,8 +24,8 @@ const _styles = StyleSheet.create({
   },
   closeButton: {
     position: "absolute",
-    top: 10,
-    right: 15,
+    top: 5,
+    right: 0,
   },
   titleContainer: {
     flexDirection: "row",
@@ -34,9 +37,9 @@ const _styles = StyleSheet.create({
     justifyContent: "center",
     flexDirection: "row",
   },
-  options: {
-    justifyContent: "space-around",
-  },
+  // options: {
+  //   justifyContent: "space-around",
+  // },
   textContainer: {
     width: 250,
     flexDirection: "column",
@@ -56,25 +59,31 @@ export const MenuTemplate = ({ onMenu, onClose, onReset }) => (
     >
       <View style={[_styles.header]}>
         <View style={[_styles.titleContainer]}>
-          <Text title>MENU</Text>
+          <Text title>Pause</Text>
         </View>
       </View>
       <View style={[_styles.optionsContainer]}>
         <View style={[_styles.options]}>
-          <Button onPress={onClose}>
+          <View style={[{ flex: 0.3 }]}></View>
+          <ButtonWithIcon icon={"play-arrow"} onPress={onClose}>
             <Text button>CONTINUE</Text>
-          </Button>
-          <Button onPress={onReset}>
+          </ButtonWithIcon>
+          <View style={[{ flex: 0.07 }]}></View>
+          <ButtonWithIcon icon={"settings-backup-restore"} onPress={onReset}>
             <Text button>RESET</Text>
-          </Button>
-          <Button onPress={onMenu} >
-            <Text button>MENU</Text>
-          </Button>
+          </ButtonWithIcon>
+          <View style={[{ flex: 0.07 }]}></View>
+          <ButtonWithIcon icon={"home"} onPress={onMenu}>
+            <Text button>HOME</Text>
+          </ButtonWithIcon>
+          <View style={[{ flex: 0.2 }]}></View>
           <Controls />
         </View>
       </View>
     </View>
-    <CloseButton
+    <IconButton
+      size={43}
+      type="highlight-off"
       styles={_styles.closeButton}
       onPress={onClose}
     />
@@ -82,28 +91,31 @@ export const MenuTemplate = ({ onMenu, onClose, onReset }) => (
 );
 
 export const WinTemplate = ({ onPress, level, time }) => (
-  <>
-    <View
-      style={[_styles.container]}
-    >
-      <View style={[_styles.header]}>
-        <View style={[_styles.titleContainer]}>
-          <View style={[{ justifyContent: "center", flexDirection: "column"}]}>
-            <Text title>YOU WIN!</Text>
-            <Text title>LEVEL {level}</Text>
-            <Text title>YOUR TIME {time}</Text>
-          </View>
-        </View>
-      </View>
-      <View style={[_styles.optionsContainer]}>
-        <View style={[_styles.options]}>
-          <Button button onPress={onPress}>
-            <Text>NEXT</Text>
-          </Button>
+  <View
+    style={[_styles.container]}
+  >
+    <View style={[_styles.header]}>
+      <View style={[_styles.titleContainer]}>
+        <View style={[{ alignItems: "center" }]}> 
+        <Text title>You Win!</Text>
+        <Text button>Level {level}</Text>
         </View>
       </View>
     </View>
-  </>
+    <View style={[_styles.optionsContainer]}>
+      <View style={[_styles.options]}>
+        <View style={[{ flex: 0.3 }]}></View>
+        <View style={[{ display: "flex", flexDirection: "row", justifyContent: "center",alignItems: "center"}]} >
+          <IconButton type="timer" disabled/>
+          <Text button>Time: {time}<Text subtitle>s</Text></Text>
+        </View>
+        <View style={[{ flex: 0.3 }]}></View>
+        <MainButton icon={"arrow-right-alt"} size={35} right onPress={onPress}>
+          Next level
+        </MainButton>
+      </View>
+    </View>
+  </View>
 );
 
 export const GameOverTemplate = ({ onReset, onMenu, level }) => (
@@ -134,27 +146,27 @@ export const GameOverTemplate = ({ onReset, onMenu, level }) => (
 );
 
 export const TutorialTemplate = ({ onOk, title, body }) => (
-  <>
-    <View
-      style={[_styles.tutorialContainer]}
-    >
-      <View style={[_styles.header]}>
-        <View style={[_styles.titleContainer]}>
-          <View style={[{ justifyContent: "center", flexDirection: "column"}]}>
-            {title}
-          </View>
-        </View>
-      </View>
-      <View style={[_styles.optionsContainer]}>
-        <View style={[_styles.textContainer]}>
-          {body}
-          <View style={[_styles.buttonContainer]}>
-            <Button onPress={onOk}>
-              <Text button>Entendido</Text>
-            </Button>
-          </View>
+  <View
+    style={[_styles.container]}
+  >
+    <View style={[_styles.header]}>
+      <View style={[_styles.titleContainer]}>
+        <View style={[{ alignItems: "center" }]}> 
+        <Text title>{title}</Text>
         </View>
       </View>
     </View>
-  </>
+    <View style={[_styles.optionsContainer]}>
+      <View style={[_styles.options, { alignItems: "center"}]}>
+        <View style={[{ flex: 0.3 }]}></View>
+        <View style={[{ alignContent: "center", display:"flex", flexDirection: "row", justifyContent: "center", alignItems: "center",  }]} >
+          <Text button>{body}</Text>
+        </View>
+        <View style={[{ flex: 0.3 }]}></View>
+        <MainButton onPress={onOk}>
+          Next level
+        </MainButton>
+      </View>
+    </View>
+  </View>
 );

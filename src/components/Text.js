@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo, useCallback } from "react";
 import { Text as NativeText, StyleSheet } from "react-native";
 import { useTheme } from "../context/theme/themeContext";
 
@@ -11,7 +11,7 @@ const _styles = StyleSheet.create({
 export const Text = ({
   styles,
   title: titleType,
-  subtitle: subtitleType = true,
+  subtitle: subtitleType,
   button: buttonType,
   bold,
   children,
@@ -21,31 +21,20 @@ export const Text = ({
       fonts: { title, subtitle, button },
     },
   } = useTheme();
-  const [currentStyles, setCurrentStyles] = useState({});
-
-  useEffect(() => {
-    if (titleType) {
-      setCurrentStyles(title);
-    } else if (subtitleType) {
-      setCurrentStyles(subtitle);
-    } else if (buttonType) {
-      setCurrentStyles(button);
-    } else if (bold) {
-      setCurrentStyles({ ...currentStyles, ..._styles.bold });
+  const currentStyles = useCallback( () => {
+    if(titleType) {
+      return title;
     }
-  }, [
-    titleType,
-    subtitleType,
-    buttonType,
-    currentStyles,
-    bold,
-    title,
-    subtitle,
-    button,
-  ]);
+    if(subtitleType) {
+      return subtitle;
+    }
+    if(buttonType) {
+      return button
+    }
+  }, [button, buttonType, subtitle, subtitleType, title, titleType]);
 
   return (
-    <NativeText style={[{ ...currentStyles, ...styles }]}>
+    <NativeText style={[{ ...currentStyles(), ...styles }]}>
       {children}
     </NativeText>
   );
