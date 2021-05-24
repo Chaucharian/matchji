@@ -1,9 +1,10 @@
 import { Audio } from "expo-av";
 
-const audioFiles = { 
-  ["match"]: require('../assets/match.mp3'), 
-  ["tap"]: require('../assets/tap.mp3'), 
-}
+const audioFiles = {
+  ["match"]: require("../assets/match.mp3"),
+  ["tap"]: require("../assets/tap.mp3"),
+  ["music"]: require("../assets/bat.mp3"),
+};
 class Track {
   constructor(id) {
     this._id = id;
@@ -19,12 +20,12 @@ class Track {
   }
 
   async load() {
-      try {
-        await this._sound.loadAsync(audioFiles[this._id]);
-        this.status.loaded = true;
-      } catch (error) {
-        throw new Error(` Error loading ${this._id} track`);
-      }
+    try {
+      await this._sound.loadAsync(audioFiles[this._id]);
+      this.status.loaded = true;
+    } catch (error) {
+      throw new Error(` Error loading ${this._id} track`);
+    }
   }
 
   unload() {
@@ -42,14 +43,14 @@ class Track {
   }
 
   async setVolume(volume) {
-      if (!this.status.loaded) return 
-      
-      try {
-        await this._sound.setVolumeAsync(volume);
-        this.status.volume = volume;
-      } catch (error) {
-        console.log("Error setting volume");
-      }
+    if (!this.status.loaded) return;
+
+    try {
+      await this._sound.setVolumeAsync(volume);
+      this.status.volume = volume;
+    } catch (error) {
+      console.log("Error setting volume");
+    }
   }
 
   setCurrentTime(time) {
@@ -68,31 +69,35 @@ class Track {
   }
 
   async play(params = {}) {
-      const { loop = true, continueFromPreviousPosition = true, volume = 1 } = params;
-      try {
-        if (!this.status.loaded) {
-          await this.load();
-        }
-
-        // const shouldFadeIn =
-        //   continueFromPreviousPosition && this.status.pauseTime !== 0 ? true : false;
-        await this.setCurrentTime(
-          continueFromPreviousPosition ? this.status.pauseTime : 0
-        );
-        // await this.setVolume(shouldFadeIn ? 0 : volume);
-        await this.setVolume(this.status.volume);
-
-        await this._sound.playAsync();
-        // if (shouldFadeIn) {
-        //   await this.fade(volume);
-        // }
-
-        // if (loop) {
-        //   await this.setTrackToLooping();
-        // }
-      } catch (error) {
-        throw new Error(`Error playing ${this._id}: ${error}`);
+    const {
+      loop = false,
+      continueFromPreviousPosition = true,
+      volume = 1,
+    } = params;
+    try {
+      if (!this.status.loaded) {
+        await this.load();
       }
+
+      // const shouldFadeIn =
+      //   continueFromPreviousPosition && this.status.pauseTime !== 0 ? true : false;
+      await this.setCurrentTime(
+        continueFromPreviousPosition ? this.status.pauseTime : 0
+      );
+      // await this.setVolume(shouldFadeIn ? 0 : volume);
+      await this.setVolume(this.status.volume);
+
+      await this._sound.playAsync();
+      // if (shouldFadeIn) {
+      //   await this.fade(volume);
+      // }
+
+      if (loop) {
+        await this.setTrackToLooping();
+      }
+    } catch (error) {
+      throw new Error(`Error playing ${this._id}: ${error}`);
+    }
   }
 
   pause() {
@@ -113,67 +118,56 @@ class Track {
     });
   }
 
-  stop() {
-    return new Promise(async (resolve, reject) => {
-      const { fade, unload, status, _sound } = this;
-
-      if (!status.loaded) return resolve();
+  async stop() {
+      if (!this.status.loaded) return
 
       try {
-        const { isPlaying } = await _sound.getStatusAsync();
+        const { isPlaying } = await this._sound.getStatusAsync();
 
         if (isPlaying) {
-          await fade(0);
+          await this.fade(0);
         }
 
-        await unload();
-        resolve();
+        await this.unload();
       } catch (error) {
-        reject(error);
+        console.log(error);
       }
-    });
   }
 
-  fade(toVolume) {
-    return new Promise((resolve, reject) => {
-      const { status, _fadeTimeout, setVolume } = this;
+  async fade(toVolume) {
+      if (this.status.volume === toVolume) return;
 
-      if (status.volume === toVolume) return;
-
-      if (_fadeTimeout) {
-        clearTimeout(_fadeTimeout);
+      if (this._fadeTimeout) {
+        clearTimeout(this._fadeTimeout);
       }
 
-      const start = Math.floor(status.volume * 10);
+      const start = Math.floor(this.status.volume * 10);
       const end = toVolume * 10;
       let currVolume = start;
 
       const loop = async () => {
         if (currVolume !== end) {
           start < end ? currVolume++ : currVolume--;
-          await setVolume(currVolume / 10);
-          this._fadeTimeout = setTimeout(loop, 150);
+          await this.setVolume(currVolume / 10);
+          this._fadeTimeout = setTimeout(() => loop(), 150);
         } else {
-          clearTimeout(_fadeTimeout);
+          clearTimeout(() => this._fadeTimeout);
           this._fadeTimeout = null;
-          resolve();
         }
       };
 
-      this._fadeTimeout = setTimeout(loop, 5);
-    });
+      this._fadeTimeout = setTimeout(() => loop(), 5);
   }
 
-  setTrackToLooping() {
-    new Promise(async (resolve, reject) => {
-      try {
-        this._loopHandlerWorking = false;
-        await this._sound.setOnPlaybackStatusUpdate(this._loopHandler);
-        resolve();
-      } catch (error) {
-        reject(error);
-      }
-    });
+  async setTrackToLooping() {
+    try {
+      this._loopHandlerWorking = false;
+      await this._sound.setOnPlaybackStatusUpdate((status) =>
+        this._loopHandler(status)
+      );
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   async _loopHandler(status) {
@@ -188,8 +182,8 @@ class Track {
     ) {
       try {
         this._loopHandlerWorking = true;
-        await this.stop();
-        await this.play({ volume, loop: true });
+        // await this.stop();
+        await this.play({ loop: true });
       } catch (error) {
         console.log(error);
       } finally {

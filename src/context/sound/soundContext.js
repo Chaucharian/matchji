@@ -16,7 +16,7 @@ const SOUND_TYPES = { SOUND: "SOUND", MUSIC: "MUSIC" };
 const initialSounds = [
   { type: SOUND_TYPES.SOUND, source: new Track("match") },
   { type: SOUND_TYPES.SOUND, source: new Track("tap") },
-  { type: SOUND_TYPES.MUSIC, source: new Track("tap") },
+  { type: SOUND_TYPES.MUSIC, source: new Track("music") },
 ];
 
 export const SoundProvider = ({ children, _initialSounds = initialSounds }) => {
@@ -32,23 +32,30 @@ export const SoundProvider = ({ children, _initialSounds = initialSounds }) => {
     }
   }, [sounds]);
 
-  const mute = useCallback(async (type, on) => {
-    const volume = on ? 0 : 1;
-    for (let sound of sounds) {
-      if(sound.type === type) {
-        await sound.source.setVolume(volume);
+  const mute = useCallback(
+    async (type, on) => {
+      const volume = on ? 0 : 1;
+      for (let sound of sounds) {
+        if (sound.type === type) {
+          await sound.source.setVolume(volume);
+        }
       }
-    }
-  }, [sounds]);
+    },
+    [sounds]
+  );
 
-  const play = useCallback( async (id) => {
-    await sounds[id].source.play();
-  }, [sounds]);
+  const play = useCallback(
+    async ({ id, ...params }) => {
+      await sounds[id].source.play(params);
+    },
+    [sounds]
+  );
 
   const actions = useMemo(
     () => ({
-      playMatch: () => play(0),
-      playTap: () => play(1),
+      playMatch: () => play({ id: 0 }),
+      playTap: () => play({ id: 1 }),
+      playMusic: () => play({ id: 2, loop: true }),
       muteSound: (on) => mute(SOUND_TYPES.SOUND, on),
       muteMusic: (on) => mute(SOUND_TYPES.MUSIC, on),
     }),
