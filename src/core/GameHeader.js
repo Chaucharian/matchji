@@ -3,8 +3,8 @@ import { StyleSheet, View, Text } from "react-native";
 import { useGameContext } from "../context/game";
 import { useModalContext } from "../context/modal";
 import { Timer } from "../components/Timer";
-import { PauseButton } from "../components/PauseButton";
 import { IconButton } from "../components/IconButton";
+import { useLayoutContext } from "../context/layout";
 
 export const GameHeader = () => {
   const {
@@ -19,9 +19,9 @@ export const GameHeader = () => {
       gameOver,
       currentLevel,
     },
-    dispatch: { addTime, setResetTimer },
+    dispatch: { addTime, setResetTimer, setLevelTime },
   } = useGameContext();
-
+  const { state: { boardCompleted } } = useLayoutContext();
   return (
     <View style={_styles.container}>
       <IconButton
@@ -47,6 +47,8 @@ export const GameHeader = () => {
             reset={resetTimer}
             addTime={extraTime}
             gameOver={gameOver}
+            win={boardCompleted}
+            onSetLevelTime={(time) => setLevelTime({ levelTime: time })}
             onStop={() => openGameOver({ show: true })}
             onReset={() => setResetTimer({ resetTimer: false })}
             onTimeChange={() => addTime({ time: 0 })}

@@ -1,5 +1,5 @@
 import React, { useContext, createContext, useReducer, useMemo } from "react";
-import { actionTypes, addTime, nextLevel, pause, reset, resetTimer, resetLevel, resetLayout, gameOver } from "./actions";
+import { actionTypes, addTime, nextLevel, pause, reset, resetTimer, levelTime, resetLevel, resetLayout, gameOver } from "./actions";
 import { LEVEL_PARAMS } from '../../const/variables';
 
 const GameContext = createContext();
@@ -20,6 +20,7 @@ const getLevelParams = (amount) => {
 const initialState = {
   initialTime: 60,
   currentLevel: 1,
+  levelTime: 0,
   pause: false,
   resetLayout: false,
   resetTimer: false,
@@ -63,6 +64,10 @@ const reducer = (state, action) => {
 
       return { ...state, resetTimer: true, resetLayout: true };
     }
+    case actionTypes.LEVEL_TIME: {
+      const { levelTime } = action.payload;
+      return { ...state, levelTime }
+    }
   }
 };
 
@@ -81,6 +86,7 @@ export const GameProvider = ({ children, ...options }) => {
         ),
       setResetLayout: (payload) => dispatcher(resetLayout(payload)),
       setResetTimer: (payload) => dispatcher(resetTimer(payload)),
+      setLevelTime: (payload) => dispatcher(levelTime(payload)),
     }),
     [dispatcher]
   );

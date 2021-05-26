@@ -14,9 +14,9 @@ const SoundContext = createContext();
 const SOUND_TYPES = { SOUND: "SOUND", MUSIC: "MUSIC" };
 
 const initialSounds = [
-  { type: SOUND_TYPES.SOUND, source: new Track("match") },
-  { type: SOUND_TYPES.SOUND, source: new Track("tap") },
-  { type: SOUND_TYPES.MUSIC, source: new Track("music") },
+  { type: SOUND_TYPES.SOUND, source: new Track({ id: "match" }) },
+  { type: SOUND_TYPES.SOUND, source: new Track({ id: "tap" }) },
+  { type: SOUND_TYPES.MUSIC, source: new Track({ id: "music", volume: 0.5 }) },
 ];
 
 export const SoundProvider = ({ children, _initialSounds = initialSounds }) => {

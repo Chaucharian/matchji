@@ -12,6 +12,7 @@ import {
 import { useGameContext } from "../context/game";
 import { useGeneralContext } from "../context/general";
 import { useTheme } from "../context/theme/themeContext";
+import { levelTime } from '../context/game/actions';
 
 const _styles = StyleSheet.create({
   container: {
@@ -44,7 +45,7 @@ export const Modal = ({ styles }) => {
     dispatch: { close },
   } = useModalContext();
   const {
-    state: { currentLevel },
+    state: { currentLevel, levelTime },
     dispatch: { nextLevel, resetLevel },
   } = useGameContext();
   const {
@@ -82,7 +83,7 @@ export const Modal = ({ styles }) => {
       newContent = (
         <WinTemplate
           level={currentLevel}
-          time={20}
+          time={levelTime}
           onPress={() => handleAction("next")}
         />
       );

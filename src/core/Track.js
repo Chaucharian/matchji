@@ -3,10 +3,10 @@ import { Audio } from "expo-av";
 const audioFiles = {
   ["match"]: require("../assets/match.mp3"),
   ["tap"]: require("../assets/tap.mp3"),
-  ["music"]: require("../assets/bat.mp3"),
+  ["music"]: require("../assets/loop.mp3"),
 };
 class Track {
-  constructor(id) {
+  constructor({ id, volume }) {
     this._id = id;
     this._sound = new Audio.Sound();
     this._fadeTimeout = null;
@@ -15,7 +15,7 @@ class Track {
     this.status = {
       loaded: false,
       pauseTime: 0,
-      volume: 1,
+      volume: volume ? volume : 1,
     };
   }
 

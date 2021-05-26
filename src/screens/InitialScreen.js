@@ -14,9 +14,9 @@ export const InitialScreen = () => {
 
   // TODO 
   // REMOVE WHEN PROD
-  // useEffect( () => {
-  //   playMusic();
-  // },[playMusic]);
+  useEffect( () => {
+    playMusic();
+  },[playMusic]);
 
   return (
     <View style={[{ ..._styles.container, backgroundColor: secondary }]}>
