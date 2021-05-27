@@ -3,9 +3,8 @@ import { StyleSheet, Text } from "react-native";
 import { useTimer } from "../hooks";
 import { gameOver } from '../context/game/actions';
 
-export const Timer = ({ initialTime, addTime, stop, start, reset, win, onSetLevelTime = () => {}, onReset = () => {}, onTimeChange = () => {}, onStop = () => {} }) => {
+export const Timer = ({ initialTime, addTime, stop, start, reset, win, levelTime, onReset = () => {}, onTimeChange = () => {}, onStop = () => {} }) => {
   const [currentTime, setTime] = useState(initialTime);
-  const [winTime, showWinTime] = useState(false);
 
   useTimer({
     currentTime,
@@ -34,12 +33,11 @@ export const Timer = ({ initialTime, addTime, stop, start, reset, win, onSetLeve
     }
   }, [currentTime, onStop ]);
 
-  // useEffect( () => {
-  //   if(win && !winTime) {
-  //     onSetLevelTime(currentTime);
-  //     showWinTime(true);
-  //   }
-  // }, [win, currentTime, onSetLevelTime, winTime]);
+  useEffect( () => {
+    if(win) {
+      levelTime.current = currentTime;
+    }
+  }, [win, currentTime, levelTime]);
 
   return (
       <Text style={styles.text}>

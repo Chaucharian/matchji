@@ -18,8 +18,9 @@ export const GameHeader = () => {
       resetTimer,
       gameOver,
       currentLevel,
+      levelTime
     },
-    dispatch: { addTime, setResetTimer, setLevelTime },
+    dispatch: { addTime, setResetTimer },
   } = useGameContext();
   const { state: { boardCompleted } } = useLayoutContext();
   return (
@@ -48,7 +49,7 @@ export const GameHeader = () => {
             addTime={extraTime}
             gameOver={gameOver}
             win={boardCompleted}
-            onSetLevelTime={(time) => setLevelTime({ levelTime: time })}
+            levelTime={levelTime}
             onStop={() => openGameOver({ show: true })}
             onReset={() => setResetTimer({ resetTimer: false })}
             onTimeChange={() => addTime({ time: 0 })}

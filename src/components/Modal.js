@@ -12,7 +12,6 @@ import {
 import { useGameContext } from "../context/game";
 import { useGeneralContext } from "../context/general";
 import { useTheme } from "../context/theme/themeContext";
-import { levelTime } from "../context/game/actions";
 import { Animation } from "../components/Animation";
 
 const _styles = StyleSheet.create({
@@ -47,7 +46,7 @@ export const Modal = ({ styles }) => {
     dispatch: { close },
   } = useModalContext();
   const {
-    state: { currentLevel, levelTime },
+    state: { currentLevel, levelTime: { current: levelTime } },
     dispatch: { nextLevel, resetLevel },
   } = useGameContext();
   const {
