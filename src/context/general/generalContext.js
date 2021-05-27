@@ -9,9 +9,9 @@ const initialState = {
   // showZenTutorial: true,
   currentMode: null,
   currentLevel: 1,
-  isMusicMute: false,
-  isSoundMute: false,
-  isFirstTimeClassic: true,
+  isMusicMute: true,
+  isSoundMute: true,
+  isFirstTimeClassic: false, 
   isFirstTimeZen: true,
 };
 

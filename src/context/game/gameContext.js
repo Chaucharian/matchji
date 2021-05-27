@@ -18,7 +18,7 @@ const getLevelParams = (amount) => {
 }
 
 const initialState = {
-  initialTime: 60,
+  initialTime: 30,
   currentLevel: 1,
   levelTime: 0,
   pause: false,

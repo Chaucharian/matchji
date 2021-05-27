@@ -1,23 +1,21 @@
-import React, { useMemo, useRef } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import React from "react";
+import { StyleSheet, View } from "react-native";
 
 const _styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 5,
     flexDirection: "row",
-    // alignContent: "center",
-    // justifyContent: "space-between",
     flexWrap: "wrap",
-    // backgroundColor: "aliceblue",
   },
 });
 
 export const Layout = ({ tiles, styles }) => {
+
   return (
     <View style={[_styles.container, { styles }]}>
       {tiles.map(({ tile: Tile, key, ...props }, i) => (
-        <Tile key={key} _key={key} {...props} />
+        <Tile key={key} amount={tiles.length} index={i} {...props} />
       ))}
     </View>
   );

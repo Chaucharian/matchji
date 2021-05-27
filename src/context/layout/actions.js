@@ -8,7 +8,7 @@ export const actionTypes = {
   SHOW: "SHOW",
   SHOW_ALL: "SHOW_ALL",
   CHANGE_TILES: "CHANGE_TILES",
-  VALIDATE_WIN: "VALIDATE_WIN"
+  VALIDATE_WIN: "VALIDATE_WIN",
 };
 
 export const reset = (payload) => ({

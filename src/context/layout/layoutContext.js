@@ -12,12 +12,12 @@ import { actionTypes, changeTiles, init, reset, resetBoard, hideAll, show, remov
 import { Tile } from "../../components/Tile";
 import { INITIAL_TILE_ANIMATION_DURATION } from "../../const/variables";
 
-const GameContext = createContext();
+export const LayoutContext = createContext();
 
 const initialState = {
   tiles: [],
   amount: false,
-  boardCompleted: false
+  boardCompleted: false,
 };
 
 const generateTiles = ({ amount, show = true, styles = { width: 100, height: 100, backgroundColor: "#fdf9ef" } }) => {
@@ -69,23 +69,6 @@ const reducer = (state, action) => {
       });
 
       return { ...state, tiles: newTiles };
-    }
-    case actionTypes.RESET_BOARD: {
-      const emojis = state.emojis.map(({ emoji, key }, i) => {
-        const match = action.payload.find(
-          (emojiToRemove) => emojiToRemove === emoji
-        );
-
-        // const key = guidGenerator();
-
-        if (match) {
-          console.log(match, i);
-          return { emoji, key };
-        } else {
-          return { emoji, key };
-        }
-      });
-      return { ...state, emojis };
     }
     case actionTypes.SHOW: {
       const { show, tiles } = action.payload;
@@ -141,26 +124,25 @@ export const LayoutProvider = ({ children, ...options }) => {
     init: (payload) => dispatcher(init(payload)),
     hideAll: (payload) => dispatcher(hideAll(payload)),
     reset: (payload) => dispatcher(reset(payload)),
-    resetBoard: (payload) => dispatcher(resetBoard(payload)),
     show: (payload) => dispatcher(show(payload)),
     remove: (payload) => dispatcher(remove(payload)),
     changeTiles: (payload) => dispatcher(changeTiles(payload)),
     validateWin: (payload) => dispatcher(validateWin(payload)),
-   }), [dispatcher]);
+  }), [dispatcher]);
 
   const context = useMemo( () => ({ state, dispatch }), [state, dispatch]);
   
   return (
-    <GameContext.Provider
+    <LayoutContext.Provider
       value={context}
     >
       {children}
-    </GameContext.Provider>
+    </LayoutContext.Provider>
   );
 };
 
 export const useLayoutContext = () => {
-  const context = useContext(GameContext);
+  const context = useContext(LayoutContext);
 
   if(context === undefined) {
     throw new Error("useLayoutContext must be used inside LayoutProvider");

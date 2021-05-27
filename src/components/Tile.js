@@ -28,8 +28,8 @@ const _styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 5,
-    borderWidth: 1,
-    borderColor: "skyblue",
+    borderWidth: 0.5
+    // borderColor: "skyblue",
   },
   content: {
     fontSize: 45, // calculate size base on tile size
@@ -37,15 +37,12 @@ const _styles = StyleSheet.create({
 });
 
 const animationTypes = { in: "bounceIn", out: "bounceOut" };
-
 export class Tile extends Component {
   static contextType = ThemeContext;
 
   shouldComponentUpdate(nextProps) {
     if (
-      nextProps.show !== this.props.show &&
-      nextProps._key !== this.props._key &&
-      nextProps.onPress !== this.props.onPress
+      nextProps.show !== this.props.show
     ) {
       return true;
     } else {
@@ -76,6 +73,7 @@ export class Tile extends Component {
               animation={animationTypes.in}
               duration={animationDuration}
               onAnimationEnd={() => {}}
+              useNativeDriver={true}
             >
               <Text
                 style={[
@@ -94,6 +92,7 @@ export class Tile extends Component {
               animation={animationTypes.in}
               duration={animationDuration}
               onAnimationEnd={() => {}}
+              useNativeDriver={true}
             ></Animatable.View>
           </TouchableHighlight>
         ) : (
@@ -106,6 +105,7 @@ export class Tile extends Component {
               animation={animationTypes.in}
               duration={animationDuration}
               onAnimationEnd={() => {}}
+              useNativeDriver={true}
             ></Animatable.View>
           </TouchableHighlight>
         )}

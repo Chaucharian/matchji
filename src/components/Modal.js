@@ -12,7 +12,8 @@ import {
 import { useGameContext } from "../context/game";
 import { useGeneralContext } from "../context/general";
 import { useTheme } from "../context/theme/themeContext";
-import { levelTime } from '../context/game/actions';
+import { levelTime } from "../context/game/actions";
+import { Animation } from "../components/Animation";
 
 const _styles = StyleSheet.create({
   container: {
@@ -52,7 +53,9 @@ export const Modal = ({ styles }) => {
     dispatch: { goMenu },
   } = useGeneralContext();
   const {
-    state: { modal: { primary } },
+    state: {
+      modal: { primary },
+    },
   } = useTheme();
 
   const handleAction = useCallback(
@@ -81,11 +84,14 @@ export const Modal = ({ styles }) => {
       );
     } else if (type === MODAL_TYPES.WIN) {
       newContent = (
-        <WinTemplate
-          level={currentLevel}
-          time={levelTime}
-          onPress={() => handleAction("next")}
-        />
+        <>
+          <Animation />
+          <WinTemplate
+            level={currentLevel}
+            time={levelTime}
+            onPress={() => handleAction("next")}
+          />
+        </>
       );
     } else if (type === MODAL_TYPES.GAME_OVER) {
       newContent = (
@@ -105,25 +111,25 @@ export const Modal = ({ styles }) => {
       );
     }
     return newContent;
-  }, [type, close, handleAction, currentLevel, title, body]);
+  }, [type, close, handleAction, currentLevel, levelTime, title, body]);
 
-  return (
-    show ? (
+  return show ? (
+    <Animatable.View
+      style={[_styles.container, { ...styles }]}
+      animation={"fadeIn"}
+      duration={1000}
+      onAnimationEnd={() => {}}
+    >
       <Animatable.View
-        style={[_styles.container, { ...styles }]}
-        animation={"fadeIn"}
+        style={[_styles.modal, { ...styles, backgroundColor: primary }]}
+        animation={"bounceInDown"}
         duration={1000}
         onAnimationEnd={() => {}}
       >
-        <Animatable.View
-          style={[_styles.modal, { ...styles, backgroundColor: primary  }]}
-          animation={"bounceInDown"}
-          duration={1000}
-          onAnimationEnd={() => {}}
-        >
-          {content}
-        </Animatable.View>
+        {content}
       </Animatable.View>
-    ) : <></>
+    </Animatable.View>
+  ) : (
+    <></>
   );
 };
