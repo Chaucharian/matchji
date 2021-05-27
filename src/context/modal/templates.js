@@ -97,7 +97,7 @@ export const WinTemplate = ({ onPress, level, time }) => (
     <View style={[_styles.header]}>
       <View style={[_styles.titleContainer]}>
         <View style={[{ alignItems: "center" }]}> 
-        <Text title>You Win!</Text>
+        <Text title >You Win!</Text>
         <Text button>Level {level}</Text>
         </View>
       </View>

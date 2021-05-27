@@ -15,11 +15,12 @@ const initialState = {
   fonts: {
     button: {
       color: "#393939",
-      fontWeight: "bold",
+      // fontWeight: "bold",
+      fontFamily: "RubikOne-Regular",
       fontSize: 20
     },
-    title: { fontSize: 30, fontWeight: "bold", color: "#000" },
-    subtitle: { color: "#AAAAAA" },
+    title: { fontSize: 30, color: "#000", fontFamily: "RubikOne-Regular" },
+    subtitle: { color: "#AAAAAA", fontFamily: "RubikOne-Regular" },
   },
 };
 

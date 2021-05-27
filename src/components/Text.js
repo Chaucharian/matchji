@@ -3,9 +3,6 @@ import { Text as NativeText, StyleSheet } from "react-native";
 import { useTheme } from "../context/theme/themeContext";
 
 const _styles = StyleSheet.create({
-  bold: {
-    fontWeight: "bold",
-  },
 });
 
 export const Text = ({

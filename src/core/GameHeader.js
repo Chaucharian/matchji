@@ -1,8 +1,9 @@
 import React from "react";
-import { StyleSheet, View, Text } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { useGameContext } from "../context/game";
 import { useModalContext } from "../context/modal";
 import { Timer } from "../components/Timer";
+import { Text } from "../components/Text";
 import { IconButton } from "../components/IconButton";
 import { useLayoutContext } from "../context/layout";
 
@@ -41,7 +42,7 @@ export const GameHeader = () => {
             },
           ]}
         >
-          <Text style={[_styles.levelText]}>Nivel {currentLevel}</Text>
+          <Text subtitle styles={_styles.levelText}>Nivel {currentLevel}</Text>
           <Timer
             initialTime={initialTime}
             stop={pause}
@@ -84,11 +85,10 @@ const _styles = StyleSheet.create({
     flex: 1,
   },
   levelText: {
-    fontFamily: "Roboto",
-    fontVariant: ["lining-nums"],
+    // fontVariant: ["lining-nums"],
     fontSize: 15,
-    color: "white",
-    fontWeight: "bold",
+    // color: "black",
+    // fontWeight: "bold",
   },
   pauseButton: {
     position: "absolute",

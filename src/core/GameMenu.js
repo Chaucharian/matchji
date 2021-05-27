@@ -61,8 +61,9 @@ const _styles = StyleSheet.create({
     flex: 1,
   },
   title: {
+    fontFamily: "RubikOne-Regular",
     fontSize: 70,
-    fontWeight: "bold",
+    // fontWeight: "bold",
   },
   menuContainer: {
     //   flex: 1,
