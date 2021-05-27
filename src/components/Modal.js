@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from "react";
+import React, { useMemo, useCallback, useState } from "react";
 import { StyleSheet } from "react-native";
 import * as Animatable from "react-native-animatable";
 import { useModalContext } from "../context/modal";
@@ -37,6 +37,7 @@ const _styles = StyleSheet.create({
 });
 
 export const Modal = ({ styles }) => {
+  const [animationFinished, setAnimationFinished] = useState(false);
   const {
     state: {
       type,
@@ -62,6 +63,7 @@ export const Modal = ({ styles }) => {
     (action) => {
       if (action == "next") {
         nextLevel();
+        setAnimationFinished(false);
       } else if (action == "reset") {
         resetLevel();
       } else if (action == "menu") {
@@ -71,6 +73,7 @@ export const Modal = ({ styles }) => {
     },
     [nextLevel, resetLevel, goMenu, close]
   );
+  const isWin = useMemo( () => type === MODAL_TYPES.WIN, [type]);
 
   const content = useMemo(() => {
     let newContent;
@@ -84,14 +87,11 @@ export const Modal = ({ styles }) => {
       );
     } else if (type === MODAL_TYPES.WIN) {
       newContent = (
-        <>
-          <Animation />
           <WinTemplate
             level={currentLevel}
             time={levelTime}
             onPress={() => handleAction("next")}
           />
-        </>
       );
     } else if (type === MODAL_TYPES.GAME_OVER) {
       newContent = (
@@ -120,14 +120,18 @@ export const Modal = ({ styles }) => {
       duration={1000}
       onAnimationEnd={() => {}}
     >
+      { isWin && !animationFinished ? 
+      <Animation onEnd={()=> setAnimationFinished(true)} />
+      : 
       <Animatable.View
-        style={[_styles.modal, { ...styles, backgroundColor: primary }]}
-        animation={"bounceInDown"}
-        duration={1000}
-        onAnimationEnd={() => {}}
-      >
-        {content}
-      </Animatable.View>
+          style={[_styles.modal, { ...styles, backgroundColor: primary }]}
+          animation={"bounceInDown"}
+          duration={1000}
+          onAnimationEnd={() => {}}
+        >
+          {content}
+        </Animatable.View>
+      }
     </Animatable.View>
   ) : (
     <></>
