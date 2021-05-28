@@ -11,7 +11,7 @@ const initialState = {
   currentLevel: 1,
   isMusicMute: true,
   isSoundMute: true,
-  isFirstTimeClassic: false, 
+  isFirstTimeClassic: true, 
   isFirstTimeZen: true,
 };
 

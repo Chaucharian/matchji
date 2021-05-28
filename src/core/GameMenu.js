@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, View, Image } from "react-native";
 import { Button } from "../components/Button";
 import { MainButton } from "../components/MainButton";
 import { Controls } from "../components/Controls";
@@ -15,11 +15,10 @@ export const GameMenu = () => {
     <View style={[_styles.container]}>
       <View style={[_styles.header]}>
         <View style={[_styles.titleContainer]}>
-          <Text title styles={_styles.title}>
-            MATCHJI
-          </Text>
+        <Image source={require('../assets/logo.png')} />
         </View>
       </View>
+      <View style={[{ flex: 0.15 }]}></View>
       <View style={[_styles.menuContainer]}>
         <View style={[_styles.options]}>
           <Button onPress={() => initGame()}>

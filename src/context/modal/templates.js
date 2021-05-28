@@ -22,6 +22,12 @@ const _styles = StyleSheet.create({
     flexDirection: "row",
     padding: 10,
   },
+  body: {
+    flexDirection: "row",
+    justifyContent: "center",
+    alignContent: "center",
+    flex: 1,
+  },
   closeButton: {
     position: "absolute",
     top: 5,
@@ -119,30 +125,30 @@ export const WinTemplate = ({ onPress, level, time }) => (
 );
 
 export const GameOverTemplate = ({ onReset, onMenu, level }) => (
-  <>
-    <View
-      style={[_styles.container]}
-    >
-      <View style={[_styles.header]}>
-        <View style={[_styles.titleContainer]}>
-          <View style={[{ justifyContent: "center", flexDirection: "column"}]}>
-            <Text title>GAME OVER</Text>
-            <Text title>LEVEL {level}</Text>
-          </View>
-        </View>
-      </View>
-      <View style={[_styles.optionsContainer]}>
-        <View style={[_styles.options]}>
-          <Button onPress={onReset}>
-            <Text button>RESTART</Text>
-          </Button>
-          <Button onPress={onMenu}>
-            <Text button>MENU</Text>
-          </Button>
-        </View>
+  <View
+  style={[_styles.container]}
+>
+  <View style={[_styles.header]}>
+    <View style={[_styles.titleContainer]}>
+      <View style={[{ alignItems: "center" }]}> 
+      <Text title >You Lose!</Text>
+      <Text button>Level {level}</Text>
       </View>
     </View>
-  </>
+  </View>
+  <View style={[_styles.optionsContainer]}>
+    <View style={[_styles.options]}>
+      <View style={[{ flex: 0.3 }]}></View>
+      <ButtonWithIcon icon={"home"} onPress={onMenu}>
+        <Text button>HOME</Text>
+      </ButtonWithIcon>
+      <View style={[{ flex: 0.1 }]}></View>
+      <MainButton icon={"arrow-right-alt"} size={35} right onPress={onReset}>
+        Reset
+      </MainButton>
+    </View>
+  </View>
+</View>
 );
 
 export const TutorialTemplate = ({ onOk, title, body }) => (
@@ -152,21 +158,21 @@ export const TutorialTemplate = ({ onOk, title, body }) => (
     <View style={[_styles.header]}>
       <View style={[_styles.titleContainer]}>
         <View style={[{ alignItems: "center" }]}> 
-        <Text title>{title}</Text>
+          {title}
         </View>
       </View>
     </View>
-    <View style={[_styles.optionsContainer]}>
-      <View style={[_styles.options, { alignItems: "center"}]}>
-        <View style={[{ flex: 0.3 }]}></View>
-        <View style={[{ alignContent: "center", display:"flex", flexDirection: "row", justifyContent: "center", alignItems: "center",  }]} >
-          <Text button>{body}</Text>
-        </View>
-        <View style={[{ flex: 0.3 }]}></View>
-        <MainButton onPress={onOk}>
-          Jugar
-        </MainButton>
+    <View style={[_styles.body]}>
+    <View style={[{ flex: 0.3 }]}></View>
+    <View style={[{ justifyContent: "center", alignItems: "center" }]}>
+      <View style={[{ paddingLeft: 15, paddingRight: 15 }]}>
+        {body}
       </View>
+      <View style={[{ flex: 0.3 }]}></View>
+      <MainButton onPress={onOk}>
+          Jugar
+      </MainButton>
+    </View>
     </View>
   </View>
 );

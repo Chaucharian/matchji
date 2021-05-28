@@ -1,4 +1,5 @@
 import React, { useRef, useEffect } from "react";
+import { View } from "react-native";
 import { useGeneralContext } from "../context/general";
 import { GAME_MODES } from "../const/variables";
 import { useModalContext } from "../context/modal";
@@ -16,26 +17,22 @@ export const useTutorial = () => {
     classic: {
       title: <Text title>¿Como jugar?</Text>,
       body: (
-        <>
-          <Text subtitle bold>
+        <View style={[{ justifyContent: "center" }]}>
+          <Text body>
             Tienes
-            <Text subtitle bold>
+            <Text body styles={{ color: "red"}} >
               5 segundos
             </Text>
-            para recordar todas las imagenes y
-            <Text bold subtitle>
+            {" "}para recordar todas las imagenes y
+            <Text body styles={{ color: "red"}}>
               60 segundos
             </Text>
             para completar el nivel
           </Text>
-          <Text subtitle>
-            ¡
-            <Text subtitle bold>
-              2 segundos
-            </Text>
-            extra por acierto!
-          </Text>
-        </>
+            <Text body styles={{ justifyContent: "center", color: "#00AF65"}}>
+             ¡+2 segundos extra por acierto!
+            </Text> 
+        </View>
       ),
     },
     zen: { title: <></>, body: <></> },

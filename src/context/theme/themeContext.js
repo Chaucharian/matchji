@@ -21,6 +21,7 @@ const initialState = {
     },
     title: { fontSize: 30, color: "#000", fontFamily: "RubikOne-Regular" },
     subtitle: { color: "#AAAAAA", fontFamily: "RubikOne-Regular" },
+    body: { color: "#000", fontSize: 18, fontFamily: "RubikOne-Regular" },
   },
 };
 
@@ -50,6 +51,7 @@ const reducer = (state, action) => {
           primary: "#000"
         }
         newFonts = {
+          body: { ...fonts.button, color: "#FFF" },
           button: { ...fonts.button, color: "#FFF" },
           title: { ...fonts.title, color: "#FFF" },
           subtitle: { ...fonts.subtitle, color: "#FFF" },

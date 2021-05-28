@@ -10,12 +10,13 @@ export const Text = ({
   title: titleType,
   subtitle: subtitleType,
   button: buttonType,
+  body: bodyType,
   bold,
   children,
 }) => {
   const {
     state: {
-      fonts: { title, subtitle, button },
+      fonts: { title, subtitle, button, body },
     },
   } = useTheme();
   const currentStyles = useCallback( () => {
@@ -28,7 +29,10 @@ export const Text = ({
     if(buttonType) {
       return button
     }
-  }, [button, buttonType, subtitle, subtitleType, title, titleType]);
+    if(bodyType) {
+      return body
+    }
+  }, [titleType, subtitleType, buttonType, bodyType, title, subtitle, button, body]);
 
   return (
     <NativeText style={[{ ...currentStyles(), ...styles }]}>
