@@ -50,7 +50,7 @@ export const Modal = ({ styles }) => {
     dispatch: { nextLevel, resetLevel },
   } = useGameContext();
   const {
-    dispatch: { goMenu },
+    dispatch: { goMenu, setFirstTime },
   } = useGeneralContext();
   const {
     state: {
@@ -67,10 +67,12 @@ export const Modal = ({ styles }) => {
         resetLevel();
       } else if (action == "menu") {
         goMenu();
+      }  else if (action == "tutorial") {
+        setFirstTime({ isFirstTimeClassic: false });
       }
       close();
     },
-    [nextLevel, resetLevel, goMenu, close]
+    [nextLevel, resetLevel, goMenu, close, setFirstTime]
   );
   const isWin = useMemo( () => type === MODAL_TYPES.WIN, [type]);
 
@@ -105,7 +107,7 @@ export const Modal = ({ styles }) => {
         <TutorialTemplate
           title={title}
           body={body}
-          onOk={() => handleAction("close")}
+          onOk={() => handleAction("tutorial")}
         />
       );
     }

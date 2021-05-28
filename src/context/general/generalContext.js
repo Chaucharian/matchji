@@ -1,5 +1,5 @@
 import React, { useContext, createContext, useReducer, useMemo } from "react";
-import { actionTypes, initGame, showTutorial, goMenu, mute } from "./actions";
+import { actionTypes, initGame, showTutorial, goMenu, mute, setFirstTime } from "./actions";
 import { GAME_MODES } from "../../const/variables";
 
 const GeneralContext = createContext();
@@ -46,6 +46,17 @@ const reducer = (state, action) => {
         currentMode: null
       };
     }
+    case actionTypes.SET_FIRST_TIME: {
+      const { isFirstTimeClassic, isFirstTimeZen } = action.payload;
+      const newIsFirstTimeClassic = isFirstTimeClassic !== undefined ? isFirstTimeClassic : state.isFirstTimeClassic;
+      const newIsFirstTimeZen = isFirstTimeZen  !== undefined ? isFirstTimeZen : state.isFirstTimeZen;
+
+      return {
+        ...state,
+        isFirstTimeClassic: newIsFirstTimeClassic,
+        isFirstTimeZen: newIsFirstTimeZen
+      };
+    }
   }
 };
 
@@ -62,6 +73,7 @@ export const GeneralProvider = ({ children, ...options }) => {
       goMenu: () => dispatcher(goMenu()),
       muteMusic: () => dispatcher(mute({ type: 'music' })),
       muteSound: () => dispatcher(mute({ type: 'sound' })),
+      setFirstTime: (payload) => dispatcher(setFirstTime(payload)),
     }),
     [dispatcher]
   );

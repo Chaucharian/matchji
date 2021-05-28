@@ -7,14 +7,14 @@ import {
 import { useLayoutContext } from "../context/layout";
 
 export const useInitializeBoard = (initialParams = { amount: 0, size: 0 }) => {
-  const [{ amount, size }, setParams] = useState(initialParams);
+  // const [{ amount, size }, setParams] = useState(initialParams);
   const isMounted = useRef(true);
   const {
     dispatch: { init: initBoard, reset: resetBoard, hideAll, changeTiles },
   } = useLayoutContext();
   const cleanUp = () => (isMounted.current = false);
 
-  const runInitialize = useCallback(async () => {
+  const runInitialize = useCallback(async ({ amount,size }) => {
     initBoard({ amount, size, show: true });
     await sleep(SHOWING_TIME_BEFORE_HIDING_TILES);
     if (isMounted.current) {
@@ -22,7 +22,7 @@ export const useInitializeBoard = (initialParams = { amount: 0, size: 0 }) => {
       changeTiles({ animationDuration: INITIAL_TILE_ANIMATION_DURATION });
     }
     return cleanUp;
-  }, [amount, size, changeTiles, hideAll, initBoard, isMounted]);
+  }, [changeTiles, hideAll, initBoard, isMounted]);
 
   const runReset = useCallback(async () => {
     resetBoard();
@@ -35,20 +35,21 @@ export const useInitializeBoard = (initialParams = { amount: 0, size: 0 }) => {
   }, [hideAll, changeTiles, resetBoard]);
 
   useEffect(() => {
-    if (amount) {
+    // if (amount) {
       // reset mount after render
       isMounted.current = true;
-      runInitialize();
-    }
-  }, [amount, runInitialize]);
+      // runInitialize();
+    // }
+  }, []);
 
   const initialize = useCallback(
     (params) => {
       isMounted.current = true;
-      setParams(params);
+      runInitialize(params)
+      // setParams(params);
       return cleanUp;
     },
-    [setParams]
+    [runInitialize]
   );
 
   const reset = useCallback(() => {

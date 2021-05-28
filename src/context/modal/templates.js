@@ -143,7 +143,7 @@ export const GameOverTemplate = ({ onReset, onMenu, level }) => (
         <Text button>HOME</Text>
       </ButtonWithIcon>
       <View style={[{ flex: 0.1 }]}></View>
-      <MainButton icon={"arrow-right-alt"} size={35} right onPress={onReset}>
+      <MainButton icon={"settings-backup-restore"} size={35} right onPress={onReset}>
         Reset
       </MainButton>
     </View>
