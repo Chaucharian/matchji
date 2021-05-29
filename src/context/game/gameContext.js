@@ -1,6 +1,7 @@
 import React, { useContext, createContext, useReducer, useRef, useMemo } from "react";
-import { actionTypes, addTime, nextLevel, pause, reset, resetTimer, levelTime, resetLevel, resetLayout, gameOver } from "./actions";
+import { actionTypes, addTime, nextLevel, pause, reset, resetTimer, levelTime, randomLevel, resetLevel, resetLayout, gameOver } from "./actions";
 import { LEVEL_PARAMS } from '../../const/variables';
+import { random } from "../../utils";
 
 const GameContext = createContext();
 
@@ -36,6 +37,11 @@ const reducer = (state, action) => {
       const { time } = action.payload;
 
       return { ...state, extraTime: time };
+    }
+    case actionTypes.RANDOM_LEVEL: {
+      const newLevelParams = getLevelParams(random(6, 36));
+
+      return { ...initialState, currentLevelParams: newLevelParams, };
     }
     case actionTypes.NEXT_LEVEL: {
       const { currentLevelParams: { amount }, currentLevel } = state;
@@ -78,6 +84,7 @@ export const GameProvider = ({ children, ...options }) => {
       gameOver: (payload) => dispatcher(gameOver(payload)),
       addTime: (payload) => dispatcher(addTime(payload)),
       nextLevel: (payload) => dispatcher(nextLevel(payload)),
+      randomLevel: (payload) => dispatcher(randomLevel(payload)),
       resetLevel: (payload) =>
         dispatcher(
           resetLevel(payload)

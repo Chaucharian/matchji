@@ -5,16 +5,23 @@ import { LayoutProvider } from "../context/layout";
 import { GameLayout } from "../core/GameLayout";
 import { GameHeader, Modal } from "../components";
 import { usePause } from "../hooks/usePause";
+import { useTheme } from "../context/theme/themeContext";
+import { useTutorial } from "../hooks/useTutorial";
 
-export const GameScreen = () => {
+export const ZenScreen = () => {
   const {
     state: { show, }
   } = useModalContext();
   usePause(show);
+  useTutorial();
+  const {
+    state: { secondary },
+  } = useTheme();
+  
 
   return (
     <LayoutProvider>
-      <View style={{ ...styles.container }}>
+      <View style={{ ...styles.container, backgroundColor: secondary }}>
         <Modal />
         <GameHeader />
         <GameLayout />
@@ -24,11 +31,7 @@ export const GameScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 40,
-  },
   container: {
-    backgroundColor: "#f6e9c2",
     height: "100%",
   },
 });

@@ -16,6 +16,6 @@ export const MODAL_TYPES = {
     TUTORIAL: "TUTORIAL"
   };
 export const GAME_MODES = {
-    MENU: "CLASSIC",
-    WIN: "ZEN",
+  CLASSIC: "CLASSIC",
+  ZEN: "ZEN",
   };

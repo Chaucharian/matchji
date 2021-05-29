@@ -7,7 +7,7 @@ const ModalContext = createContext();
 const initialState = {
   show: false,
   type: MODAL_TYPES.MENU,
-  content: { title: <></>, body: <></> }
+  content: { title: <></>, body: <></>, mode: null }
 };
 
 const reducer = (state, action) => {

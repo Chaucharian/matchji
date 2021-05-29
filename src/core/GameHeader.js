@@ -7,6 +7,8 @@ import { Text } from "../components/Text";
 import { IconButton } from "../components/IconButton";
 import { useLayoutContext } from "../context/layout";
 import { ExtraTime } from "../components/ExtraTime";
+import { GAME_MODES } from "../const";
+import { useGeneralContext } from "../context/general";
 
 export const GameHeader = () => {
   const {
@@ -24,7 +26,9 @@ export const GameHeader = () => {
     },
     dispatch: { addTime, setResetTimer },
   } = useGameContext();
+  const { state: { currentMode } } = useGeneralContext();
   const { state: { boardCompleted }} = useLayoutContext();
+  const classicMode = currentMode === GAME_MODES.CLASSIC;
 
   return (
     <View style={_styles.container}>
@@ -34,7 +38,7 @@ export const GameHeader = () => {
         size={50}
         onPress={() => openMenu({ show: true })}
       />
-      <ExtraTime value={extraTime} styles={_styles.extraTime}/>
+      { classicMode && <ExtraTime value={extraTime} styles={_styles.extraTime}/> }
       <View style={[_styles.timeContainer]}>
         <View
           style={[
@@ -45,8 +49,8 @@ export const GameHeader = () => {
             },
           ]}
         >
-          <Text subtitle styles={_styles.levelText}>Nivel {currentLevel}</Text>
-          <Timer
+         { classicMode &&  <Text subtitle styles={_styles.levelText}>Nivel {currentLevel}</Text> }
+          { classicMode && <Timer
             initialTime={initialTime}
             stop={pause}
             reset={resetTimer}
@@ -57,7 +61,7 @@ export const GameHeader = () => {
             onStop={() => openGameOver({ show: true })}
             onReset={() => setResetTimer({ resetTimer: false })}
             onTimeChange={() => addTime({ time: 0 })}
-          />
+          /> }
         </View>
       </View>
       <IconButton

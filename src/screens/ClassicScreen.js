@@ -8,7 +8,7 @@ import { usePause } from "../hooks/usePause";
 import { useTheme } from "../context/theme/themeContext";
 import { useTutorial } from "../hooks/useTutorial";
 
-export const GameScreen = () => {
+export const ClassicScreen = () => {
   const {
     state: { show },
   } = useModalContext();
@@ -30,9 +30,6 @@ export const GameScreen = () => {
 };
 
 const styles = StyleSheet.create({
-  text: {
-    fontSize: 40,
-  },
   container: {
     height: "100%",
   },

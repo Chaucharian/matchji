@@ -13,6 +13,7 @@ import { useGameContext } from "../context/game";
 import { useGeneralContext } from "../context/general";
 import { useTheme } from "../context/theme/themeContext";
 import { Animation } from "../components/Animation";
+import { GAME_MODES } from '../const/variables';
 
 const _styles = StyleSheet.create({
   container: {
@@ -41,7 +42,7 @@ export const Modal = ({ styles }) => {
     state: {
       type,
       show,
-      content: { title, body },
+      content: { title, body, mode: gameMode },
     },
     dispatch: { close },
   } = useModalContext();
@@ -68,11 +69,15 @@ export const Modal = ({ styles }) => {
       } else if (action == "menu") {
         goMenu();
       }  else if (action == "tutorial") {
-        setFirstTime({ isFirstTimeClassic: false });
+        if(gameMode === GAME_MODES.CLASSIC) {
+          setFirstTime({ isFirstTimeClassic: false });
+        } else if(gameMode === GAME_MODES.ZEN) {
+          setFirstTime({ isFirstTimeZen: false });
+        }
       }
       close();
     },
-    [nextLevel, resetLevel, goMenu, close, setFirstTime]
+    [close, nextLevel, resetLevel, goMenu, gameMode, setFirstTime]
   );
   const isWin = useMemo( () => type === MODAL_TYPES.WIN, [type]);
 

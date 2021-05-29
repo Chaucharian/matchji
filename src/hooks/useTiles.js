@@ -1,6 +1,6 @@
 import { useCallback, useState, useMemo, useEffect } from "react";
 import { Match } from "../core/Match";
-import { NOT_MATCH_SHOWING_TIME } from "../const/variables";
+import { NOT_MATCH_SHOWING_TIME, GAME_MODES } from "../const/variables";
 import { sleep } from "../utils";
 import { useLayoutContext } from "../context/layout";
 import { useGameContext } from "../context/game";
@@ -20,7 +20,7 @@ export const useTiles = () => {
   const { playTap, playMatch } = useSoundContext();
   const [tiles, setTiles] = useState([]);
 
-  const onPress = useCallback(
+  const onPress = useCallback( 
     (_tile) => {
       playTap();
       show({ tiles: [_tile], show: true });

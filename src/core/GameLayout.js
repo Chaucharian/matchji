@@ -5,12 +5,13 @@ import { useTiles } from "../hooks/useTiles";
 import { useInitializeBoard } from "../hooks/useInitializeBoard";
 import { useGameContext } from "../context/game";
 import { useWin } from "../hooks/useWin";
+import { useZen } from "../hooks/useZen";
 import { useGeneralContext } from "../context/general";
 
 export const GameLayout = () => {
   const { tiles } = useTiles();
   const {
-    state: { isFirstTimeClassic },
+    state: { isFirstTimeClassic, isFirstTimeZen },
   } = useGeneralContext();
   const {
     state: { currentLevelParams, resetLayout },
@@ -19,13 +20,14 @@ export const GameLayout = () => {
   const { initialize: initializeBoard, reset: resetBoard } =
     useInitializeBoard();
   useWin();
+  useZen();
 
   useEffect(() => {
-    if (!isFirstTimeClassic) {
+    if (!isFirstTimeClassic || !isFirstTimeZen) {
       const initializeCleanUp = initializeBoard(currentLevelParams);
       return initializeCleanUp;
     }
-  }, [currentLevelParams, initializeBoard, isFirstTimeClassic]);
+  }, [currentLevelParams, initializeBoard, isFirstTimeZen, isFirstTimeClassic]);
 
   useEffect(() => {
     if (resetLayout) {
