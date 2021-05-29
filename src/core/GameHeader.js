@@ -6,6 +6,7 @@ import { Timer } from "../components/Timer";
 import { Text } from "../components/Text";
 import { IconButton } from "../components/IconButton";
 import { useLayoutContext } from "../context/layout";
+import { ExtraTime } from "../components/ExtraTime";
 
 export const GameHeader = () => {
   const {
@@ -23,7 +24,8 @@ export const GameHeader = () => {
     },
     dispatch: { addTime, setResetTimer },
   } = useGameContext();
-  const { state: { boardCompleted } } = useLayoutContext();
+  const { state: { boardCompleted }} = useLayoutContext();
+
   return (
     <View style={_styles.container}>
       <IconButton
@@ -32,6 +34,7 @@ export const GameHeader = () => {
         size={50}
         onPress={() => openMenu({ show: true })}
       />
+      <ExtraTime value={extraTime} styles={_styles.extraTime}/>
       <View style={[_styles.timeContainer]}>
         <View
           style={[
@@ -99,6 +102,11 @@ const _styles = StyleSheet.create({
     position: "absolute",
     top: 60,
     right: 25,
+  },
+  extraTime: {
+    position: "absolute",
+    top: 105,
+    right: 133,
   },
   time: {
     fontFamily: "sans-serif-light",

@@ -5,12 +5,10 @@ import { GAME_MODES } from "../../const/variables";
 const GeneralContext = createContext();
 
 const initialState = {
-  // showClassicTutorial: true,
-  // showZenTutorial: true,
   currentMode: null,
   currentLevel: 1,
-  isMusicMute: true,
-  isSoundMute: true,
+  isMusicMute: false,
+  isSoundMute: false,
   isFirstTimeClassic: true, 
   isFirstTimeZen: true,
 };
