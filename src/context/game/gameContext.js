@@ -1,7 +1,8 @@
 import React, { useContext, createContext, useReducer, useRef, useMemo } from "react";
-import { actionTypes, addTime, nextLevel, pause, reset, resetTimer, levelTime, randomLevel, resetLevel, resetLayout, gameOver } from "./actions";
+import { actionTypes, addTime, nextLevel, pause, resetTimer, randomLevel, resetLevel, resetLayout, gameOver } from "./actions";
 import { LEVEL_PARAMS } from '../../const/variables';
 import { random } from "../../utils";
+import store from 'react-native-simple-store';
 
 const GameContext = createContext();
 
@@ -19,7 +20,6 @@ const getLevelParams = (amount) => {
 }
 
 const initialState = {
-  
   initialTime: 30,
   currentLevel: 1,
   levelTime: 0,
@@ -28,7 +28,7 @@ const initialState = {
   resetTimer: false,
   gameOver: false,
   extraTime: 0,
-  currentLevelParams:  getLevelParams(4)//{ amount: 24, size: 100 } // first level
+  currentLevelParams:  getLevelParams(4) // first level
 };
 
 const reducer = (state, action) => {
@@ -46,8 +46,11 @@ const reducer = (state, action) => {
     case actionTypes.NEXT_LEVEL: {
       const { currentLevelParams: { amount }, currentLevel } = state;
       const newLevelParams = getLevelParams(amount);
+      const nextLevel = currentLevel + 1;
+      // SAVE SESSION
+      store.save("currentLevel", { currentLevel: nextLevel, amount });
 
-      return { ...initialState, resetTimer: true, currentLevelParams: newLevelParams, currentLevel: currentLevel + 1 };
+      return { ...initialState, resetTimer: true, currentLevelParams: newLevelParams, currentLevel: nextLevel };
     }
     case actionTypes.PAUSE: {
       const { pause } = action.payload;
@@ -74,8 +77,8 @@ const reducer = (state, action) => {
   }
 };
 
-export const GameProvider = ({ children, ...options }) => {
-  const [state, dispatcher] = useReducer(reducer, initialState);
+export const GameProvider = ({ children, session: { amount, currentLevel } }) => {
+  const [state, dispatcher] = useReducer(reducer, { ...initialState, currentLevel, currentLevelParams:  getLevelParams(amount)  });
   const levelTime = useRef(0); 
 
   const dispatch = useMemo(
@@ -94,7 +97,7 @@ export const GameProvider = ({ children, ...options }) => {
     }),
     [dispatcher]
   );
-
+  
   const context = useMemo( () => ({ state: { ...state, levelTime }, dispatch }), [state, levelTime, dispatch]);
   
   return (

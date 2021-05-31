@@ -19,3 +19,6 @@ export const GAME_MODES = {
   CLASSIC: "CLASSIC",
   ZEN: "ZEN",
   };
+export const INITIAL_GAME_PARAMS = {
+  amount: 4, currentLevel: 1
+}

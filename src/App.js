@@ -5,14 +5,19 @@ import { GameProvider } from "./context/game";
 import { GeneralProvider } from "./context/general";
 import { ModalProvider } from "./context/modal";
 import { ThemeProvider } from "./context/theme/themeContext";
-import { SoundProvider } from './context/sound/soundContext';
+import { SoundProvider } from "./context/sound/soundContext";
+import { useStore } from "./hooks/useStore";
 
 export const App = () => {
-  return (
+  const { session, loading } = useStore();
+
+  return loading ? (
+    <></>
+  ) : (
     <GeneralProvider>
       <ThemeProvider>
         <SoundProvider>
-          <GameProvider>
+          <GameProvider session={session}>
             <ModalProvider>
               <InitialScreen />
               <StatusBar style="auto" />

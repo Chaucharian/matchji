@@ -6,7 +6,7 @@ export const actionTypes = {
   RESET_LAYOUT: "RESET_LAYOUT",
   RESET_TIMER: "RESET_TIMER",
   PAUSE: "PAUSE",
-  GAME_OVER: "GAME_OVER"
+  GAME_OVER: "GAME_OVER",
 };
 
 export const addTime = (payload) => ({
