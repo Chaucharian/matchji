@@ -28,7 +28,8 @@ const initialState = {
   resetTimer: false,
   gameOver: false,
   extraTime: 0,
-  currentLevelParams:  getLevelParams(4) // first level
+  currentLevelParams:  getLevelParams(4), // first level
+  currentRandomLevelParams: getLevelParams(4)
 };
 
 const reducer = (state, action) => {
@@ -39,9 +40,10 @@ const reducer = (state, action) => {
       return { ...state, extraTime: time };
     }
     case actionTypes.RANDOM_LEVEL: {
+      const { currentLevelParams, currentLevel } = state; // KEEP THE LEVEL SESSION WHEN CHANGING GAME MODES 
       const newLevelParams = getLevelParams(random(6, 36));
 
-      return { ...initialState, currentLevelParams: newLevelParams, };
+      return { ...initialState, currentLevelParams, currentLevel, currentRandomLevelParams: newLevelParams, };
     }
     case actionTypes.NEXT_LEVEL: {
       const { currentLevelParams: { amount }, currentLevel } = state;
