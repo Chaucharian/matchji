@@ -12,19 +12,19 @@ export const Timer = ({ initialTime, addTime, stop, start, reset, win, levelTime
     onSetTime: (value) => setTime(value),
   });
 
-  useEffect( () => {
-    if(addTime) {
-      setTime(currentTime+addTime);
-      onTimeChange(addTime);
-    }
-  }, [currentTime, addTime, onTimeChange]);
+  // useEffect( () => {
+  //   if(addTime.extraTime !== 0 && addTime.animationEnd) {
+  //     setTime(currentTime+addTime.extraTime);
+  //     onTimeChange();
+  //   }
+  // }, [currentTime, onTimeChange, addTime]);
 
   useEffect( () => {
     if(reset) {
       setTime(initialTime);
       onReset();
     }
-  }, [currentTime, onReset, addTime, reset, initialTime]);
+  }, [currentTime, onReset, reset, initialTime]);
 
   useEffect( () => {
     if(currentTime === 0) {

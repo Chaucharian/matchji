@@ -1,23 +1,26 @@
 import React, { useState, useEffect } from "react";
 import * as Animatable from "react-native-animatable";
 
-export const ExtraTime = ({ value="2", styles }) => {
+export const ExtraTime = ({ value = 0, styles, onEnd= ()=>{} }) => {
   const [animation, setAnimation] = useState("bounceInDown");
 
-    useEffect( () => {
-        if(value !== 0) {
-            setAnimation("bounceInDown");
-        }
-    }, [value])
+  useEffect(() => {
+    if (value !== 0) {
+      setAnimation("bounceInDown");
+    }
+  }, [value]);
 
   return (
     <Animatable.Text
       style={[{ fontSize: 40, color: "gold", ...styles }]}
       animation={animation}
       duration={1000}
-      onAnimationEnd={() => setAnimation("fadeOut")}
+      onAnimationEnd={() => {
+          setAnimation("fadeOut");
+          onEnd();
+      }}
     >
-        +2
+      { value === 0 ? "" : `+${value}` }
     </Animatable.Text>
   );
 };

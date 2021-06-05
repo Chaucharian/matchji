@@ -80,7 +80,6 @@ const reducer = (state, action) => {
 };
 
 export const GameProvider = ({ children, session: { amount, currentLevel } }) => {
-  console.log(" CURRENT ",currentLevel)
   const [state, dispatcher] = useReducer(reducer, { ...initialState, currentLevel, currentLevelParams:  getLevelParams(amount)  });
   const levelTime = useRef(0); 
 

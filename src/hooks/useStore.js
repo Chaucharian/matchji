@@ -9,15 +9,13 @@ export const useStore = () => {
   useEffect(() => {
     (async() => {
       const storedData = await store.get("currentLevel");
-      let newData = session; 
 
       if(storedData) {
-        newData = storedData;
+        setSession(storedData);
       } 
-      setSession(newData);
       setLoading(false);
     })();
-  }, [session]);
+  }, []);
 
   return { session, loading };
 };

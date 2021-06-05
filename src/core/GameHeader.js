@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { StyleSheet, View } from "react-native";
 import { useGameContext } from "../context/game";
 import { useModalContext } from "../context/modal";
@@ -6,9 +6,10 @@ import { Timer } from "../components/Timer";
 import { Text } from "../components/Text";
 import { IconButton } from "../components/IconButton";
 import { useLayoutContext } from "../context/layout";
-import { ExtraTime } from "../components/ExtraTime";
 import { GAME_MODES } from "../const";
 import { useGeneralContext } from "../context/general";
+import { AdMobRewarded } from "react-native-admob-next";
+import { useRewardedAd } from '../hooks/useRewardedAd';
 
 export const GameHeader = () => {
   const {
@@ -22,12 +23,23 @@ export const GameHeader = () => {
       resetTimer,
       gameOver,
       currentLevel,
-      levelTime
+      levelTime,
     },
     dispatch: { addTime, setResetTimer },
   } = useGameContext();
-  const { state: { currentMode } } = useGeneralContext();
-  const { state: { boardCompleted }} = useLayoutContext();
+  const {
+    state: { currentMode },
+  } = useGeneralContext();
+  const {
+    state: { boardCompleted },
+  } = useLayoutContext();
+
+  // const _addTime = useCallback( ({ amount }) => {
+  //   addTime({ time: amount });
+  // }, [addTime])
+
+  // const { setReward, closeRewardedAd } = useRewardedAd({ onGetReward: _addTime });
+  const [extraTimeAnimationEnd, setExtraTimeAnimationEnd] = useState(false);
   const classicMode = currentMode === GAME_MODES.CLASSIC;
 
   return (
@@ -38,7 +50,9 @@ export const GameHeader = () => {
         size={50}
         onPress={() => openMenu({ show: true })}
       />
-      { classicMode && <ExtraTime value={extraTime} styles={_styles.extraTime}/> }
+      {/* {classicMode && (
+        <ExtraTime value={extraTime} onEnd={() => setExtraTimeAnimationEnd(true) } styles={_styles.extraTime} />
+      )} */}
       <View style={[_styles.timeContainer]}>
         <View
           style={[
@@ -49,19 +63,28 @@ export const GameHeader = () => {
             },
           ]}
         >
-         { classicMode &&  <Text subtitle styles={_styles.levelText}>Nivel {currentLevel}</Text> }
-          { classicMode && <Timer
-            initialTime={initialTime}
-            stop={pause}
-            reset={resetTimer}
-            addTime={extraTime}
-            gameOver={gameOver}
-            win={boardCompleted}
-            levelTime={levelTime}
-            onStop={() => openGameOver({ show: true })}
-            onReset={() => setResetTimer({ resetTimer: false })}
-            onTimeChange={() => addTime({ time: 0 })}
-          /> }
+          {classicMode && (
+            <Text subtitle styles={_styles.levelText}>
+              Nivel {currentLevel}
+            </Text>
+          )}
+          {classicMode && (
+            <Timer
+              initialTime={initialTime}
+              stop={pause}
+              reset={resetTimer}
+              addTime={{ extraTime, animationEnd: extraTimeAnimationEnd }}
+              gameOver={gameOver}
+              // win={boardCompleted}
+              levelTime={levelTime}
+              onStop={() => openGameOver({ show: true })}
+              onReset={() => setResetTimer({ resetTimer: false })}
+              // onTimeChange={() => { 
+              //   addTime({ time: 0 });
+              //   setExtraTimeAnimationEnd(false)
+              // }}
+            />
+          )}
         </View>
       </View>
       <IconButton
@@ -69,7 +92,11 @@ export const GameHeader = () => {
         type={"gift"}
         styles={_styles.giftButton}
         size={50}
-        onPress={() => openMenu({ show: true })}
+        onPress={() => {
+          AdMobRewarded.requestAd().then(() => AdMobRewarded.showAd());
+          // AdMobRewarded.addEventListener('rewarded', (reward) => setReward(reward) );
+          // AdMobRewarded.addEventListener('adClosed', () => closeRewardedAd() );
+        }}
       />
     </View>
   );

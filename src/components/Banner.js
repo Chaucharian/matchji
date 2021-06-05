@@ -9,7 +9,7 @@ import {
 export const Banner = () => {
   return <AdMobBanner
       adSize="fullBanner"
-      adUnitID="your-admob-unit-id"
+      adUnitID="ca-app-pub-1725475911866822/8456159960"
       testDevices={[AdMobBanner.simulatorId]}
       onAdFailedToLoad={(error) => console.error(error)}
     />
