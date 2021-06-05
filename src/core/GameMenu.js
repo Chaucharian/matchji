@@ -5,6 +5,7 @@ import { MainButton } from "../components/MainButton";
 import { Controls } from "../components/Controls";
 import { Text } from "../components/Text";
 import { useGeneralContext } from "../context/general";
+// import { Banner } from '../components/Banner';
 
 export const GameMenu = () => {
   const {
@@ -13,6 +14,7 @@ export const GameMenu = () => {
 
   return (
     <View style={[_styles.container]}>
+      {/* <Banner /> */}
       <View style={[_styles.header]}>
         <View style={[_styles.titleContainer]}>
         <Image source={require('../assets/logo.png')} />
