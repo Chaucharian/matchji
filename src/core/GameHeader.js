@@ -10,6 +10,7 @@ import { GAME_MODES } from "../const";
 import { useGeneralContext } from "../context/general";
 import { AdMobRewarded } from "react-native-admob-next";
 import { useRewardedAd } from '../hooks/useRewardedAd';
+import { ExtraTime } from '../components/ExtraTime';
 
 export const GameHeader = () => {
   const {
@@ -50,9 +51,9 @@ export const GameHeader = () => {
         size={50}
         onPress={() => openMenu({ show: true })}
       />
-      {/* {classicMode && (
+      {classicMode && (
         <ExtraTime value={extraTime} onEnd={() => setExtraTimeAnimationEnd(true) } styles={_styles.extraTime} />
-      )} */}
+      )}
       <View style={[_styles.timeContainer]}>
         <View
           style={[
@@ -75,14 +76,14 @@ export const GameHeader = () => {
               reset={resetTimer}
               addTime={{ extraTime, animationEnd: extraTimeAnimationEnd }}
               gameOver={gameOver}
-              // win={boardCompleted}
+              win={boardCompleted}
               levelTime={levelTime}
               onStop={() => openGameOver({ show: true })}
               onReset={() => setResetTimer({ resetTimer: false })}
-              // onTimeChange={() => { 
-              //   addTime({ time: 0 });
-              //   setExtraTimeAnimationEnd(false)
-              // }}
+              onTimeChange={() => { 
+                addTime({ time: 0 });
+                setExtraTimeAnimationEnd(false);
+              }}
             />
           )}
         </View>

@@ -12,12 +12,12 @@ export const Timer = ({ initialTime, addTime, stop, start, reset, win, levelTime
     onSetTime: (value) => setTime(value),
   });
 
-  // useEffect( () => {
-  //   if(addTime.extraTime !== 0 && addTime.animationEnd) {
-  //     setTime(currentTime+addTime.extraTime);
-  //     onTimeChange();
-  //   }
-  // }, [currentTime, onTimeChange, addTime]);
+  useEffect( () => {
+    if(addTime.animationEnd) {
+      setTime(currentTime+addTime.extraTime);
+      onTimeChange();
+    }
+  }, [currentTime, onTimeChange, addTime]);
 
   useEffect( () => {
     if(reset) {

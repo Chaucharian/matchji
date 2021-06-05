@@ -5,6 +5,7 @@ export const ExtraTime = ({ value = 0, styles, onEnd= ()=>{} }) => {
   const [animation, setAnimation] = useState("bounceInDown");
 
   useEffect(() => {
+    console.log(" VALUE ",value)
     if (value !== 0) {
       setAnimation("bounceInDown");
     }
