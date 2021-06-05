@@ -9,7 +9,7 @@ export const useStore = () => {
   useEffect(() => {
     (async() => {
       const storedData = await store.get("currentLevel");
-      let newData = null; 
+      let newData = session; 
 
       if(storedData) {
         newData = storedData;
@@ -17,7 +17,7 @@ export const useStore = () => {
       setSession(newData);
       setLoading(false);
     })();
-  }, []);
+  }, [session]);
 
   return { session, loading };
 };
