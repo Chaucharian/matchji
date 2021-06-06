@@ -4,6 +4,8 @@ const audioFiles = {
   ["match"]: require("../assets/match.mp3"),
   ["tap"]: require("../assets/tap.mp3"),
   ["music"]: require("../assets/loop.mp3"),
+  ["win"]: require("../assets/win.mp3"),
+  ["lose"]: require("../assets/lose.mp3"),
 };
 class Track {
   constructor({ id, volume }) {

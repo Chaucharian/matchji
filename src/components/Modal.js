@@ -14,6 +14,7 @@ import { useGeneralContext } from "../context/general";
 import { useTheme } from "../context/theme/themeContext";
 import { Animation } from "../components/Animation";
 import { GAME_MODES } from '../const/variables';
+import { useSoundContext } from "../context/sound";
 
 const _styles = StyleSheet.create({
   container: {
@@ -58,6 +59,8 @@ export const Modal = ({ styles }) => {
       modal: { primary },
     },
   } = useTheme();
+  const { playLose, playWin } = useSoundContext();
+
 
   const handleAction = useCallback(
     (action) => {
@@ -94,6 +97,7 @@ export const Modal = ({ styles }) => {
         />
       );
     } else if (type === MODAL_TYPES.WIN) {
+      playWin();
       newContent = (
           <WinTemplate
             level={currentLevel}
@@ -102,6 +106,7 @@ export const Modal = ({ styles }) => {
           />
       );
     } else if (type === MODAL_TYPES.GAME_OVER) {
+      playLose();
       newContent = (
         <GameOverTemplate
           level={currentLevel}
