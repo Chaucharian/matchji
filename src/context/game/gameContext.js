@@ -9,11 +9,11 @@ const GameContext = createContext();
 const getLevelParams = (amount) => {
   let newLevelParams;
 
-  if(amount <= 18) {
+  if(amount <= 15) {
     newLevelParams = { amount: amount + LEVEL_PARAMS.EASY.factor, size: LEVEL_PARAMS.EASY.size };
-  } else if(amount >= 20 && amount <= 32) {
+  } else if(amount >= 17 && amount <= 28) {
     newLevelParams = { amount: amount + LEVEL_PARAMS.NORMAL.factor, size: LEVEL_PARAMS.NORMAL.size };
-  } else if(amount >= 32 && amount <= 78) {
+  } else if(amount >= 30 && amount <= 78) {
     newLevelParams = { amount: amount + LEVEL_PARAMS.HARD.factor, size: LEVEL_PARAMS.HARD.size };
   }
   return newLevelParams

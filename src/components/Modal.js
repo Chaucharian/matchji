@@ -66,6 +66,7 @@ export const Modal = ({ styles }) => {
         setAnimationFinished(false);
       } else if (action == "reset") {
         resetLevel();
+        setAnimationFinished(false);
       } else if (action == "menu") {
         goMenu();
       }  else if (action == "tutorial") {
@@ -80,6 +81,7 @@ export const Modal = ({ styles }) => {
     [close, nextLevel, resetLevel, goMenu, gameMode, setFirstTime]
   );
   const isWin = useMemo( () => type === MODAL_TYPES.WIN, [type]);
+  const isGameOver = useMemo( () => type === MODAL_TYPES.GAME_OVER, [type]);
 
   const content = useMemo(() => {
     let newContent;
@@ -126,8 +128,8 @@ export const Modal = ({ styles }) => {
       duration={1000}
       onAnimationEnd={() => {}}
     >
-      { isWin && !animationFinished ? 
-      <Animation onEnd={()=> setAnimationFinished(true)} />
+      { (isWin || isGameOver) && !animationFinished ? 
+      <Animation type={type} onEnd={()=> setAnimationFinished(true)} />
       : 
       <Animatable.View
           style={[_styles.modal, { ...styles, backgroundColor: primary }]}
