@@ -2,14 +2,16 @@ import { useEffect, useState, useCallback } from 'react';
 
 
 export const useRewardedAd = ({ onGetReward }) => {
-    const [reward, _setReward] = useState({});
+    const [reward, _setReward] = useState(null);
 
     const setReward = useCallback( (reward) => {
       _setReward(reward);
-    }, []);
+    }, [_setReward]);
 
     const closeRewardedAd = useCallback( () => {
-        onGetReward(reward);
+        if(reward) {
+          onGetReward(reward);
+        }
     }, [onGetReward, reward]);
   
     return {

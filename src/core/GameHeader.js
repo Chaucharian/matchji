@@ -34,12 +34,10 @@ export const GameHeader = () => {
   const {
     state: { boardCompleted },
   } = useLayoutContext();
-
-  // const _addTime = useCallback( ({ amount }) => {
-  //   addTime({ time: amount });
-  // }, [addTime])
-
-  // const { setReward, closeRewardedAd } = useRewardedAd({ onGetReward: _addTime });
+  const showReward = useCallback( ({ amount }) => {
+    addTime({ time: amount });
+  }, [addTime]);
+  const { setReward, closeRewardedAd } = useRewardedAd({ onGetReward: showReward });
   const [extraTimeAnimationEnd, setExtraTimeAnimationEnd] = useState(false);
   const classicMode = currentMode === GAME_MODES.CLASSIC;
 
@@ -95,8 +93,8 @@ export const GameHeader = () => {
         size={50}
         onPress={() => {
           AdMobRewarded.requestAd().then(() => AdMobRewarded.showAd());
-          // AdMobRewarded.addEventListener('rewarded', (reward) => setReward(reward) );
-          // AdMobRewarded.addEventListener('adClosed', () => closeRewardedAd() );
+          AdMobRewarded.addEventListener('rewarded', (reward) => setReward(reward) );
+          AdMobRewarded.addEventListener('adClosed', () => closeRewardedAd() );
         }}
       />
     </View>
