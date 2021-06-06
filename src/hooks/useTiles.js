@@ -6,6 +6,7 @@ import { useLayoutContext } from "../context/layout";
 import { useGameContext } from "../context/game";
 import { EXTRA_TIME_ON_MATCH } from "../const";
 import { useSoundContext } from "../context/sound";
+import { useGeneralContext } from '../context/general';
 
 const match = new Match();
 
@@ -18,7 +19,11 @@ export const useTiles = () => {
     dispatch: { addTime },
   } = useGameContext();
   const { playTap, playMatch } = useSoundContext();
+  const {
+    state: { currentMode },
+  } = useGeneralContext();
   const [tiles, setTiles] = useState([]);
+  const classicMode = currentMode === GAME_MODES.CLASSIC;
 
   const onPress = useCallback( 
     (_tile) => {
@@ -41,16 +46,16 @@ export const useTiles = () => {
   const validateMatch = useCallback(async (isMatch) => {
     const { match, tiles } = isMatch;
     if (match) {
-      // TODO ZenMode change this behavior (remove the tiles)
+      // TODO ZenMode changes this behavior (remove the tiles)
       // dispatch(remove({ tiles: tiles }));
       playMatch();
-      addTime({ time: EXTRA_TIME_ON_MATCH });
+      classicMode && addTime({ time: EXTRA_TIME_ON_MATCH });
       validateWin();
     } else if (!match) {
       await sleep(NOT_MATCH_SHOWING_TIME);
       show({ tiles: tiles, show: false });
     }
-  }, [validateWin, show, addTime, playMatch]);
+  }, [validateWin, show, addTime, playMatch, classicMode]);
 
   useEffect(() => {
     match.subscribe( (isMatch) => {

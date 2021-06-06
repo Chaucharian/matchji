@@ -9,8 +9,8 @@ import { useLayoutContext } from "../context/layout";
 import { GAME_MODES } from "../const";
 import { useGeneralContext } from "../context/general";
 import { AdMobRewarded } from "react-native-admob-next";
-import { useRewardedAd } from '../hooks/useRewardedAd';
-import { ExtraTime } from '../components/ExtraTime';
+import { useRewardedAd } from "../hooks/useRewardedAd";
+import { ExtraTime } from "../components/ExtraTime";
 
 export const GameHeader = () => {
   const {
@@ -34,10 +34,15 @@ export const GameHeader = () => {
   const {
     state: { boardCompleted },
   } = useLayoutContext();
-  const showReward = useCallback( ({ amount }) => {
-    addTime({ time: amount });
-  }, [addTime]);
-  const { setReward, closeRewardedAd } = useRewardedAd({ onGetReward: showReward });
+  const showReward = useCallback(
+    ({ amount }) => {
+      addTime({ time: amount });
+    },
+    [addTime]
+  );
+  const { setReward, closeRewardedAd } = useRewardedAd({
+    onGetReward: showReward,
+  });
   const [extraTimeAnimationEnd, setExtraTimeAnimationEnd] = useState(false);
   const classicMode = currentMode === GAME_MODES.CLASSIC;
 
@@ -50,7 +55,11 @@ export const GameHeader = () => {
         onPress={() => openMenu({ show: true })}
       />
       {classicMode && (
-        <ExtraTime value={extraTime} onEnd={() => setExtraTimeAnimationEnd(true) } styles={_styles.extraTime} />
+        <ExtraTime
+          value={extraTime}
+          onEnd={() => setExtraTimeAnimationEnd(true)}
+          styles={_styles.extraTime}
+        />
       )}
       <View style={[_styles.timeContainer]}>
         <View
@@ -78,7 +87,7 @@ export const GameHeader = () => {
               levelTime={levelTime}
               onStop={() => openGameOver({ show: true })}
               onReset={() => setResetTimer({ resetTimer: false })}
-              onTimeChange={() => { 
+              onTimeChange={() => {
                 addTime({ time: 0 });
                 setExtraTimeAnimationEnd(false);
               }}
@@ -86,17 +95,21 @@ export const GameHeader = () => {
           )}
         </View>
       </View>
-      <IconButton
-        ant
-        type={"gift"}
-        styles={_styles.giftButton}
-        size={50}
-        onPress={() => {
-          AdMobRewarded.requestAd().then(() => AdMobRewarded.showAd());
-          AdMobRewarded.addEventListener('rewarded', (reward) => setReward(reward) );
-          AdMobRewarded.addEventListener('adClosed', () => closeRewardedAd() );
-        }}
-      />
+      {classicMode && (
+        <IconButton
+          ant
+          type={"gift"}
+          styles={_styles.giftButton}
+          size={50}
+          onPress={() => {
+            AdMobRewarded.requestAd().then(() => AdMobRewarded.showAd());
+            AdMobRewarded.addEventListener("rewarded", (reward) =>
+              setReward(reward)
+            );
+            AdMobRewarded.addEventListener("adClosed", () => closeRewardedAd());
+          }}
+        />
+      )}
     </View>
   );
 };

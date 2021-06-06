@@ -2,7 +2,7 @@ import { useEffect, useState, useCallback } from 'react';
 
 
 export const useRewardedAd = ({ onGetReward }) => {
-    const [reward, _setReward] = useState(null);
+    const [reward, _setReward] = useState({ amount: 5 });
 
     const setReward = useCallback( (reward) => {
       _setReward(reward);
